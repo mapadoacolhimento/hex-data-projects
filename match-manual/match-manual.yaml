@@ -1,0 +1,832 @@
+schemaVersion: 3
+meta:
+  sourceVersionId: d4a8bcc5-a28f-44fb-a75f-39a157fd9307 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  description: null
+  projectId: fc81fcd3-0961-4ff8-a485-a95c42f2c645 # DO NOT CHANGE - Unique ID of the project from which this file was generated
+  title: Match manual
+  timezone: null
+  appTheme: SYS_PREF
+  codeLanguage: PYTHON
+  status: null
+  categories: []
+  castDecimalsDefault: true
+  logicQueryCacheTimeout: null
+  publishedQueryCacheTimeout: null
+projectAssets:
+  dataConnections: []
+  envVars: []
+  secrets: []
+sharedAssets:
+  secrets: []
+  vcsPackages: []
+  dataConnections:
+    - dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030 # prod-mapa-org (postgres)
+  externalFileIntegrations: []
+cells:
+  - cellType: MARKDOWN
+    cellId: d5c62d75-05a4-4441-b892-ff2129966a31 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Intro
+    config:
+      source: |-
+        Olá! ✋  
+        Seja bem-vinda ao app do **match manual**!  
+          
+        Aqui, você pode:
+        - Buscar voluntárias mais próximas de uma MSR;
+        - Fazer um match entre uma MSR e uma voluntária escolhida.
+  - cellType: MARKDOWN
+    cellId: ffe86ca6-9868-4353-8501-b734ef06e055 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: sep
+    config:
+      source: -----------------------------------------------------------------------------
+  - cellType: MARKDOWN
+    cellId: fde35f07-d246-4d53-8a77-29cbc8ae4b75 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Buscar voluntárias
+    config:
+      source: |
+        ### Buscar voluntárias mais próximas de uma MSR 📌
+        Para buscar as voluntárias mais próximas de uma MSR, siga esses passos:
+        1. **Busque o ID do ticket do Zendesk da MSR**  
+              
+            Esse ID pode ser encontrado na URL do Ticket. Por exemplo, no caso do ticket https://mapadoacolhimento.zendesk.com/agent/tickets/17470 , o ID é 17470.  
+              
+            Esse ID também pode ser encontrado no título do ticket conforme mostra a imagem a seguir: 
+                
+            <img src="/api/v1/file/d44a85bb-0c69-4dae-b424-57205c895302" width="250" />
+
+        2. **Insira esse ID no campo a seguir e clique em "Bucar voluntárias"**  
+            
+            Iremos buscar as voluntárias disponíveis mais próximas dessa MSR com o mesmo tipo de acolhimento do ticket que você inseriu no passo anterior. 
+  - cellType: MARKDOWN
+    cellId: 1d2323c7-bf6d-429f-be25-534a8d23c8d2 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: sep
+    config:
+      source: -----------------------------------------------------------------------------
+  - cellType: INPUT
+    cellId: f6cca30d-338c-4678-99a1-5e44ad15be08 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Ticket ID da MSR no Zendesk
+    config:
+      inputType: NUMERIC_INPUT
+      name: msr_zendesk_ticket_id_fetch_volunteers
+      outputType: NUMBER
+      options: null
+      defaultValue: 17470
+  - cellType: INPUT
+    cellId: f1e87ce5-cbae-4b04-83e1-4829d084d1f8 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Clique aqui para buscar voluntárias
+    config:
+      inputType: BUTTON
+      name: fetch_volunteers
+      outputType: BOOLEAN
+      options:
+        intent: primary
+        icon: play
+        text: Buscar voluntárias
+      defaultValue: null
+  - cellType: BLOCK
+    cellId: f579b2a6-8408-47ad-a512-b408c252cb3b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: a1835704-f2dd-4b20-801c-e715982b8e9f
+        chartCellId: ad92ed2b-859f-4a75-94b7-8ef848347db9
+        activeTab: preview
+      cells:
+        - cellType: SQL
+          cellId: a1835704-f2dd-4b20-801c-e715982b8e9f
+          cellLabel: dados da MSR
+          config:
+            source: |-
+              select * from match.support_requests
+              where zendesk_ticket_id = {{ msr_zendesk_ticket_id_fetch_volunteers }}
+              limit 1
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: msr_data
+            useRichDisplay: false
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              filters: null
+              columnProperties:
+                - originalName: accepts_online_support
+                  renameTo: null
+                  size: 183
+                  wrapText: null
+                  displayFormat: null
+                - originalName: has_disability
+                  renameTo: null
+                  size: 128
+                  wrapText: null
+                  displayFormat: null
+                - originalName: msr_id
+                  renameTo: null
+                  size: 126
+                  wrapText: null
+                  displayFormat: null
+                - originalName: priority
+                  renameTo: null
+                  size: 94
+                  wrapText: null
+                  displayFormat: null
+                - originalName: requires_libras
+                  renameTo: null
+                  size: 136
+                  wrapText: null
+                  displayFormat: null
+                - originalName: support_expertise
+                  renameTo: null
+                  size: 153
+                  wrapText: null
+                  displayFormat: null
+                - originalName: support_request_id
+                  renameTo: null
+                  size: 162
+                  wrapText: null
+                  displayFormat: null
+                - originalName: support_type
+                  renameTo: null
+                  size: 127
+                  wrapText: null
+                  displayFormat: null
+                - originalName: zendesk_ticket_id
+                  renameTo: null
+                  size: 153
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+        - cellType: CHARTV2
+          cellId: ad92ed2b-859f-4a75-94b7-8ef848347db9
+          cellLabel: dados da MSR
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 36127662-fd70-436e-9954-b3e6dd9fc7b4
+                  xAxis:
+                    type: string
+                    style:
+                      grid:
+                        style: solid
+                      ticks: {}
+                      labels: {}
+                    dataFrameColumn: support_type
+                  series:
+                    - id: 801e4d73-1868-4e00-8d0a-3caa7cf58287
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: solid
+                          ticks: {}
+                          labels: {}
+                        aggregate: sum
+                      dataFrameColumns:
+                        - priority
+                      colorOrder: ascending
+                      color:
+                        type: static
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      barWidth: 1
+                      orientation: vertical
+                      layout: grouped
+                  dataFrame: msr_data
+              settings:
+                legend:
+                  position: right
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: filter_result
+            outputResult: false
+            displayTableConfig: null
+  - cellType: SQL
+    cellId: 02837760-8ce2-4987-8ca4-7675685d149c # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Voluntárias disponíveis com mesmo support_type
+    config:
+      source: |-
+        WITH msr_support_type AS (
+            SELECT support_type 
+            FROM match.support_requests
+            WHERE 
+                zendesk_ticket_id = {{ msr_zendesk_ticket_id_fetch_volunteers }}
+            LIMIT 1
+        )
+        SELECT 
+            volunteer_id,
+            email,
+            first_name,
+            last_name,
+            a.support_expertise,
+            years_of_experience,
+            phone,
+            a.offers_libras_support,
+            a.city,
+            a.state,
+            lat,
+            lng,
+            current_matches,
+            max_matches
+        FROM public.volunteer_availability a
+        INNER JOIN msr_support_type b ON a.support_type::VARCHAR = b.support_type::VARCHAR
+        LEFT JOIN volunteers c ON c.id = a.volunteer_id
+        WHERE is_available = TRUE AND lat IS NOT null and lng IS NOT null
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: available_volunteers
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        filters: null
+        columnProperties:
+          - originalName: first_name
+            renameTo: null
+            size: 113
+            wrapText: null
+            displayFormat: null
+          - originalName: lat
+            renameTo: null
+            size: 162
+            wrapText: null
+            displayFormat: null
+          - originalName: lng
+            renameTo: null
+            size: 162
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 122
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+  - cellType: CODE
+    cellId: 3d9e4835-dbcd-4a01-b586-9803e548d3d7 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Calcula distâncias
+    config:
+      source: |
+        from geopy.distance import geodesic
+
+        # Calculate the distance between two points
+        def calculate_distance(lat1, lng1, lat2, lng2):
+            return geodesic((lat1, lng1), (lat2, lng2)).kilometers
+
+
+        # Get the reference point from the first row of msr_data
+        ref_point = msr_data.iloc[0][["lat", "lng"]]
+
+        available_volunteers_with_distance = available_volunteers.copy()
+
+        # Calculate the distance for each volunteer and add it as a new column
+        if (fetch_volunteers == True):
+            available_volunteers_with_distance["distance_to_msr"] = available_volunteers.apply(
+                lambda row: calculate_distance(
+                    row["lat"], row["lng"], ref_point["lat"], ref_point["lng"]
+                ),
+                axis=1,
+            )
+  - cellType: BLOCK
+    cellId: e18fd256-84db-4136-bd94-908d0e5dbf6a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 85771ba1-1922-4f3b-aafd-a2c8f94d5822
+        chartCellId: c8860d1d-513b-4739-8756-44201aa33bd2
+        activeTab: display
+      cells:
+        - cellType: SQL
+          cellId: 85771ba1-1922-4f3b-aafd-a2c8f94d5822
+          cellLabel: Display volunteers
+          config:
+            source: |-
+              SELECT
+                  CONCAT(ROUND(distance_to_msr, 1)::VARCHAR, ' km') AS "distância à MSR",
+                  CONCAT(first_name, ' ', last_name) AS "nome",
+                  email AS "e-mail",
+                  CASE
+                      WHEN phone = 'not_found' THEN '-'
+                      ELSE phone 
+                  END AS "telefone",
+                  CASE 
+                      WHEN support_expertise = 'not_found' THEN '-'
+                      ELSE support_expertise
+                  END AS "especialidades",
+                  CASE 
+                      WHEN years_of_experience = 'not_found' THEN '-'
+                      ELSE years_of_experience
+                  END AS "anos de experiência",
+                  max_matches::VARCHAR AS "disponibilidade",
+                  current_matches AS "já possui matches",
+                  city AS município,
+                  state AS UF
+              FROM available_volunteers_with_distance
+              ORDER BY distance_to_msr
+            dataFrameCell: true
+            dataConnectionId: null
+            resultVariableName: closest_volunteers
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 15
+              height: 421
+              hideIcons: true
+              hideIndex: true
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              filters: null
+              columnProperties:
+                - originalName: UF
+                  renameTo: null
+                  size: 70
+                  wrapText: null
+                  displayFormat: null
+                - originalName: anos de experiência
+                  renameTo: null
+                  size: 143
+                  wrapText: null
+                  displayFormat: null
+                - originalName: cidade
+                  renameTo: null
+                  size: 132
+                  wrapText: null
+                  displayFormat: null
+                - originalName: city
+                  renameTo: null
+                  size: 132
+                  wrapText: null
+                  displayFormat: null
+                - originalName: disp máx para matches
+                  renameTo: null
+                  size: 161
+                  wrapText: null
+                  displayFormat: null
+                - originalName: disp. para matches
+                  renameTo: null
+                  size: 134
+                  wrapText: null
+                  displayFormat: null
+                - originalName: disponibilidade
+                  renameTo: null
+                  size: 115
+                  wrapText: null
+                  displayFormat: null
+                - originalName: disponibilidade matches
+                  renameTo: null
+                  size: 170
+                  wrapText: null
+                  displayFormat: null
+                - originalName: distance_to_msr
+                  renameTo: null
+                  size: 157
+                  wrapText: null
+                  displayFormat: null
+                - originalName: distancia
+                  renameTo: null
+                  size: 169
+                  wrapText: null
+                  displayFormat: null
+                - originalName: distância à MSR
+                  renameTo: null
+                  size: 121
+                  wrapText: null
+                  displayFormat: null
+                - originalName: distância à MSR (km)
+                  renameTo: null
+                  size: 148
+                  wrapText: null
+                  displayFormat: null
+                - originalName: e-mail
+                  renameTo: null
+                  size: 209
+                  wrapText: null
+                  displayFormat: null
+                - originalName: email
+                  renameTo: null
+                  size: 227
+                  wrapText: null
+                  displayFormat: null
+                - originalName: especialidades
+                  renameTo: null
+                  size: 116
+                  wrapText: null
+                  displayFormat: null
+                - originalName: first_name
+                  renameTo: null
+                  size: 113
+                  wrapText: null
+                  displayFormat: null
+                - originalName: já possui matches
+                  renameTo: null
+                  size: 136
+                  wrapText: null
+                  displayFormat: null
+                - originalName: last_name
+                  renameTo: null
+                  size: 167
+                  wrapText: null
+                  displayFormat: null
+                - originalName: lat
+                  renameTo: null
+                  size: 162
+                  wrapText: null
+                  displayFormat: null
+                - originalName: lng
+                  renameTo: null
+                  size: 162
+                  wrapText: null
+                  displayFormat: null
+                - originalName: matches atuais
+                  renameTo: null
+                  size: 122
+                  wrapText: null
+                  displayFormat: null
+                - originalName: max_matches
+                  renameTo: null
+                  size: 112
+                  wrapText: null
+                  displayFormat: null
+                - originalName: município
+                  renameTo: null
+                  size: 149
+                  wrapText: null
+                  displayFormat: null
+                - originalName: máx. matches
+                  renameTo: null
+                  size: 98
+                  wrapText: null
+                  displayFormat: null
+                - originalName: nome
+                  renameTo: null
+                  size: 230
+                  wrapText: null
+                  displayFormat: null
+                - originalName: nome da Voluntária
+                  renameTo: null
+                  size: 200
+                  wrapText: null
+                  displayFormat: null
+                - originalName: offers_libras_support
+                  renameTo: null
+                  size: 152
+                  wrapText: null
+                  displayFormat: null
+                - originalName: phone
+                  renameTo: null
+                  size: 126
+                  wrapText: null
+                  displayFormat: null
+                - originalName: quantos matches tem atualmente
+                  renameTo: null
+                  size: 134
+                  wrapText: null
+                  displayFormat: null
+                - originalName: state
+                  renameTo: null
+                  size: 82
+                  wrapText: null
+                  displayFormat: null
+                - originalName: support_expertise
+                  renameTo: null
+                  size: 134
+                  wrapText: null
+                  displayFormat: null
+                - originalName: telefone
+                  renameTo: null
+                  size: 126
+                  wrapText: null
+                  displayFormat: null
+                - originalName: total de matches
+                  renameTo: null
+                  size: 114
+                  wrapText: null
+                  displayFormat: null
+                - originalName: volunteer_id
+                  renameTo: null
+                  size: 122
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+        - cellType: CHARTV2
+          cellId: c8860d1d-513b-4739-8756-44201aa33bd2
+          cellLabel: Display volunteers
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 2d9f3e1b-8770-44c7-9a34-c8ce6c3ae26f
+                  xAxis:
+                    type: string
+                    style:
+                      grid:
+                        style: solid
+                      ticks: {}
+                      labels: {}
+                  series:
+                    - id: c7cba894-4693-4760-822f-341dbb650acc
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: solid
+                          ticks: {}
+                          labels: {}
+                      dataFrameColumns: []
+                      colorOrder: ascending
+                      color:
+                        type: static
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      barWidth: 1
+                      orientation: vertical
+                      layout: grouped
+                  dataFrame: closest_volunteers
+              settings:
+                legend:
+                  position: right
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: filter_result
+            outputResult: false
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: 0577eefb-48da-4c57-ad02-a4152b4ab53e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: sep
+    config:
+      source: -----------------------------------------------------------------------------
+  - cellType: MARKDOWN
+    cellId: 27cbec60-f605-48c5-85e4-95ca57c6c7d6 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Fazer match entre uma MSR e uma voluntária escolhida
+    config:
+      source: |
+        ### Fazer um match entre uma MSR e uma voluntária escolhida 🤝
+        Se você já escolheu a voluntária para realizar o match, siga esses passos:
+        1. **Insira o ID do ticket da MSR no campo a seguir**  
+              
+            Se você não souber como buscar esse ID, dê uma olhada no texto acima. 
+        2. **Insira o e-mail da voluntária no campo a seguir**
+        3. **Clique em "Fazer match"**
+  - cellType: INPUT
+    cellId: 6f9be99b-4f4c-4c67-bebc-ffea253b74e9 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Ticket ID da MSR no Zendesk
+    config:
+      inputType: NUMERIC_INPUT
+      name: msr_zendesk_ticket_id_match
+      outputType: NUMBER
+      options: null
+      defaultValue: 1
+  - cellType: INPUT
+    cellId: cd6a439f-ab51-4aad-814d-17848de07376 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: E-mail da voluntária
+    config:
+      inputType: TEXT_INPUT
+      name: volunteer_email
+      outputType: STRING
+      options: null
+      defaultValue: voluntaria@gmail.com
+  - cellType: INPUT
+    cellId: 697f3285-7c20-47cf-9e39-5fb4cbd71700 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Clique aqui para fazer o match
+    config:
+      inputType: BUTTON
+      name: run_match
+      outputType: BOOLEAN
+      options:
+        intent: primary
+        icon: play
+        text: Fazer match
+      defaultValue: null
+  - cellType: CODE
+    cellId: b3622178-fbbd-4c82-89de-bf4a91f48c31 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Request Lambda
+    config:
+      source: |-
+        import requests
+
+        # Define the function to make the request
+        def make_request():
+            # Define the endpoint
+            endpoint = "http://example.com/api"
+
+            # Define the parameters
+            params = {
+                "volunteer_email": volunteer_email,
+                "msr_zendesk_ticket_id": msr_zendesk_ticket_id_fetch_volunteers,
+            }
+
+            # Make the request
+            response = requests.get(endpoint, params=params)
+
+            # Print the response
+            print("Match realizado com sucesso <3")
+
+        if (run_match == True):
+            make_request()
+        else:
+            print("Aguardando comando para realizar o match...")
+appLayout:
+  visibleMetadataFields:
+    - NAME
+    - DESCRIPTION
+    - AUTHOR
+    - LAST_EDITED
+    - LAST_RUN
+    - CATEGORIES
+    - STATUS
+    - TABLE_OF_CONTENTS
+  fullWidth: false
+  tabs:
+    - name: Tab 1
+      rows:
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: d5c62d75-05a4-4441-b892-ff2129966a31
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: ffe86ca6-9868-4353-8501-b734ef06e055
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: fde35f07-d246-4d53-8a77-29cbc8ae4b75
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 1d2323c7-bf6d-429f-be25-534a8d23c8d2
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
+        - columns:
+            - start: 0
+              end: 25
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: f6cca30d-338c-4678-99a1-5e44ad15be08
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 25
+              end: 55
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: f1e87ce5-cbae-4b04-83e1-4829d084d1f8
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 85771ba1-1922-4f3b-aafd-a2c8f94d5822
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0577eefb-48da-4c57-ad02-a4152b4ab53e
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 27cbec60-f605-48c5-85e4-95ca57c6c7d6
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
+        - columns:
+            - start: 0
+              end: 30
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 6f9be99b-4f4c-4c67-bebc-ffea253b74e9
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 30
+              end: 60
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: cd6a439f-ab51-4aad-814d-17848de07376
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 60
+              end: 90
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 697f3285-7c20-47cf-9e39-5fb4cbd71700
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: b3622178-fbbd-4c82-89de-bf4a91f48c31
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
+sharedFilters: []
