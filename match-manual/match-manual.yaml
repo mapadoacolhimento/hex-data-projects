@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 1cb4454f-53c0-4af9-9fea-77817cfcee43 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: d4a8bcc5-a28f-44fb-a75f-39a157fd9307 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: fc81fcd3-0961-4ff8-a485-a95c42f2c645 # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: Match manual
@@ -52,7 +52,7 @@ cells:
               
             Esse ID também pode ser encontrado no título do ticket conforme mostra a imagem a seguir: 
                 
-            <img src="/api/v1/file/a0293828-6944-4f53-90c2-5d0cc9db0fc6" width="250" />
+            <img src="/api/v1/file/d44a85bb-0c69-4dae-b424-57205c895302" width="250" />
 
         2. **Insira esse ID no campo a seguir e clique em "Bucar voluntárias"**  
             
@@ -607,7 +607,7 @@ cells:
       source: -----------------------------------------------------------------------------
   - cellType: MARKDOWN
     cellId: 27cbec60-f605-48c5-85e4-95ca57c6c7d6 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: Markdown 12
+    cellLabel: Fazer match entre uma MSR e uma voluntária escolhida
     config:
       source: |
         ### Fazer um match entre uma MSR e uma voluntária escolhida 🤝
