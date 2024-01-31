@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: c29230e7-87eb-4c67-8d53-ebb140ec0109 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: e88f5713-6cd8-4525-a95a-5bafe6cdea2d # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: fc81fcd3-0961-4ff8-a485-a95c42f2c645 # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: Match manual
@@ -52,7 +52,7 @@ cells:
               
             Esse ID também pode ser encontrado no título do ticket conforme mostra a imagem a seguir: 
                 
-            <img src="/api/v1/file/3f06cc54-d8be-45f5-b64b-b18760d0a45d" width="250" />
+            <img src="/api/v1/file/48ce22cf-27ca-46c8-8303-ff85bd942484" width="250" />
 
         2. **Insira esse ID no campo a seguir e clique em "Bucar voluntárias"**  
             
@@ -820,7 +820,7 @@ cells:
         Se você já escolheu a voluntária para realizar o match, siga esses passos:
         1. **Insira o ID do ticket da MSR no campo a seguir**  
               
-            Se você não souber como buscar esse ID, dê uma olhada no texto acima. 
+            Se você não souber como buscar esse ID, dê uma olhada no texto lá em cima. 
         2. **Insira o e-mail da voluntária no campo a seguir**
         3. **Clique em "Fazer match"**
   - cellType: INPUT
@@ -831,7 +831,7 @@ cells:
       name: msr_zendesk_ticket_id_match
       outputType: NUMBER
       options: null
-      defaultValue: 1
+      defaultValue: 80125
   - cellType: INPUT
     cellId: cd6a439f-ab51-4aad-814d-17848de07376 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: E-mail da voluntária
@@ -840,7 +840,7 @@ cells:
       name: volunteer_email
       outputType: STRING
       options: null
-      defaultValue: voluntaria@gmail.com
+      defaultValue: dev.adv.mapa@gmail.com
   - cellType: INPUT
     cellId: 697f3285-7c20-47cf-9e39-5fb4cbd71700 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Clique aqui para fazer o match
@@ -859,25 +859,30 @@ cells:
     config:
       source: |-
         import requests
+        import json
 
         # Define the function to make the request
         def make_request():
             # Define the endpoint
-            endpoint = "http://example.com/api"
+            endpoint = "https://6y5g1a25q4.execute-api.sa-east-1.amazonaws.com/manual-match"
 
             # Define the parameters
-            params = {
-                "volunteer_email": volunteer_email,
-                "msr_zendesk_ticket_id": msr_zendesk_ticket_id_fetch_volunteers,
+            body = {
+                "volunteerEmail": volunteer_email,
+                "msrZendeskTicketId": msr_zendesk_ticket_id_match,
             }
 
+            headers = {"Content-type": "application/json"}
+
             # Make the request
-            response = requests.get(endpoint, params=params)
+            response = requests.post(endpoint, json=body, headers=headers)
+            if response.status_code == requests.codes.ok:
+                print("Match realizado com sucesso <3")
+            else:
+                print("Por algum motivo o match não deu certo :/ Manda esse erro pra equipe de tech:", response.json())
 
-            # Print the response
-            print("Match realizado com sucesso <3")
 
-        if (run_match == True):
+        if run_match == True:
             make_request()
         else:
             print("Aguardando comando para realizar o match...")
