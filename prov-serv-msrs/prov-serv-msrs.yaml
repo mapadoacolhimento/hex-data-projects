@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 7435ca90-d974-48b4-919b-dd5b825cd7a4 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 17b0cdd5-744c-4a86-a22c-55c427d55eeb # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -1251,7 +1251,7 @@ cells:
           cellId: 4cc12feb-bf66-4980-87eb-505c1f98109e
           cellLabel: lat lng
           config:
-            source: |
+            source: |-
               SELECT  
                   lat,
                   lng
@@ -1260,7 +1260,6 @@ cells:
                       status != 'duplicated' 
                       AND lat IS NOT NULL
                       AND lng IS NOT NULL
-                      AND created_at >= CASE WHEN {{ support_request_time_filter }} = 'Filtrar apenas o último ano' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: pedidos_de_acolhimento_lat_lng
@@ -1377,22 +1376,22 @@ cells:
             visible: true
             tooltipDataFrameColumns: []
         initialView:
-          zoom: 3.116329495051001
+          zoom: 3.1406407458467043
           pitch: 0
-          width: 1100
-          height: 520
+          width: 505
+          height: 497
           bearing: 0
           maxZoom: 20
           minZoom: 0
           altitude: 1.5
-          latitude: -14.419762431244253
+          latitude: -14.468360436088378
           maxPitch: 60
           minPitch: 0
           position:
             - 0
             - 0
             - 0
-          longitude: -72.14417386115838
+          longitude: -54.287101134589264
           normalize: true
         isLegendOpen: false
   - cellType: MARKDOWN
