@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 17b0cdd5-744c-4a86-a22c-55c427d55eeb # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 451a65e5-76ec-4cf2-a4fd-aa28abfdddaa # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -147,6 +147,7 @@ cells:
                       tooltip:
                         type: auto
                       dataLabels:
+                        angle: 0
                         color: "#3F4257"
                         fontSize: 10
                         position: above-left
@@ -538,6 +539,7 @@ cells:
                       tooltip:
                         type: auto
                       dataLabels:
+                        angle: 0
                         color: "#3F4257"
                         fontSize: 10
                         position: above-left
@@ -1526,6 +1528,7 @@ cells:
                       tooltip:
                         type: auto
                       dataLabels:
+                        angle: 0
                         color: "#3F4257"
                         fontSize: 10
                         position: above-left
@@ -1822,7 +1825,7 @@ cells:
             displayTableConfig: null
   - cellType: MARKDOWN
     cellId: 3026fdd4-ece5-438f-befd-9b4521141d02 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: null
+    cellLabel: psicológicos e jurídicos - por território
     config:
       source: "##### Psicológicos e jurídicos - por território"
   - cellType: INPUT
@@ -2491,8 +2494,8 @@ cells:
                       tooltip:
                         type: manual
                         fields: []
-                      line: true
-                      point: true
+                      line: false
+                      point: false
                       normalize: false
                     - id: 80616841-4fb3-4d01-8525-df2bab0f19a6
                       name: matches
@@ -2528,13 +2531,14 @@ cells:
                         type: manual
                         fields: []
                       dataLabels:
+                        angle: 45
                         fontSize: 10
-                        position: above-left
+                        position: above
                       line: true
                       point: true
                       normalize: false
                     - id: 4b25e076-8eec-4e6c-9c90-2545ce0f0a59
-                      name: porcentagem de matches
+                      name: "% de pedidos que receberam match"
                       type: scatter
                       axis:
                         type: number
@@ -2763,7 +2767,7 @@ cells:
                       orientation: vertical
                       layout: grouped
                     - id: 0e06aefa-c6fd-4152-8985-8b430dd262ed
-                      name: porcentagem de matches
+                      name: "% de pedidos que receberam match"
                       type: scatter
                       axis:
                         type: number
@@ -2943,7 +2947,7 @@ cells:
                       stroke: solid
                       width: 2
                     - id: 6ed881c8-b941-4b7a-98aa-e72bdaeeb90e
-                      name: porcetagem de matches
+                      name: "% de pedidos que receberam match"
                       type: scatter
                       axis:
                         type: number
@@ -3009,7 +3013,7 @@ cells:
         valueOptions:
           - Filtrar apenas o último ano
           - Desde o início do Mapa
-      defaultValue: Filtrar apenas o último ano
+      defaultValue: Desde o início do Mapa
   - cellType: BLOCK
     cellId: ba346d41-d6e3-4bb4-8069-989971c455e1 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -3981,50 +3985,59 @@ cells:
             outputResult: false
             displayTableConfig: null
   - cellType: MARKDOWN
-    cellId: 380f6aad-6135-4bf2-a747-a07cc8b7e3e5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: Matches psicológicos
+    cellId: af23a142-2a9c-45fe-90a9-1af961cf95a5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Atendimentos realizados
     config:
-      source: "##### Matches psicológicos"
+      source: |-
+        # Atendimentos realizados
+        Total de matches que iniciaram o atendimento.
+  - cellType: MARKDOWN
+    cellId: 8e3e4fe2-1518-48bc-94ee-cdfeb13d25f2 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Série histórica
+    config:
+      source: "##### Série histórica"
   - cellType: BLOCK
-    cellId: e802d17c-5109-45b0-bf98-4b81dcaf88c0 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellId: 5f9e5f6b-7d0a-4ae5-8ebe-65e3f8d6e740 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
     config:
       blockConfig:
-        sqlCellId: e475b601-1cb5-4ed9-8c4c-6a219df1e77d
-        chartCellId: 2011dd30-8600-4c81-af99-b38dcbcec4bb
+        sqlCellId: f37b0e87-7d59-4e25-9a5d-a0cf3e75a6a7
+        chartCellId: e29c9628-b84d-4471-a342-6db06e9835ee
         activeTab: chart
       cells:
         - cellType: SQL
-          cellId: e475b601-1cb5-4ed9-8c4c-6a219df1e77d
+          cellId: f37b0e87-7d59-4e25-9a5d-a0cf3e75a6a7
           cellLabel: total
           config:
             source: |-
-              WITH matches_per_year AS (
+              WITH atendimentos_per_year AS (
                   SELECT
-                      DATE_TRUNC('year', created_at) AS year,
+                      DATE_TRUNC('year', s.created_at) AS year,
                       COUNT(*) AS support_requests_per_year,
-                      SUM(CASE WHEN status = 'matched' THEN 1 ELSE 0 END) AS matches_per_year
-                  FROM match.support_requests
-                  WHERE 
-                      status != 'duplicated'
-                      AND support_type = 'psychological'
+                      SUM(CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END) AS matches_per_year,
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_per_year
+                  FROM match.support_requests s
+                  LEFT JOIN match.matches m USING (support_request_id)
+                  WHERE s.status != 'duplicated'
                   GROUP BY 1
               ),
               cumulative_sums AS (
                   SELECT
                       *,
+                      SUM(atendimentos_per_year) OVER(ORDER BY year)::INT AS cumulative_atendimentos_count,
                       SUM(matches_per_year) OVER(ORDER BY year)::INT AS cumulative_match_count,
-                      SUM(support_requests_per_year) OVER(ORDER BY year)::INT AS cumulative_support_request_count
-                  FROM matches_per_year
+                      SUM(support_requests_per_year) OVER(ORDER BY year)::INT AS cumulative_support_request_count,
+                      50000 AS goal
+                  FROM atendimentos_per_year
 
               )
               SELECT
                   *,
-                  cumulative_match_count/cumulative_support_request_count::NUMERIC(10,4) AS percentage
+                  cumulative_atendimentos_count/cumulative_support_request_count::NUMERIC(10,4) AS percentage
               FROM cumulative_sums
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
-            resultVariableName: matches_total_2
+            resultVariableName: matches_total_3
             useRichDisplay: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
@@ -4092,7 +4105,7 @@ cells:
               pinnedColumns: null
               hiddenColumns: null
         - cellType: CHARTV2
-          cellId: 2011dd30-8600-4c81-af99-b38dcbcec4bb
+          cellId: e29c9628-b84d-4471-a342-6db06e9835ee
           cellLabel: total
           config:
             height: null
@@ -4109,7 +4122,7 @@ cells:
                         style: dash
                       ticks: {}
                       labels: {}
-                    title: ano
+                    title: "   "
                     timeUnit: year
                     dataFrameColumn: year
                   series:
@@ -4119,7 +4132,7 @@ cells:
                       axis:
                         type: number
                         style:
-                          max: 30000
+                          max: 55000
                           min: 0
                           grid:
                             style: dash
@@ -4146,8 +4159,8 @@ cells:
                       tooltip:
                         type: manual
                         fields: []
-                      line: true
-                      point: true
+                      line: false
+                      point: false
                       normalize: false
                     - id: 80616841-4fb3-4d01-8525-df2bab0f19a6
                       name: matches
@@ -4155,7 +4168,7 @@ cells:
                       axis:
                         type: number
                         style:
-                          max: 30000
+                          max: 55000
                           min: 0
                           grid:
                             style: dash
@@ -4175,26 +4188,23 @@ cells:
                       colorOrder: ascending
                       color:
                         type: static
-                        color: "#ff7c43"
+                        color: "#9CA3B4"
                       opacity:
                         type: static
-                        value: 0.6
+                        value: 0.2
                       tooltip:
                         type: manual
                         fields: []
-                      dataLabels:
-                        fontSize: 10
-                        position: above-left
-                      line: true
-                      point: true
+                      line: false
+                      point: false
                       normalize: false
                     - id: 4b25e076-8eec-4e6c-9c90-2545ce0f0a59
-                      name: porcentagem de matches
+                      name: "% de pedidos que realizaram atendimento"
                       type: scatter
                       axis:
                         type: number
                         style:
-                          max: 0.55
+                          max: 0.2
                           ticks:
                             count: 0
                           labels: {}
@@ -4223,146 +4233,65 @@ cells:
                       filled: true
                       shape: triangle-down
                       size: 10
-                  dataFrame: matches_total_2
-                  seriesGroups:
-                    - - d5444521-df70-4d96-83b1-cf2096a1c48b
-                      - 80616841-4fb3-4d01-8525-df2bab0f19a6
-                    - - 4b25e076-8eec-4e6c-9c90-2545ce0f0a59
-              settings:
-                legend:
-                  position: bottom
-                tooltip: true
-                selectionEnabled: false
-            chartSelection: {}
-            colorMappings: {}
-            resultVariable: filter_result_29
-            outputResult: false
-            displayTableConfig: null
-  - cellType: MARKDOWN
-    cellId: af23a142-2a9c-45fe-90a9-1af961cf95a5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: Atendimentos realizados
-    config:
-      source: |-
-        # Atendimentos realizados
-        Total de matches que iniciaram o atendimento.
-  - cellType: BLOCK
-    cellId: fb5772c3-f17d-4821-ac09-5d03407892d0 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: null
-    config:
-      blockConfig:
-        sqlCellId: c07a5494-cc50-46bf-ad56-da980f301ee7
-        chartCellId: 58a0b2af-6251-47bd-9cb3-c308e4e9b7d6
-        activeTab: chart
-      cells:
-        - cellType: SQL
-          cellId: c07a5494-cc50-46bf-ad56-da980f301ee7
-          cellLabel: total
-          config:
-            source: |-
-              WITH atendimentos_per_year AS (
-                  SELECT
-                      DATE_TRUNC('year', created_at) AS year,
-                      COUNT(*) AS atendimentos_per_year,
-                      50000 AS goal
-                  FROM match.matches
-                  WHERE status IN ('in_contact', 'interrupted_after_support', 'completed')
-                  GROUP BY 1
-              )
-              SELECT
-                  *,
-                  SUM(atendimentos_per_year) OVER(ORDER BY year)::INT AS cumulative_atendimentos_count
-              FROM atendimentos_per_year
-            dataFrameCell: false
-            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
-            resultVariableName: atendimentos_realizados_total
-            useRichDisplay: true
-            sqlCellOutputType: PANDAS
-            useQueryMode: false
-            castDecimals: true
-            useNativeDates: true
-            outputFilteredResult: true
-            allowDuplicateColumns: false
-            tableDisplayConfig:
-              pageSize: 50
-              height: null
-              hideIcons: false
-              hideIndex: false
-              defaultSortColumn: null
-              defaultSortIndexColumn: null
-              defaultSortDirection: ASC
-              conditionalFormatting: null
-              filters: null
-              columnProperties: []
-              columnOrdering: null
-              pinnedColumns: null
-              hiddenColumns: null
-        - cellType: CHARTV2
-          cellId: 58a0b2af-6251-47bd-9cb3-c308e4e9b7d6
-          cellLabel: total
-          config:
-            height: null
-            chartSpec:
-              type: layered
-              layers:
-                - id: 9d599e25-51f0-45f5-8507-ee3dc3a9f4f3
-                  xAxis:
-                    type: datetime
-                    style:
-                      max: 1735700400000
-                      min: 1514772000000
-                      grid:
-                        style: solid
-                      ticks: {}
-                      labels: {}
-                    title: ano
-                    timeUnit: year
-                    dataFrameColumn: year
-                  series:
-                    - id: e76990b4-be12-4e5a-bdf6-9ca0aa9e5a6e
+                    - id: e75970ce-6e95-40dc-a497-f6abadcc5ad3
+                      name: atendimentos
                       type: area
                       axis:
                         type: number
                         style:
                           max: 55000
+                          min: 0
                           grid:
-                            style: solid
+                            style: dash
                           ticks:
                             count: 5
                           labels: {}
                         title: "    "
                         aggregate: sum
+                        numberFormat:
+                          format: NUMBER
+                          currency: USD
+                          columnType: NUMBER
+                          numDecimalDigits: 0
+                          abbreviateLargeNumbers: false
                       dataFrameColumns:
                         - cumulative_atendimentos_count
-                      colorDataFrameColumn: goal
                       colorOrder: ascending
                       color:
-                        type: series
-                        defaultColor: "#f95d6a"
-                        colorsBySeriesValues:
-                          "50000": "#f95d6a"
+                        type: static
+                        color: "#f95d6a"
                       opacity:
                         type: static
-                        value: 0.5
+                        value: 1
                       tooltip:
                         type: auto
                       dataLabels:
+                        angle: 45
                         position: above
                       line: true
                       point: true
                       normalize: false
-                    - id: edc912b8-c4da-4e6a-9998-48aa2d307b0f
+                    - id: 5a4c1a1d-b1ff-45eb-b072-c717238b387a
+                      name: meta
                       type: line
                       axis:
                         type: number
                         style:
                           max: 55000
+                          min: 0
                           grid:
-                            style: solid
+                            style: dash
                           ticks:
                             count: 5
                           labels: {}
                         title: "    "
                         aggregate: sum
+                        numberFormat:
+                          format: NUMBER
+                          currency: USD
+                          columnType: NUMBER
+                          numDecimalDigits: 0
+                          abbreviateLargeNumbers: false
                       dataFrameColumns:
                         - goal
                       colorOrder: ascending
@@ -4374,53 +4303,72 @@ cells:
                         value: 1
                       tooltip:
                         type: auto
+                      dataLabels:
+                        angle: 45
+                        fontSize: 10
+                        position: above
                       point: false
                       stroke: dashed
                       width: 2
-                  dataFrame: atendimentos_realizados_total
+                  dataFrame: matches_total_3
                   seriesGroups:
-                    - - e76990b4-be12-4e5a-bdf6-9ca0aa9e5a6e
-                      - edc912b8-c4da-4e6a-9998-48aa2d307b0f
+                    - - d5444521-df70-4d96-83b1-cf2096a1c48b
+                      - 80616841-4fb3-4d01-8525-df2bab0f19a6
+                      - e75970ce-6e95-40dc-a497-f6abadcc5ad3
+                      - 5a4c1a1d-b1ff-45eb-b072-c717238b387a
+                    - - 4b25e076-8eec-4e6c-9c90-2545ce0f0a59
               settings:
                 legend:
-                  position: none
+                  position: bottom
                 tooltip: true
                 selectionEnabled: false
             chartSelection: {}
-            colorMappings:
-              "50000": "#f95d6a"
-            resultVariable: filter_result
+            colorMappings: {}
+            resultVariable: filter_result_33
             outputResult: false
             displayTableConfig: null
   - cellType: BLOCK
-    cellId: feb9784e-ece7-4bc9-bd58-389f193e0e47 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellId: 690dab5d-2c65-4cfe-982d-da7053f07c49 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
     config:
       blockConfig:
-        sqlCellId: fd12f7b3-3132-41cd-9552-cbd233fc20ba
-        chartCellId: ee1b35d9-2eda-4315-96e8-7d8f2b642d53
+        sqlCellId: 6b8f964a-100f-4838-b781-400664fbd914
+        chartCellId: 2b5f4331-e10b-410c-915f-dfeb63c52f13
         activeTab: chart
       cells:
         - cellType: SQL
-          cellId: fd12f7b3-3132-41cd-9552-cbd233fc20ba
+          cellId: 6b8f964a-100f-4838-b781-400664fbd914
           cellLabel: por ano
           config:
             source: |-
               WITH atendimentos_per_year AS (
                   SELECT
-                      DATE_TRUNC('year', created_at) AS year,
-                      COUNT(*) AS atendimentos_per_year
-                  FROM match.matches
-                  WHERE status IN ('in_contact', 'interrupted_after_support', 'completed')
+                      DATE_TRUNC('year', s.created_at) AS year,
+                      COUNT(*) AS support_requests_per_year,
+                      SUM(CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END) AS matches_per_year,
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_per_year
+                  FROM match.support_requests s
+                  LEFT JOIN match.matches m USING (support_request_id)
+                  WHERE s.status != 'duplicated'
                   GROUP BY 1
+              ),
+              cumulative_sums AS (
+                  SELECT
+                      *,
+                      SUM(atendimentos_per_year) OVER(ORDER BY year)::INT AS cumulative_atendimentos_count,
+                      SUM(matches_per_year) OVER(ORDER BY year)::INT AS cumulative_match_count,
+                      SUM(support_requests_per_year) OVER(ORDER BY year)::INT AS cumulative_support_request_count,
+                      50000 AS goal
+                  FROM atendimentos_per_year
+
               )
               SELECT
                   *,
-                  SUM(atendimentos_per_year) OVER(ORDER BY year)::INT AS cumulative_atendimentos_count
-              FROM atendimentos_per_year
+                  atendimentos_per_year/support_requests_per_year::NUMERIC(10,4) AS percentage
+              FROM cumulative_sums
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
-            resultVariableName: atendimentos_realizados_por_ano
+            resultVariableName: matches_total_4
             useRichDisplay: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
@@ -4439,14 +4387,44 @@ cells:
               conditionalFormatting: null
               filters: null
               columnProperties:
+                - originalName: ?column?
+                  renameTo: null
+                  size: 106
+                  wrapText: null
+                  displayFormat: null
+                - originalName: cumulative_match_count
+                  renameTo: null
+                  size: 191
+                  wrapText: null
+                  displayFormat: null
                 - originalName: cumulative_msr_count
                   renameTo: null
                   size: 177
                   wrapText: null
                   displayFormat: null
+                - originalName: cumulative_support_request_count
+                  renameTo: null
+                  size: 247
+                  wrapText: null
+                  displayFormat: null
+                - originalName: matches_per_year
+                  renameTo: null
+                  size: 155
+                  wrapText: null
+                  displayFormat: null
                 - originalName: msr_per_year
                   renameTo: null
                   size: 128
+                  wrapText: null
+                  displayFormat: null
+                - originalName: percentage
+                  renameTo: null
+                  size: 116
+                  wrapText: null
+                  displayFormat: null
+                - originalName: support_requests_per_year
+                  renameTo: null
+                  size: 204
                   wrapText: null
                   displayFormat: null
                 - originalName: year
@@ -4458,7 +4436,7 @@ cells:
               pinnedColumns: null
               hiddenColumns: null
         - cellType: CHARTV2
-          cellId: ee1b35d9-2eda-4315-96e8-7d8f2b642d53
+          cellId: 2b5f4331-e10b-410c-915f-dfeb63c52f13
           cellLabel: por ano
           config:
             height: null
@@ -4475,23 +4453,139 @@ cells:
                         style: dash
                       ticks: {}
                       labels: {}
-                    title: ano
+                    title: "   "
                     timeUnit: year
                     dataFrameColumn: year
                   series:
-                    - id: 80616841-4fb3-4d01-8525-df2bab0f19a6
+                    - id: d5444521-df70-4d96-83b1-cf2096a1c48b
+                      name: pedidos de acolhimento
                       type: bar
                       axis:
                         type: number
                         style:
-                          max: 1000
+                          max: 8000
+                          min: 0
                           grid:
                             style: dash
                           ticks:
                             count: 5
                           labels: {}
-                        title: "      "
+                        title: "    "
                         aggregate: sum
+                        numberFormat:
+                          format: NUMBER
+                          currency: USD
+                          columnType: NUMBER
+                          numDecimalDigits: 0
+                          abbreviateLargeNumbers: false
+                      dataFrameColumns:
+                        - support_requests_per_year
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#CFD3DE"
+                      opacity:
+                        type: static
+                        value: 0.4
+                      tooltip:
+                        type: manual
+                        fields: []
+                      barWidth: 1
+                      orientation: vertical
+                      layout: stacked
+                    - id: 80616841-4fb3-4d01-8525-df2bab0f19a6
+                      name: matches
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          max: 8000
+                          min: 0
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                        numberFormat:
+                          format: NUMBER
+                          currency: USD
+                          columnType: NUMBER
+                          numDecimalDigits: 0
+                          abbreviateLargeNumbers: false
+                      dataFrameColumns:
+                        - matches_per_year
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#9CA3B4"
+                      opacity:
+                        type: static
+                        value: 0.3
+                      tooltip:
+                        type: manual
+                        fields: []
+                      barWidth: 1
+                      orientation: vertical
+                      layout: stacked
+                    - id: 4b25e076-8eec-4e6c-9c90-2545ce0f0a59
+                      name: "% de pedidos que realizaram atendimento"
+                      type: scatter
+                      axis:
+                        type: number
+                        style:
+                          max: 0.2
+                          min: -0.5
+                          ticks:
+                            count: 0
+                          labels: {}
+                        title: "   "
+                        aggregate: sum
+                        numberFormat:
+                          format: PERCENT
+                          currency: USD
+                          columnType: NUMBER
+                          numDecimalDigits: 0
+                          abbreviateLargeNumbers: false
+                      dataFrameColumns:
+                        - percentage
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#003f5c"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        fontSize: 10
+                        position: above
+                      filled: true
+                      shape: triangle-down
+                      size: 10
+                    - id: e75970ce-6e95-40dc-a497-f6abadcc5ad3
+                      name: atendimentos
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          max: 8000
+                          min: 0
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                        numberFormat:
+                          format: NUMBER
+                          currency: USD
+                          columnType: NUMBER
+                          numDecimalDigits: 0
+                          abbreviateLargeNumbers: false
                       dataFrameColumns:
                         - atendimentos_per_year
                       colorOrder: ascending
@@ -4504,51 +4598,66 @@ cells:
                       tooltip:
                         type: auto
                       dataLabels:
-                        fontSize: 10
                         position: outside-end
                       barWidth: 1
                       orientation: vertical
-                      layout: grouped
-                  dataFrame: atendimentos_realizados_por_ano
+                      layout: stacked
+                  dataFrame: matches_total_4
+                  seriesGroups:
+                    - - d5444521-df70-4d96-83b1-cf2096a1c48b
+                      - 80616841-4fb3-4d01-8525-df2bab0f19a6
+                      - e75970ce-6e95-40dc-a497-f6abadcc5ad3
+                    - - 4b25e076-8eec-4e6c-9c90-2545ce0f0a59
               settings:
                 legend:
-                  position: right
+                  position: bottom
                 tooltip: true
                 selectionEnabled: false
             chartSelection: {}
             colorMappings: {}
-            resultVariable: filter_result_9
+            resultVariable: filter_result_34
             outputResult: false
             displayTableConfig: null
   - cellType: BLOCK
-    cellId: 807d54f1-005d-4a01-aa7e-873046cd19d8 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellId: f0527799-be13-4791-bcce-fccd1a56be18 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
     config:
       blockConfig:
-        sqlCellId: 39ec01e8-adf8-4a01-a5e2-c0352fc56c58
-        chartCellId: df71f6d2-3a66-4887-a29b-b884f0a3329e
+        sqlCellId: 09e3a1d8-52a8-4971-8631-9edfa55b4b4c
+        chartCellId: eeb1f7c9-6a52-45cc-bb7a-7b0f78dd1ec3
         activeTab: chart
       cells:
         - cellType: SQL
-          cellId: 39ec01e8-adf8-4a01-a5e2-c0352fc56c58
+          cellId: 09e3a1d8-52a8-4971-8631-9edfa55b4b4c
           cellLabel: por mês no último ano
           config:
             source: |-
               WITH atendimentos_per_month AS (
                   SELECT
-                      DATE_TRUNC('month', created_at) AS month,
-                      COUNT(*) AS atendimentos_per_month
-                  FROM match.matches
+                      DATE_TRUNC('month', s.created_at) AS month,
+                      COUNT(*) AS support_requests_per_month,
+                      SUM(CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END) AS matches_per_month,
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_per_month
+                  FROM match.support_requests s
+                  LEFT JOIN match.matches m USING (support_request_id)
                   WHERE 
-                      created_at >= CURRENT_DATE - INTERVAL '1 YEAR'
-                      AND status IN ('in_contact', 'interrupted_after_support', 'completed')
+                      s.status != 'duplicated'
+                      AND s.created_at >= CURRENT_DATE - INTERVAL '1 YEAR'
                   GROUP BY 1
+              ),
+              cumulative_sums AS (
+                  SELECT
+                      *
+                  FROM atendimentos_per_month
+
               )
-              SELECT *
-              FROM atendimentos_per_month
+              SELECT
+                  *,
+                  atendimentos_per_month/support_requests_per_month::NUMERIC(10,4) AS percentage
+              FROM cumulative_sums
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
-            resultVariableName: atendimentos_realizados_por_mes
+            resultVariableName: matches_por_mes_2
             useRichDisplay: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
@@ -4571,7 +4680,7 @@ cells:
               pinnedColumns: null
               hiddenColumns: null
         - cellType: CHARTV2
-          cellId: df71f6d2-3a66-4887-a29b-b884f0a3329e
+          cellId: eeb1f7c9-6a52-45cc-bb7a-7b0f78dd1ec3
           cellLabel: por mês no último ano
           config:
             height: null
@@ -4586,19 +4695,112 @@ cells:
                         style: dash
                       ticks: {}
                       labels: {}
-                    title: mês
+                    title: "    "
                     dataFrameColumn: month
                   series:
-                    - id: 306c0ab5-ab54-42b8-a955-cd9d00e1d985
+                    - id: cbf171bd-c443-496f-b4c2-1e4a8d6a7a8e
+                      name: pedidos de acolhimento
                       type: line
                       axis:
                         type: number
                         style:
-                          max: 50
+                          max: 600
                           grid:
                             style: dash
                           ticks:
-                            count: 5
+                            count: 8
+                          labels: {}
+                        title: "          "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - support_requests_per_month
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#CFD3DE"
+                      opacity:
+                        type: static
+                        value: 0.6
+                      tooltip:
+                        type: auto
+                      point: false
+                      stroke: solid
+                      width: 2
+                    - id: 306c0ab5-ab54-42b8-a955-cd9d00e1d985
+                      name: matches
+                      type: line
+                      axis:
+                        type: number
+                        style:
+                          max: 600
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 8
+                          labels: {}
+                        title: "          "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - matches_per_month
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#9CA3B4"
+                      opacity:
+                        type: static
+                        value: 0.8
+                      tooltip:
+                        type: auto
+                      point: false
+                      stroke: solid
+                      width: 2
+                    - id: 6ed881c8-b941-4b7a-98aa-e72bdaeeb90e
+                      name: "% de pedidos que realizaram atendimento"
+                      type: scatter
+                      axis:
+                        type: number
+                        style:
+                          max: 0.2
+                          min: -1
+                          ticks:
+                            count: 0
+                          labels: {}
+                        title: "   "
+                        aggregate: sum
+                        numberFormat:
+                          format: PERCENT
+                          currency: USD
+                          columnType: NUMBER
+                          numDecimalDigits: 0
+                          abbreviateLargeNumbers: false
+                      dataFrameColumns:
+                        - percentage
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#003f5c"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        fontSize: 8
+                        position: above
+                      filled: true
+                      shape: triangle-down
+                      size: 10
+                    - id: d1e18955-713d-4748-993b-44f9416e07b9
+                      name: atendimentos
+                      type: line
+                      axis:
+                        type: number
+                        style:
+                          max: 600
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 8
                           labels: {}
                         title: "          "
                         aggregate: sum
@@ -4610,7 +4812,7 @@ cells:
                         color: "#f95d6a"
                       opacity:
                         type: static
-                        value: 0.9
+                        value: 1
                       tooltip:
                         type: auto
                       dataLabels:
@@ -4618,8 +4820,175 @@ cells:
                         position: above
                       point: true
                       stroke: solid
-                      width: 3
-                  dataFrame: atendimentos_realizados_por_mes
+                  dataFrame: matches_por_mes_2
+                  seriesGroups:
+                    - - cbf171bd-c443-496f-b4c2-1e4a8d6a7a8e
+                      - 306c0ab5-ab54-42b8-a955-cd9d00e1d985
+                      - d1e18955-713d-4748-993b-44f9416e07b9
+                    - - 6ed881c8-b941-4b7a-98aa-e72bdaeeb90e
+              settings:
+                legend:
+                  position: bottom
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: filter_result_35
+            outputResult: false
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: f779663e-8844-4d0a-840f-96a33e168128 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Por território
+    config:
+      source: "##### Por território"
+  - cellType: INPUT
+    cellId: 883af184-1ef5-47d7-be40-4dfc2708cd6b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Período
+    config:
+      inputType: DROPDOWN
+      name: atendimentos_time_filter
+      outputType: STRING
+      options:
+        valueOptions:
+          - Filtrar apenas o último ano
+          - Desde o início do Mapa
+      defaultValue: Filtrar apenas o último ano
+  - cellType: BLOCK
+    cellId: 8db6714e-26e3-4d31-911e-2cc29426ade6 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 4137f418-8623-4832-8b50-4a07d393cb78
+        chartCellId: 64ed76a6-d14a-4bf4-9ae0-dd72c2a95074
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 4137f418-8623-4832-8b50-4a07d393cb78
+          cellLabel: por estado
+          config:
+            source: |
+              WITH atendimentos_per_state AS (
+                  SELECT
+                      state,
+                      COUNT(*) AS support_request_count,
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_count
+                  FROM match.support_requests s
+                  LEFT JOIN match.matches m USING (support_request_id)
+                  WHERE 
+                      s.status != 'duplicated'
+                      AND state NOT IN ('not_found', 'INT')
+                      AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Filtrar apenas o último ano' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
+                  GROUP BY 1
+              )
+              SELECT
+                  state,
+                  atendimentos_count,
+                  support_request_count
+              FROM atendimentos_per_state
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: matches_por_estado_2
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              filters: null
+              columnProperties:
+                - originalName: count
+                  renameTo: null
+                  size: 85
+                  wrapText: null
+                  displayFormat: null
+                - originalName: matched
+                  renameTo: null
+                  size: 104
+                  wrapText: null
+                  displayFormat: null
+                - originalName: percentage
+                  renameTo: null
+                  size: 164
+                  wrapText: null
+                  displayFormat: null
+                - originalName: state
+                  renameTo: null
+                  size: 82
+                  wrapText: null
+                  displayFormat: null
+                - originalName: support_request_count
+                  renameTo: null
+                  size: 182
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+        - cellType: CHARTV2
+          cellId: 64ed76a6-d14a-4bf4-9ae0-dd72c2a95074
+          cellLabel: por estado
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: e6ed243e-00e3-4439-9d5e-b6ab3f57213b
+                  xAxis:
+                    sort: -x
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "     "
+                    dataFrameColumn: state
+                  series:
+                    - id: 8e2d44ac-b336-4aa9-90dd-0981a7f73d58
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                        numberFormat:
+                          format: NUMBER
+                          currency: USD
+                          columnType: NUMBER
+                          numDecimalDigits: 0
+                          abbreviateLargeNumbers: false
+                      dataFrameColumns:
+                        - atendimentos_count
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#f95d6a"
+                      opacity:
+                        type: static
+                        value: 0.7
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        position: outside-end
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: stacked
+                  dataFrame: matches_por_estado_2
               settings:
                 legend:
                   position: right
@@ -4627,7 +4996,757 @@ cells:
                 selectionEnabled: false
             chartSelection: {}
             colorMappings: {}
-            resultVariable: filter_result_10
+            resultVariable: filter_result_36
+            outputResult: false
+            displayTableConfig: null
+  - cellType: BLOCK
+    cellId: 8b1da2fd-0e2c-4f99-a84e-d3938717e664 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 31fd4c39-30b5-46ce-b7e7-a3379537685f
+        chartCellId: b6427add-eed8-4abd-9dec-a648d1dd9a05
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 31fd4c39-30b5-46ce-b7e7-a3379537685f
+          cellLabel: "% de atendimentos"
+          config:
+            source: |
+              WITH atendimentos_per_state AS (
+                  SELECT
+                      state,
+                      COUNT(*) AS support_request_count,
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_count
+                  FROM match.support_requests s
+                  LEFT JOIN match.matches m USING (support_request_id)
+                  WHERE 
+                      s.status != 'duplicated'
+                      AND state NOT IN ('not_found', 'INT')
+                      AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Filtrar apenas o último ano' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
+                  GROUP BY 1
+              )
+              SELECT
+                  state,
+                  atendimentos_count,
+                  atendimentos_count/support_request_count::NUMERIC(10,4) AS percentage
+              FROM atendimentos_per_state
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: matches_por_estado_3
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              filters: null
+              columnProperties:
+                - originalName: count
+                  renameTo: null
+                  size: 85
+                  wrapText: null
+                  displayFormat: null
+                - originalName: matched
+                  renameTo: null
+                  size: 104
+                  wrapText: null
+                  displayFormat: null
+                - originalName: percentage
+                  renameTo: null
+                  size: 164
+                  wrapText: null
+                  displayFormat: null
+                - originalName: state
+                  renameTo: null
+                  size: 82
+                  wrapText: null
+                  displayFormat: null
+                - originalName: support_request_count
+                  renameTo: null
+                  size: 182
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+        - cellType: CHARTV2
+          cellId: b6427add-eed8-4abd-9dec-a648d1dd9a05
+          cellLabel: "% de atendimentos"
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: e6ed243e-00e3-4439-9d5e-b6ab3f57213b
+                  xAxis:
+                    sort: -x
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "     "
+                    dataFrameColumn: state
+                  series:
+                    - id: 8e2d44ac-b336-4aa9-90dd-0981a7f73d58
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          max: 1
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                        numberFormat:
+                          format: PERCENT
+                          currency: USD
+                          columnType: NUMBER
+                          numDecimalDigits: 0
+                          abbreviateLargeNumbers: false
+                      dataFrameColumns:
+                        - percentage
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#003f5c"
+                      opacity:
+                        type: static
+                        value: 0.5
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        position: outside-end
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: stacked
+                  dataFrame: matches_por_estado_3
+              settings:
+                legend:
+                  position: right
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: filter_result_37
+            outputResult: false
+            displayTableConfig: null
+  - cellType: BLOCK
+    cellId: 7fd883fd-cb79-434d-8d18-460c960f9118 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 9810162e-9c26-49c0-a160-816b4dd9ad10
+        chartCellId: 8c78f3fd-b2f6-4119-a8da-63004da54fbe
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 9810162e-9c26-49c0-a160-816b4dd9ad10
+          cellLabel: por região
+          config:
+            source: |-
+              SELECT
+                  CASE
+                      WHEN state IN ('AM', 'PA', 'AC', 'RR', 'RO', 'AP', 'TO') THEN 'norte'
+                      WHEN state IN ('MA', 'PI', 'CE', 'RN', 'PB', 'PE', 'AL', 'SE', 'BA') THEN 'nordeste'
+                      WHEN state IN ('SP', 'RJ', 'MG', 'ES') THEN 'sudeste'
+                      WHEN state IN ('MT', 'MS', 'GO', 'DF') THEN 'centro-oeste'
+                      WHEN state IN ('PR', 'SC', 'RS') THEN 'sul'
+                      WHEN state = 'INT' THEN 'internacional'
+                      ELSE 'não encontrado'
+                  END AS region,
+                  COUNT(*) AS support_request_count,
+                  SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_count
+              FROM match.support_requests s
+              LEFT JOIN match.matches m USING (support_request_id)
+              WHERE 
+                  state NOT IN ('INT', 'not_found')
+                  AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Filtrar apenas o último ano' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
+              GROUP BY 1
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: pedidos_de_acolhimento_por_regiao_9
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              filters: null
+              columnProperties:
+                - originalName: pedidos_de_acolhimento_per_state
+                  renameTo: null
+                  size: 247
+                  wrapText: null
+                  displayFormat: null
+                - originalName: region
+                  renameTo: null
+                  size: 116
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+        - cellType: CHARTV2
+          cellId: 8c78f3fd-b2f6-4119-a8da-63004da54fbe
+          cellLabel: por região
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 95f13c33-fbb3-4c3a-aa26-37f46edb6d69
+                  xAxis:
+                    sort: -x
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "   "
+                    dataFrameColumn: region
+                  series:
+                    - id: 869bd0ad-ff24-4857-9461-8bea4192132b
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - atendimentos_count
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#f95d6a"
+                      opacity:
+                        type: static
+                        value: 0.7
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        fontSize: 10
+                        position: outside-end
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: pedidos_de_acolhimento_por_regiao_9
+              settings:
+                legend:
+                  position: top
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: filter_result_38
+            outputResult: false
+            displayTableConfig: null
+  - cellType: BLOCK
+    cellId: 2b7a3790-8a47-4eba-bfde-189013651694 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 9367b08d-fb93-4b28-b212-a174804f5aa2
+        chartCellId: 0f239949-07f2-4aed-b692-78780a3e06a7
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 9367b08d-fb93-4b28-b212-a174804f5aa2
+          cellLabel: "% de atendimentos"
+          config:
+            source: |-
+              WITH atendimentos_per_region AS (
+                  SELECT
+                      CASE
+                          WHEN state IN ('AM', 'PA', 'AC', 'RR', 'RO', 'AP', 'TO') THEN 'norte'
+                          WHEN state IN ('MA', 'PI', 'CE', 'RN', 'PB', 'PE', 'AL', 'SE', 'BA') THEN 'nordeste'
+                          WHEN state IN ('SP', 'RJ', 'MG', 'ES') THEN 'sudeste'
+                          WHEN state IN ('MT', 'MS', 'GO', 'DF') THEN 'centro-oeste'
+                          WHEN state IN ('PR', 'SC', 'RS') THEN 'sul'
+                          WHEN state = 'INT' THEN 'internacional'
+                          ELSE 'não encontrado'
+                      END AS region,
+                      COUNT(*) AS support_request_count,
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_count
+                  FROM match.support_requests s
+                  LEFT JOIN match.matches m USING (support_request_id)
+                  WHERE 
+                      s.status != 'duplicated'
+                      AND state NOT IN ('INT', 'not_found')
+                      AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Filtrar apenas o último ano' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
+                  GROUP BY 1
+              )
+              SELECT 
+                  *,
+                  atendimentos_count/support_request_count::NUMERIC(10,4) AS percentage
+              FROM atendimentos_per_region
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: pedidos_de_acolhimento_por_regiao_10
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              filters: null
+              columnProperties:
+                - originalName: pedidos_de_acolhimento_per_state
+                  renameTo: null
+                  size: 247
+                  wrapText: null
+                  displayFormat: null
+                - originalName: region
+                  renameTo: null
+                  size: 116
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+        - cellType: CHARTV2
+          cellId: 0f239949-07f2-4aed-b692-78780a3e06a7
+          cellLabel: "% de atendimentos"
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 95f13c33-fbb3-4c3a-aa26-37f46edb6d69
+                  xAxis:
+                    sort: -x
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "   "
+                    dataFrameColumn: region
+                  series:
+                    - id: 869bd0ad-ff24-4857-9461-8bea4192132b
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          max: 1
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                        numberFormat:
+                          format: PERCENT
+                          currency: USD
+                          columnType: NUMBER
+                          numDecimalDigits: 0
+                          abbreviateLargeNumbers: false
+                      dataFrameColumns:
+                        - percentage
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#003f5c"
+                      opacity:
+                        type: static
+                        value: 0.5
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        fontSize: 10
+                        position: outside-end
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: pedidos_de_acolhimento_por_regiao_10
+              settings:
+                legend:
+                  position: top
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: filter_result_39
+            outputResult: false
+            displayTableConfig: null
+  - cellType: BLOCK
+    cellId: 8aa14a8b-7ea5-4771-8e79-d48f5dadf055 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 37eda986-d7f8-4a2d-aad2-87dfdd950a4f
+        chartCellId: 48cd3a8d-c9ab-4fc5-844a-246b3d4fd899
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 37eda986-d7f8-4a2d-aad2-87dfdd950a4f
+          cellLabel: capital x não capital
+          config:
+            source: |-
+              SELECT
+                  CASE 
+                      WHEN city = 'RIO BRANCO' AND state = 'AC' THEN 'capital'
+                      WHEN city = 'MACEIO' AND state = 'AL' THEN 'capital'
+                      WHEN city = 'MACAPA' AND state = 'AP' THEN 'capital'
+                      WHEN city = 'MANAUS' AND state = 'AM' THEN 'capital'
+                      WHEN city = 'SALVADOR' AND state = 'BA' THEN 'capital'
+                      WHEN city = 'FORTALEZA' AND state = 'CE' THEN 'capital'
+                      WHEN city = 'BRASILIA' AND state = 'DF' THEN 'capital'
+                      WHEN city = 'VITORIA' AND state = 'ES' THEN 'capital'
+                      WHEN city = 'GOIANIA' AND state = 'GO' THEN 'capital'
+                      WHEN city = 'SAO LUIS' AND state = 'MA' THEN 'capital'
+                      WHEN city = 'CUIABA' AND state = 'MT' THEN 'capital'
+                      WHEN city = 'CAMPO GRANDE' AND state = 'MS' THEN 'capital'
+                      WHEN city = 'BELO HORIZONTE' AND state = 'BH' THEN 'capital'
+                      WHEN city = 'BELEM' AND state = 'PA' THEN 'capital'
+                      WHEN city = 'JOAO PESSOA' AND state = 'PB' THEN 'capital'
+                      WHEN city = 'CURITIBA' AND state = 'PR' THEN 'capital'
+                      WHEN city = 'RECIFE' AND state = 'PE' THEN 'capital'
+                      WHEN city = 'TERESINA' AND state = 'PI' THEN 'capital'
+                      WHEN city = 'RIO DE JANEIRO' AND state = 'RJ' THEN 'capital'
+                      WHEN city = 'NATAL' AND state = 'RN' THEN 'capital'
+                      WHEN city = 'PORTO ALEGRE' AND state = 'RS' THEN 'capital'
+                      WHEN city = 'PORTO VELHO' AND state = 'RO' THEN 'capital'
+                      WHEN city = 'BOA VISTA' AND state = 'RR' THEN 'capital'
+                      WHEN city = 'FLORIANOPOLIS' AND state = 'SC' THEN 'capital'
+                      WHEN city = 'SAO PAULO' AND state = 'SP' THEN 'capital'
+                      WHEN city = 'ARACAJU' AND state = 'SE' THEN 'capital'
+                      WHEN city = 'PALMAS' AND state = 'TO' THEN 'capital'
+                     ELSE 'não capital'
+                  END AS capital,
+                  COUNT(*) AS pedidos_de_acolhimento_per_state,
+                  SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_count
+              FROM match.support_requests s
+              LEFT JOIN match.matches m USING (support_request_id)
+              WHERE 
+                  s.status != 'duplicated'
+                  AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Filtrar apenas o último ano' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
+              GROUP BY 1
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: pedidos_de_acolhimento_por_regiao_11
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              filters: null
+              columnProperties:
+                - originalName: capital
+                  renameTo: null
+                  size: 91
+                  wrapText: null
+                  displayFormat: null
+                - originalName: pedidos_de_acolhimento_per_state
+                  renameTo: null
+                  size: 247
+                  wrapText: null
+                  displayFormat: null
+                - originalName: region
+                  renameTo: null
+                  size: 116
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+        - cellType: CHARTV2
+          cellId: 48cd3a8d-c9ab-4fc5-844a-246b3d4fd899
+          cellLabel: capital x não capital
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 95f13c33-fbb3-4c3a-aa26-37f46edb6d69
+                  xAxis:
+                    sort: ascending
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "   "
+                    dataFrameColumn: capital
+                  series:
+                    - id: 869bd0ad-ff24-4857-9461-8bea4192132b
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - pedidos_de_acolhimento_per_state
+                      colorDataFrameColumn: capital
+                      colorOrder: descending
+                      color:
+                        type: series
+                        defaultColor: "#ffa600"
+                        colorsBySeriesValues:
+                          capital: "#f95d6a"
+                          não capital: "#ffd6d5"
+                      opacity:
+                        type: series
+                        opacitiesBySeriesValues:
+                          capital: 0.7
+                          não capital: 0.8
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#f95d6a"
+                        fontSize: 10
+                        position: outside-end
+                      legendTitle: "     "
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: pedidos_de_acolhimento_por_regiao_11
+              settings:
+                legend:
+                  position: bottom
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              capital: "#f95d6a"
+              não capital: "#ffd6d5"
+            resultVariable: filter_result_40
+            outputResult: false
+            displayTableConfig: null
+  - cellType: BLOCK
+    cellId: 4c1ad72c-2b58-4c0f-8539-d08527159367 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 0c5eb9b6-5d46-41b0-933a-f415459d02e0
+        chartCellId: bb9d17de-cd2b-437e-9732-eeb9875c09bd
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 0c5eb9b6-5d46-41b0-933a-f415459d02e0
+          cellLabel: "% de atendimentos"
+          config:
+            source: |-
+              WITH atendimentos_capital AS (
+                  SELECT
+                      CASE 
+                          WHEN city = 'RIO BRANCO' AND state = 'AC' THEN 'capital'
+                          WHEN city = 'MACEIO' AND state = 'AL' THEN 'capital'
+                          WHEN city = 'MACAPA' AND state = 'AP' THEN 'capital'
+                          WHEN city = 'MANAUS' AND state = 'AM' THEN 'capital'
+                          WHEN city = 'SALVADOR' AND state = 'BA' THEN 'capital'
+                          WHEN city = 'FORTALEZA' AND state = 'CE' THEN 'capital'
+                          WHEN city = 'BRASILIA' AND state = 'DF' THEN 'capital'
+                          WHEN city = 'VITORIA' AND state = 'ES' THEN 'capital'
+                          WHEN city = 'GOIANIA' AND state = 'GO' THEN 'capital'
+                          WHEN city = 'SAO LUIS' AND state = 'MA' THEN 'capital'
+                          WHEN city = 'CUIABA' AND state = 'MT' THEN 'capital'
+                          WHEN city = 'CAMPO GRANDE' AND state = 'MS' THEN 'capital'
+                          WHEN city = 'BELO HORIZONTE' AND state = 'BH' THEN 'capital'
+                          WHEN city = 'BELEM' AND state = 'PA' THEN 'capital'
+                          WHEN city = 'JOAO PESSOA' AND state = 'PB' THEN 'capital'
+                          WHEN city = 'CURITIBA' AND state = 'PR' THEN 'capital'
+                          WHEN city = 'RECIFE' AND state = 'PE' THEN 'capital'
+                          WHEN city = 'TERESINA' AND state = 'PI' THEN 'capital'
+                          WHEN city = 'RIO DE JANEIRO' AND state = 'RJ' THEN 'capital'
+                          WHEN city = 'NATAL' AND state = 'RN' THEN 'capital'
+                          WHEN city = 'PORTO ALEGRE' AND state = 'RS' THEN 'capital'
+                          WHEN city = 'PORTO VELHO' AND state = 'RO' THEN 'capital'
+                          WHEN city = 'BOA VISTA' AND state = 'RR' THEN 'capital'
+                          WHEN city = 'FLORIANOPOLIS' AND state = 'SC' THEN 'capital'
+                          WHEN city = 'SAO PAULO' AND state = 'SP' THEN 'capital'
+                          WHEN city = 'ARACAJU' AND state = 'SE' THEN 'capital'
+                          WHEN city = 'PALMAS' AND state = 'TO' THEN 'capital'
+                      ELSE 'não capital'
+                      END AS capital,
+                      COUNT(*) AS pedidos_de_acolhimento_count,
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_count
+                  FROM match.support_requests s
+                  LEFT JOIN match.matches m USING (support_request_id)
+                  WHERE 
+                      s.status != 'duplicated'
+                      AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Filtrar apenas o último ano' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
+                  GROUP BY 1
+              )
+              SELECT 
+                  *,
+                  atendimentos_count/pedidos_de_acolhimento_count::NUMERIC(10,4) AS percentage
+              FROM atendimentos_capital
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: pedidos_de_acolhimento_por_regiao_12
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              filters: null
+              columnProperties:
+                - originalName: capital
+                  renameTo: null
+                  size: 91
+                  wrapText: null
+                  displayFormat: null
+                - originalName: pedidos_de_acolhimento_per_state
+                  renameTo: null
+                  size: 247
+                  wrapText: null
+                  displayFormat: null
+                - originalName: region
+                  renameTo: null
+                  size: 116
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+        - cellType: CHARTV2
+          cellId: bb9d17de-cd2b-437e-9732-eeb9875c09bd
+          cellLabel: "% de atendimentos"
+          config:
+            height: 540
+            chartSpec:
+              type: layered
+              layers:
+                - id: 95f13c33-fbb3-4c3a-aa26-37f46edb6d69
+                  xAxis:
+                    sort: ascending
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "   "
+                    dataFrameColumn: capital
+                  series:
+                    - id: 869bd0ad-ff24-4857-9461-8bea4192132b
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          max: 1
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                        numberFormat:
+                          format: PERCENT
+                          currency: USD
+                          columnType: NUMBER
+                          numDecimalDigits: 0
+                          abbreviateLargeNumbers: false
+                      dataFrameColumns:
+                        - percentage
+                      colorDataFrameColumn: capital
+                      colorOrder: descending
+                      color:
+                        type: series
+                        defaultColor: "#ffa600"
+                        colorsBySeriesValues:
+                          capital: "#003f5c"
+                          não capital: "#9cc3dc"
+                      opacity:
+                        type: series
+                        opacitiesBySeriesValues:
+                          capital: 0.7
+                          não capital: 0.8
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#003f5c"
+                        fontSize: 10
+                        position: outside-end
+                      legendTitle: "     "
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: pedidos_de_acolhimento_por_regiao_12
+              settings:
+                legend:
+                  position: bottom
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              capital: "#003f5c"
+              não capital: "#9cc3dc"
+            resultVariable: filter_result_41
             outputResult: false
             displayTableConfig: null
   - cellType: MARKDOWN
@@ -5208,7 +6327,7 @@ appLayout:
                   cellId: 3026fdd4-ece5-438f-befd-9b4521141d02
                   sharedFilterId: null
                   height: null
-                  showLabel: true
+                  showLabel: false
             - start: 90
               end: 120
               elements:
@@ -5389,14 +6508,25 @@ appLayout:
                   showLabel: false
         - columns:
             - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 8e3e4fe2-1518-48bc-94ee-cdfeb13d25f2
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
+        - columns:
+            - start: 0
               end: 40
               elements:
                 - showSource: false
                   hideOutput: false
                   type: CELL
-                  cellId: c07a5494-cc50-46bf-ad56-da980f301ee7
+                  cellId: f37b0e87-7d59-4e25-9a5d-a0cf3e75a6a7
                   sharedFilterId: null
-                  height: 350
+                  height: 400
                   showLabel: true
             - start: 40
               end: 80
@@ -5404,9 +6534,9 @@ appLayout:
                 - showSource: false
                   hideOutput: false
                   type: CELL
-                  cellId: fd12f7b3-3132-41cd-9552-cbd233fc20ba
+                  cellId: 6b8f964a-100f-4838-b781-400664fbd914
                   sharedFilterId: null
-                  height: 350
+                  height: 400
                   showLabel: true
             - start: 80
               end: 120
@@ -5414,9 +6544,85 @@ appLayout:
                 - showSource: false
                   hideOutput: false
                   type: CELL
-                  cellId: 39ec01e8-adf8-4a01-a5e2-c0352fc56c58
+                  cellId: 09e3a1d8-52a8-4971-8631-9edfa55b4b4c
                   sharedFilterId: null
-                  height: 350
+                  height: 400
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 60
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: f779663e-8844-4d0a-840f-96a33e168128
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
+            - start: 90
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 883af184-1ef5-47d7-be40-4dfc2708cd6b
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
+        - columns:
+            - start: 0
+              end: 25
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 4137f418-8623-4832-8b50-4a07d393cb78
+                  sharedFilterId: null
+                  height: 500
+                  showLabel: true
+            - start: 25
+              end: 50
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 31fd4c39-30b5-46ce-b7e7-a3379537685f
+                  sharedFilterId: null
+                  height: 500
+                  showLabel: true
+            - start: 50
+              end: 85
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 37eda986-d7f8-4a2d-aad2-87dfdd950a4f
+                  sharedFilterId: null
+                  height: 200
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 9810162e-9c26-49c0-a160-816b4dd9ad10
+                  sharedFilterId: null
+                  height: 300
+                  showLabel: true
+            - start: 85
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0c5eb9b6-5d46-41b0-933a-f415459d02e0
+                  sharedFilterId: null
+                  height: 200
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 9367b08d-fb93-4b28-b212-a174804f5aa2
+                  sharedFilterId: null
+                  height: 300
                   showLabel: true
         - columns:
             - start: 0
