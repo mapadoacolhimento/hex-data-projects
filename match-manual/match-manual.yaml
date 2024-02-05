@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: e88f5713-6cd8-4525-a95a-5bafe6cdea2d # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 849e362d-2670-4c2d-950b-b9c4469e81fa # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: fc81fcd3-0961-4ff8-a485-a95c42f2c645 # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: Match manual
@@ -52,7 +52,7 @@ cells:
               
             Esse ID também pode ser encontrado no título do ticket conforme mostra a imagem a seguir: 
                 
-            <img src="/api/v1/file/48ce22cf-27ca-46c8-8303-ff85bd942484" width="250" />
+            <img src="/api/v1/file/74d70282-4fbc-4803-8182-f253947bbc74" width="250" />
 
         2. **Insira esse ID no campo a seguir e clique em "Bucar voluntárias"**  
             
@@ -68,7 +68,7 @@ cells:
       name: msr_zendesk_ticket_id_fetch_volunteers
       outputType: NUMBER
       options: null
-      defaultValue: 17470
+      defaultValue: 80433
   - cellType: INPUT
     cellId: f1e87ce5-cbae-4b04-83e1-4829d084d1f8 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Clique aqui para buscar voluntárias
@@ -230,6 +230,14 @@ cells:
             WHERE 
                 zendesk_ticket_id = {{ msr_zendesk_ticket_id_fetch_volunteers }}
             LIMIT 1
+        ),
+        completed_matches_by_volunteer AS (
+            SELECT
+                volunteer_id, 
+                COUNT(*) AS completed_matches
+            FROM match.matches
+            WHERE status = 'completed'
+            GROUP BY 1
         )
         SELECT 
             volunteer_id,
@@ -245,12 +253,13 @@ cells:
             lat,
             lng,
             current_matches,
-            max_matches
+            max_matches,
+            COALESCE(completed_matches, 0) AS completed_matches
         FROM public.volunteer_availability a
         INNER JOIN msr_support_type b ON a.support_type::VARCHAR = b.support_type::VARCHAR
         LEFT JOIN volunteers c ON c.id = a.volunteer_id
+        LEFT JOIN completed_matches_by_volunteer USING (volunteer_id)
         WHERE is_available = TRUE AND lat IS NOT null and lng IS NOT null
-        LIMIT 100
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: available_volunteers
@@ -351,7 +360,8 @@ cells:
                       ELSE years_of_experience
                   END AS "anos de experiência",
                   max_matches::VARCHAR AS "disponibilidade",
-                  current_matches AS "já possui matches",
+                  current_matches AS "matches em curso",
+                  completed_matches AS "matches concluídos",
                   city AS município,
                   state AS UF
               FROM available_volunteers_with_distance
@@ -482,6 +492,16 @@ cells:
                   size: 122
                   wrapText: null
                   displayFormat: null
+                - originalName: matches concluídos
+                  renameTo: null
+                  size: 143
+                  wrapText: null
+                  displayFormat: null
+                - originalName: matches em curso
+                  renameTo: null
+                  size: 135
+                  wrapText: null
+                  displayFormat: null
                 - originalName: max_matches
                   renameTo: null
                   size: 112
@@ -599,6 +619,71 @@ cells:
             resultVariable: filter_result
             outputResult: false
             displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: 3a6d4371-2cf9-47f2-ae11-c379afc10cf1 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Buscar MSRs próximas de uma Voluntária
+    config:
+      source: |
+        ### Buscar MSRs mais próximas de uma voluntária 📍
+        Para buscar as MSRs mais próximas de uma voluntária, siga esses passos:
+        1. **Insira o e-mail da voluntária no campo abaixo**  
+
+        2. **Clique em "Bucar MSRs"**  
+
+
+        -----------------------------------------------------------------------------
+  - cellType: INPUT
+    cellId: 09048cba-1de5-4811-b103-58aee5a2d47e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: E-mail da voluntáira
+    config:
+      inputType: TEXT_INPUT
+      name: search_msr_volunteer_email
+      outputType: STRING
+      options: null
+      defaultValue: dev.psi.mapa@gmail.com
+  - cellType: INPUT
+    cellId: 55effd50-bc3f-46da-ac45-9531f33a28b1 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Buscar msrs
+    config:
+      inputType: BUTTON
+      name: search_msrs
+      outputType: BOOLEAN
+      options:
+        intent: none
+        icon: play
+        text: Buscar MSRs
+      defaultValue: null
+  - cellType: SQL
+    cellId: f7f03074-5ae5-4a33-8791-02a6d0a183ff # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        WITH fetch_volunteer_support_type AS (
+            SELECT support_type 
+            FROM volunteers
+            LEFT JOIN volunteer_availability ON id = volunteer_id
+            WHERE 
+                email = {{ search_msr_volunteer_email }}
+            LIMIT 1
+        )
+        SELECT 
+            msr_id,
+            city,
+            state
+        FROM match.support_requests s
+        INNER JOIN fetch_volunteer_support_type v ON v.support_type = s.support_type::VARCHAR
+        WHERE status IN ('open', 'public_service')
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
   - cellType: MARKDOWN
     cellId: 46213b09-37e5-476c-9841-d9620c7f44ae # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Buscar voluntárias em um município 🌎
