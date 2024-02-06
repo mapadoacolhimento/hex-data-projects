@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 73c236d7-1956-4439-9aed-e6296c40445e # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: d49479e0-6078-453e-b571-f4b751b6d529 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -41,7 +41,7 @@ cells:
       cells:
         - cellType: SQL
           cellId: 0d81bcd1-5686-49c3-bea5-56215e32c5c5
-          cellLabel: total
+          cellLabel: cumulativo
           config:
             source: |-
               WITH distinct_msr AS (
@@ -102,7 +102,7 @@ cells:
               hiddenColumns: null
         - cellType: CHARTV2
           cellId: a6e89fa5-15ef-496f-b2f8-e1fac76eafb1
-          cellLabel: total
+          cellLabel: cumulativo
           config:
             height: null
             chartSpec:
@@ -480,9 +480,19 @@ cells:
                   size: 177
                   wrapText: null
                   displayFormat: null
+                - originalName: cumulative_support_request_count
+                  renameTo: null
+                  size: 247
+                  wrapText: null
+                  displayFormat: null
                 - originalName: msr_per_year
                   renameTo: null
                   size: 128
+                  wrapText: null
+                  displayFormat: null
+                - originalName: support_request_per_year
+                  renameTo: null
+                  size: 199
                   wrapText: null
                   displayFormat: null
                 - originalName: year
@@ -814,7 +824,7 @@ cells:
         valueOptions:
           - Ver dados apenas dos últimos 12 meses
           - Ver dados desde o início do Mapa
-      defaultValue: Ver dados desde o início do Mapa
+      defaultValue: Ver dados apenas dos últimos 12 meses
   - cellType: BLOCK
     cellId: 744e0c76-de8d-4909-89e7-134ebda67c6f # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -2140,8 +2150,7 @@ cells:
                         type: static
                         value: 0.2
                       tooltip:
-                        type: manual
-                        fields: []
+                        type: auto
                       line: false
                       point: false
                       normalize: false
@@ -2176,8 +2185,7 @@ cells:
                         type: static
                         value: 0.6
                       tooltip:
-                        type: manual
-                        fields: []
+                        type: auto
                       dataLabels:
                         angle: 45
                         fontSize: 10
@@ -2600,7 +2608,7 @@ cells:
                       axis:
                         type: number
                         style:
-                          max: 0.8
+                          max: 1
                           min: -1
                           ticks:
                             count: 0
@@ -5937,7 +5945,7 @@ cells:
                           ELSE 'não encontrado'
                       END AS region,
                       COUNT(*) AS support_request_count,
-                      CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 'atendimentos' ELSE 'pedidos de acolhimento' END AS atendimentos_count
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_count
                   FROM match.support_requests s
                   LEFT JOIN match.matches m USING (support_request_id)
                   WHERE 
