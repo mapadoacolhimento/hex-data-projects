@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 655b260b-f68c-4b96-b113-af781331dfe4 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: b8724659-9a1d-4819-99c4-40c6ed0877ff # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -3350,7 +3350,7 @@ cells:
                   FROM match.support_requests
                   WHERE 
                       status != 'duplicated'
-                      AND created_at >= CASE WHEN {{ match_time_filter }} = 'Filtrar apenas o último ano' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
+                      AND created_at >= CASE WHEN {{ match_time_filter }} = 'Ver dados apenas dos últimos 12 meses' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
                   GROUP BY 1, 2
               )
               SELECT 
@@ -3532,7 +3532,7 @@ cells:
               WHERE 
                   status != 'duplicated'
                   AND state NOT IN ('INT', 'not_found')
-                  AND created_at >= CASE WHEN {{ match_time_filter }} = 'Filtrar apenas o último ano' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
+                  AND created_at >= CASE WHEN {{ match_time_filter }} = 'Ver dados apenas dos últimos 12 meses' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
               GROUP BY 1
               )
               SELECT
@@ -4492,7 +4492,7 @@ cells:
         Total de matches que iniciaram o atendimento.
   - cellType: MARKDOWN
     cellId: 8e3e4fe2-1518-48bc-94ee-cdfeb13d25f2 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: Série histórica
+    cellLabel: "Atendimentos realizados: Série histórica"
     config:
       source: "##### Série histórica"
   - cellType: BLOCK
@@ -4506,15 +4506,15 @@ cells:
       cells:
         - cellType: SQL
           cellId: f37b0e87-7d59-4e25-9a5d-a0cf3e75a6a7
-          cellLabel: total
+          cellLabel: "Atendimentos realizados: cumulativo"
           config:
             source: |-
               WITH atendimentos_per_year AS (
                   SELECT
-                      DATE_TRUNC('year', s.created_at) AS year,
-                      COUNT(*) AS support_requests_per_year,
-                      SUM(CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END) AS matches_per_year,
-                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_per_year
+                      DATE_TRUNC('year', s.created_at) AS ano,
+                      COUNT(*) AS "pedidos de acolhimento por ano",
+                      SUM(CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END) AS "matches por ano",
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS "atendimentos por ano"
                   FROM match.support_requests s
                   LEFT JOIN match.matches m USING (support_request_id)
                   WHERE s.status != 'duplicated'
@@ -4523,16 +4523,16 @@ cells:
               cumulative_sums AS (
                   SELECT
                       *,
-                      SUM(atendimentos_per_year) OVER(ORDER BY year)::INT AS cumulative_atendimentos_count,
-                      SUM(matches_per_year) OVER(ORDER BY year)::INT AS cumulative_match_count,
-                      SUM(support_requests_per_year) OVER(ORDER BY year)::INT AS cumulative_support_request_count,
-                      50000 AS goal
+                      SUM("atendimentos por ano") OVER(ORDER BY ano)::INT AS "total de atendimentos",
+                      SUM("matches por ano") OVER(ORDER BY ano)::INT AS "total de matches",
+                      SUM("pedidos de acolhimento por ano") OVER(ORDER BY ano)::INT AS "total de pedidos de acolhimento",
+                      50000 AS meta
                   FROM atendimentos_per_year
 
               )
               SELECT
                   *,
-                  cumulative_atendimentos_count/cumulative_support_request_count::NUMERIC(10,4) AS percentage
+                  "total de atendimentos"/"total de pedidos de acolhimento"::NUMERIC(10,4) AS porcentagem
               FROM cumulative_sums
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -4605,7 +4605,7 @@ cells:
               hiddenColumns: null
         - cellType: CHARTV2
           cellId: e29c9628-b84d-4471-a342-6db06e9835ee
-          cellLabel: total
+          cellLabel: cumulativo
           config:
             height: null
             chartSpec:
@@ -4623,7 +4623,7 @@ cells:
                       labels: {}
                     title: "   "
                     timeUnit: year
-                    dataFrameColumn: year
+                    dataFrameColumn: ano
                   series:
                     - id: d5444521-df70-4d96-83b1-cf2096a1c48b
                       name: pedidos de acolhimento
@@ -4647,7 +4647,7 @@ cells:
                           numDecimalDigits: 0
                           abbreviateLargeNumbers: false
                       dataFrameColumns:
-                        - cumulative_support_request_count
+                        - total de pedidos de acolhimento
                       colorOrder: ascending
                       color:
                         type: static
@@ -4657,7 +4657,13 @@ cells:
                         value: 0.2
                       tooltip:
                         type: manual
-                        fields: []
+                        fields:
+                          - type: number
+                            dataFrameColumn: total de pedidos de acolhimento
+                          - type: number
+                            dataFrameColumn: total de matches
+                          - type: number
+                            dataFrameColumn: total de atendimentos
                       line: false
                       point: false
                       normalize: false
@@ -4683,7 +4689,7 @@ cells:
                           numDecimalDigits: 0
                           abbreviateLargeNumbers: false
                       dataFrameColumns:
-                        - cumulative_match_count
+                        - total de matches
                       colorOrder: ascending
                       color:
                         type: static
@@ -4693,7 +4699,13 @@ cells:
                         value: 0.2
                       tooltip:
                         type: manual
-                        fields: []
+                        fields:
+                          - type: number
+                            dataFrameColumn: total de pedidos de acolhimento
+                          - type: number
+                            dataFrameColumn: total de matches
+                          - type: number
+                            dataFrameColumn: total de atendimentos
                       line: false
                       point: false
                       normalize: false
@@ -4716,7 +4728,7 @@ cells:
                           numDecimalDigits: 0
                           abbreviateLargeNumbers: false
                       dataFrameColumns:
-                        - percentage
+                        - porcentagem
                       colorOrder: ascending
                       color:
                         type: static
@@ -4725,7 +4737,14 @@ cells:
                         type: static
                         value: 1
                       tooltip:
-                        type: auto
+                        type: manual
+                        fields:
+                          - type: number
+                            dataFrameColumn: total de pedidos de acolhimento
+                          - type: number
+                            dataFrameColumn: total de matches
+                          - type: number
+                            dataFrameColumn: total de atendimentos
                       dataLabels:
                         fontSize: 10
                         position: above
@@ -4754,7 +4773,7 @@ cells:
                           numDecimalDigits: 0
                           abbreviateLargeNumbers: false
                       dataFrameColumns:
-                        - cumulative_atendimentos_count
+                        - total de atendimentos
                       colorOrder: ascending
                       color:
                         type: static
@@ -4763,7 +4782,14 @@ cells:
                         type: static
                         value: 1
                       tooltip:
-                        type: auto
+                        type: manual
+                        fields:
+                          - type: number
+                            dataFrameColumn: total de pedidos de acolhimento
+                          - type: number
+                            dataFrameColumn: total de matches
+                          - type: number
+                            dataFrameColumn: total de atendimentos
                       dataLabels:
                         angle: 45
                         position: above
@@ -4792,7 +4818,7 @@ cells:
                           numDecimalDigits: 0
                           abbreviateLargeNumbers: false
                       dataFrameColumns:
-                        - goal
+                        - meta
                       colorOrder: ascending
                       color:
                         type: static
@@ -4801,7 +4827,14 @@ cells:
                         type: static
                         value: 1
                       tooltip:
-                        type: auto
+                        type: manual
+                        fields:
+                          - type: number
+                            dataFrameColumn: total de pedidos de acolhimento
+                          - type: number
+                            dataFrameColumn: total de matches
+                          - type: number
+                            dataFrameColumn: total de atendimentos
                       dataLabels:
                         angle: 45
                         fontSize: 10
@@ -4837,34 +4870,24 @@ cells:
       cells:
         - cellType: SQL
           cellId: 6b8f964a-100f-4838-b781-400664fbd914
-          cellLabel: por ano
+          cellLabel: "Atendimentos realizados: por ano"
           config:
             source: |-
               WITH atendimentos_per_year AS (
                   SELECT
-                      DATE_TRUNC('year', s.created_at) AS year,
-                      COUNT(*) AS support_requests_per_year,
-                      SUM(CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END) AS matches_per_year,
-                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_per_year
+                      DATE_TRUNC('year', s.created_at) AS ano,
+                      COUNT(*) AS "pedidos de acolhimento por ano",
+                      SUM(CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END) AS "matches por ano",
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS "atendimentos por ano"
                   FROM match.support_requests s
                   LEFT JOIN match.matches m USING (support_request_id)
                   WHERE s.status != 'duplicated'
                   GROUP BY 1
-              ),
-              cumulative_sums AS (
-                  SELECT
-                      *,
-                      SUM(atendimentos_per_year) OVER(ORDER BY year)::INT AS cumulative_atendimentos_count,
-                      SUM(matches_per_year) OVER(ORDER BY year)::INT AS cumulative_match_count,
-                      SUM(support_requests_per_year) OVER(ORDER BY year)::INT AS cumulative_support_request_count,
-                      50000 AS goal
-                  FROM atendimentos_per_year
-
               )
               SELECT
                   *,
-                  atendimentos_per_year/support_requests_per_year::NUMERIC(10,4) AS percentage
-              FROM cumulative_sums
+                  "atendimentos por ano"/"pedidos de acolhimento por ano"::NUMERIC(10,4) AS porcentagem
+              FROM atendimentos_per_year
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: matches_total_4
@@ -4954,7 +4977,7 @@ cells:
                       labels: {}
                     title: "   "
                     timeUnit: year
-                    dataFrameColumn: year
+                    dataFrameColumn: ano
                   series:
                     - id: d5444521-df70-4d96-83b1-cf2096a1c48b
                       name: pedidos de acolhimento
@@ -4978,7 +5001,7 @@ cells:
                           numDecimalDigits: 0
                           abbreviateLargeNumbers: false
                       dataFrameColumns:
-                        - support_requests_per_year
+                        - pedidos de acolhimento por ano
                       colorOrder: ascending
                       color:
                         type: static
@@ -4988,7 +5011,13 @@ cells:
                         value: 0.4
                       tooltip:
                         type: manual
-                        fields: []
+                        fields:
+                          - type: number
+                            dataFrameColumn: pedidos de acolhimento por ano
+                          - type: number
+                            dataFrameColumn: matches por ano
+                          - type: number
+                            dataFrameColumn: atendimentos por ano
                       barWidth: 1
                       orientation: vertical
                       layout: stacked
@@ -5014,7 +5043,7 @@ cells:
                           numDecimalDigits: 0
                           abbreviateLargeNumbers: false
                       dataFrameColumns:
-                        - matches_per_year
+                        - matches por ano
                       colorOrder: ascending
                       color:
                         type: static
@@ -5024,7 +5053,13 @@ cells:
                         value: 0.3
                       tooltip:
                         type: manual
-                        fields: []
+                        fields:
+                          - type: number
+                            dataFrameColumn: pedidos de acolhimento por ano
+                          - type: number
+                            dataFrameColumn: matches por ano
+                          - type: number
+                            dataFrameColumn: atendimentos por ano
                       barWidth: 1
                       orientation: vertical
                       layout: stacked
@@ -5048,7 +5083,7 @@ cells:
                           numDecimalDigits: 0
                           abbreviateLargeNumbers: false
                       dataFrameColumns:
-                        - percentage
+                        - porcentagem
                       colorOrder: ascending
                       color:
                         type: static
@@ -5057,7 +5092,14 @@ cells:
                         type: static
                         value: 1
                       tooltip:
-                        type: auto
+                        type: manual
+                        fields:
+                          - type: number
+                            dataFrameColumn: pedidos de acolhimento por ano
+                          - type: number
+                            dataFrameColumn: matches por ano
+                          - type: number
+                            dataFrameColumn: atendimentos por ano
                       dataLabels:
                         fontSize: 10
                         position: above
@@ -5086,7 +5128,7 @@ cells:
                           numDecimalDigits: 0
                           abbreviateLargeNumbers: false
                       dataFrameColumns:
-                        - atendimentos_per_year
+                        - atendimentos por ano
                       colorOrder: ascending
                       color:
                         type: static
@@ -5095,7 +5137,14 @@ cells:
                         type: static
                         value: 0.7
                       tooltip:
-                        type: auto
+                        type: manual
+                        fields:
+                          - type: number
+                            dataFrameColumn: pedidos de acolhimento por ano
+                          - type: number
+                            dataFrameColumn: matches por ano
+                          - type: number
+                            dataFrameColumn: atendimentos por ano
                       dataLabels:
                         position: outside-end
                       barWidth: 1
@@ -5128,32 +5177,26 @@ cells:
       cells:
         - cellType: SQL
           cellId: 09e3a1d8-52a8-4971-8631-9edfa55b4b4c
-          cellLabel: por mês no último ano
+          cellLabel: "Atendimentos realizados: por mês no último ano"
           config:
             source: |-
               WITH atendimentos_per_month AS (
                   SELECT
-                      DATE_TRUNC('month', s.created_at) AS month,
-                      COUNT(*) AS support_requests_per_month,
-                      SUM(CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END) AS matches_per_month,
-                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_per_month
+                      DATE_TRUNC('month', s.created_at) AS "mês",
+                      COUNT(*) AS "pedidos de acolhimento por mês",
+                      SUM(CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END) AS "matches por mês",
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS "atendimentos por mês"
                   FROM match.support_requests s
                   LEFT JOIN match.matches m USING (support_request_id)
                   WHERE 
                       s.status != 'duplicated'
                       AND s.created_at >= CURRENT_DATE - INTERVAL '1 YEAR'
                   GROUP BY 1
-              ),
-              cumulative_sums AS (
-                  SELECT
-                      *
-                  FROM atendimentos_per_month
-
               )
               SELECT
                   *,
-                  atendimentos_per_month/support_requests_per_month::NUMERIC(10,4) AS percentage
-              FROM cumulative_sums
+                  "atendimentos por mês"/"pedidos de acolhimento por mês"::NUMERIC(10,4) AS percentage
+              FROM atendimentos_per_month
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: matches_por_mes_2
@@ -5195,7 +5238,7 @@ cells:
                       ticks: {}
                       labels: {}
                     title: "    "
-                    dataFrameColumn: month
+                    dataFrameColumn: mês
                   series:
                     - id: cbf171bd-c443-496f-b4c2-1e4a8d6a7a8e
                       name: pedidos de acolhimento
@@ -5212,7 +5255,7 @@ cells:
                         title: "          "
                         aggregate: sum
                       dataFrameColumns:
-                        - support_requests_per_month
+                        - pedidos de acolhimento por mês
                       colorOrder: ascending
                       color:
                         type: static
@@ -5221,7 +5264,14 @@ cells:
                         type: static
                         value: 0.6
                       tooltip:
-                        type: auto
+                        type: manual
+                        fields:
+                          - type: number
+                            dataFrameColumn: pedidos de acolhimento por mês
+                          - type: number
+                            dataFrameColumn: matches por mês
+                          - type: number
+                            dataFrameColumn: atendimentos por mês
                       point: false
                       stroke: solid
                       width: 2
@@ -5240,7 +5290,7 @@ cells:
                         title: "          "
                         aggregate: sum
                       dataFrameColumns:
-                        - matches_per_month
+                        - matches por mês
                       colorOrder: ascending
                       color:
                         type: static
@@ -5249,7 +5299,14 @@ cells:
                         type: static
                         value: 0.8
                       tooltip:
-                        type: auto
+                        type: manual
+                        fields:
+                          - type: number
+                            dataFrameColumn: pedidos de acolhimento por mês
+                          - type: number
+                            dataFrameColumn: matches por mês
+                          - type: number
+                            dataFrameColumn: atendimentos por mês
                       point: false
                       stroke: solid
                       width: 2
@@ -5282,7 +5339,14 @@ cells:
                         type: static
                         value: 1
                       tooltip:
-                        type: auto
+                        type: manual
+                        fields:
+                          - type: number
+                            dataFrameColumn: pedidos de acolhimento por mês
+                          - type: number
+                            dataFrameColumn: matches por mês
+                          - type: number
+                            dataFrameColumn: atendimentos por mês
                       dataLabels:
                         fontSize: 8
                         position: above
@@ -5304,7 +5368,7 @@ cells:
                         title: "          "
                         aggregate: sum
                       dataFrameColumns:
-                        - atendimentos_per_month
+                        - atendimentos por mês
                       colorOrder: ascending
                       color:
                         type: static
@@ -5313,7 +5377,14 @@ cells:
                         type: static
                         value: 1
                       tooltip:
-                        type: auto
+                        type: manual
+                        fields:
+                          - type: number
+                            dataFrameColumn: pedidos de acolhimento por mês
+                          - type: number
+                            dataFrameColumn: matches por mês
+                          - type: number
+                            dataFrameColumn: atendimentos por mês
                       dataLabels:
                         fontSize: 10
                         position: above
@@ -5337,21 +5408,21 @@ cells:
             displayTableConfig: null
   - cellType: MARKDOWN
     cellId: f779663e-8844-4d0a-840f-96a33e168128 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: Por território
+    cellLabel: "Atendimentos realizados: Por território"
     config:
       source: "##### Por território"
   - cellType: INPUT
     cellId: 883af184-1ef5-47d7-be40-4dfc2708cd6b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: Período
+    cellLabel: Filtro de tempo para os dados de território
     config:
       inputType: DROPDOWN
       name: atendimentos_time_filter
       outputType: STRING
       options:
         valueOptions:
-          - Filtrar apenas o último ano
-          - Desde o início do Mapa
-      defaultValue: Filtrar apenas o último ano
+          - Ver dados apenas dos últimos 12 meses
+          - Ver dados desde o início do Mapa
+      defaultValue: Ver dados apenas dos últimos 12 meses
   - cellType: BLOCK
     cellId: 8db6714e-26e3-4d31-911e-2cc29426ade6 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -5363,24 +5434,24 @@ cells:
       cells:
         - cellType: SQL
           cellId: 4137f418-8623-4832-8b50-4a07d393cb78
-          cellLabel: estados
+          cellLabel: "Atendimentos realizados: estados"
           config:
             source: |
               WITH atendimentos_per_state AS (
                   SELECT
-                      state,
+                      state AS estado,
                       CASE 
                           WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 'atendimentos' 
-                          WHEN s.status = 'matched' THEN 'matched'
-                          ELSE 'pedidos de acolhimento' 
-                      END AS atendimentos,
-                      COUNT(*) AS support_request_count
+                          WHEN s.status = 'matched' THEN 'matches sem atendimento'
+                          ELSE 'pedidos de acolhimento sem match' 
+                      END AS categoria,
+                      COUNT(*) AS total
                   FROM match.support_requests s
                   LEFT JOIN match.matches m USING (support_request_id)
                   WHERE 
                       s.status != 'duplicated'
                       AND state NOT IN ('not_found', 'INT')
-                      AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Filtrar apenas o último ano' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
+                      AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Ver dados apenas dos últimos 12 meses' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
                   GROUP BY 1, 2
               )
               SELECT
@@ -5453,7 +5524,7 @@ cells:
                       ticks: {}
                       labels: {}
                     title: "     "
-                    dataFrameColumn: state
+                    dataFrameColumn: estado
                   series:
                     - id: 8e2d44ac-b336-4aa9-90dd-0981a7f73d58
                       type: bar
@@ -5466,7 +5537,6 @@ cells:
                             count: 5
                           labels: {}
                         title: "    "
-                        aggregate: sum
                         numberFormat:
                           format: NUMBER
                           currency: USD
@@ -5474,24 +5544,29 @@ cells:
                           numDecimalDigits: 0
                           abbreviateLargeNumbers: false
                       dataFrameColumns:
-                        - support_request_count
-                      colorDataFrameColumn: atendimentos
+                        - total
+                      colorDataFrameColumn: categoria
                       colorOrder: descending
                       color:
                         type: series
                         defaultColor: "#f95d6a"
                         colorsBySeriesValues:
-                          matched: "#9CA3B4"
                           atendimentos: "#f95d6a"
-                          pedidos de acolhimento: "#CFD3DE"
+                          matches sem atendimento: "#9CA3B4"
+                          pedidos de acolhimento sem match: "#CFD3DE"
                       opacity:
                         type: series
                         opacitiesBySeriesValues:
-                          matched: 0.5
                           atendimentos: 0.8
-                          pedidos de acolhimento: 0.5
+                          matches sem atendimento: 0.5
+                          pedidos de acolhimento sem match: 0.5
                       tooltip:
-                        type: auto
+                        type: manual
+                        fields:
+                          - type: number
+                            dataFrameColumn: total
+                          - type: string
+                            dataFrameColumn: categoria
                       legendTitle: "     "
                       barWidth: 1
                       orientation: horizontal
@@ -5507,6 +5582,8 @@ cells:
               matched: "#9CA3B4"
               atendimentos: "#f95d6a"
               pedidos de acolhimento: "#CFD3DE"
+              matches sem atendimento: "#9CA3B4"
+              pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_36
             outputResult: false
             displayTableConfig: null
@@ -5521,26 +5598,25 @@ cells:
       cells:
         - cellType: SQL
           cellId: 31fd4c39-30b5-46ce-b7e7-a3379537685f
-          cellLabel: "% de atendimentos"
+          cellLabel: Atendimento realizados - % de atendimentos por estado
           config:
             source: |
               WITH atendimentos_per_state AS (
                   SELECT
-                      state,
-                      COUNT(*) AS support_request_count,
-                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_count
+                      state AS estado,
+                      COUNT(*) AS "pedidos de acolhimento por estado",
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS "atendimentos por estado"
                   FROM match.support_requests s
                   LEFT JOIN match.matches m USING (support_request_id)
                   WHERE 
                       s.status != 'duplicated'
                       AND state NOT IN ('not_found', 'INT')
-                      AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Filtrar apenas o último ano' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
+                      AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Ver dados apenas dos últimos 12 meses' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
                   GROUP BY 1
               )
               SELECT
-                  state,
-                  atendimentos_count,
-                  atendimentos_count/support_request_count::NUMERIC(10,4) AS percentage
+                  estado,
+                  "atendimentos por estado"/"pedidos de acolhimento por estado"::NUMERIC(10,4) AS porcentagem
               FROM atendimentos_per_state
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -5609,7 +5685,7 @@ cells:
                       ticks: {}
                       labels: {}
                     title: "     "
-                    dataFrameColumn: state
+                    dataFrameColumn: estado
                   series:
                     - id: 8e2d44ac-b336-4aa9-90dd-0981a7f73d58
                       type: bar
@@ -5631,7 +5707,7 @@ cells:
                           numDecimalDigits: 0
                           abbreviateLargeNumbers: false
                       dataFrameColumns:
-                        - percentage
+                        - porcentagem
                       colorOrder: ascending
                       color:
                         type: static
@@ -5639,8 +5715,6 @@ cells:
                       opacity:
                         type: static
                         value: 0.5
-                      tooltip:
-                        type: auto
                       dataLabels:
                         position: outside-end
                       barWidth: 1
@@ -5668,7 +5742,7 @@ cells:
       cells:
         - cellType: SQL
           cellId: 9810162e-9c26-49c0-a160-816b4dd9ad10
-          cellLabel: regiões
+          cellLabel: "Atendimentos realizados: regiões"
           config:
             source: |-
               SELECT
@@ -5680,18 +5754,18 @@ cells:
                       WHEN state IN ('PR', 'SC', 'RS') THEN 'sul'
                       WHEN state = 'INT' THEN 'internacional'
                       ELSE 'não encontrado'
-                  END AS region,
+                  END AS "região",
                   CASE 
                       WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 'atendimentos' 
                       WHEN s.status = 'matched' THEN 'matched'
                       ELSE 'pedidos de acolhimento' 
-                  END AS atendimentos,
-                  COUNT(*) AS support_request_count
+                  END AS categoria,
+                  COUNT(*) AS total
               FROM match.support_requests s
               LEFT JOIN match.matches m USING (support_request_id)
               WHERE 
                   state NOT IN ('INT', 'not_found')
-                  AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Filtrar apenas o último ano' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
+                  AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Ver dados apenas dos últimos 12 meses'' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
               GROUP BY 1, 2
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -5745,7 +5819,7 @@ cells:
                       ticks: {}
                       labels: {}
                     title: "   "
-                    dataFrameColumn: region
+                    dataFrameColumn: região
                   series:
                     - id: 869bd0ad-ff24-4857-9461-8bea4192132b
                       type: bar
@@ -5760,8 +5834,8 @@ cells:
                         title: "    "
                         aggregate: sum
                       dataFrameColumns:
-                        - support_request_count
-                      colorDataFrameColumn: atendimentos
+                        - total
+                      colorDataFrameColumn: categoria
                       colorOrder: descending
                       color:
                         type: series
@@ -5807,7 +5881,7 @@ cells:
       cells:
         - cellType: SQL
           cellId: 9367b08d-fb93-4b28-b212-a174804f5aa2
-          cellLabel: "% de atendimentos"
+          cellLabel: "Atendimentos realizados: % de atendimentos por região"
           config:
             source: |-
               WITH atendimentos_per_region AS (
@@ -5820,20 +5894,20 @@ cells:
                           WHEN state IN ('PR', 'SC', 'RS') THEN 'sul'
                           WHEN state = 'INT' THEN 'internacional'
                           ELSE 'não encontrado'
-                      END AS region,
-                      COUNT(*) AS support_request_count,
-                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_count
+                      END AS "região",
+                      COUNT(*) AS "pedidos de acolhimento por estado",
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS "atendimentos por estado"
                   FROM match.support_requests s
                   LEFT JOIN match.matches m USING (support_request_id)
                   WHERE 
                       s.status != 'duplicated'
                       AND state NOT IN ('INT', 'not_found')
-                      AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Filtrar apenas o último ano' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
+                      AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Ver dados apenas dos últimos 12 meses' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
                   GROUP BY 1
               )
               SELECT 
                   *,
-                  atendimentos_count/support_request_count::NUMERIC(10,4) AS percentage
+                  "atendimentos por estado"/"pedidos de acolhimento por estado"::NUMERIC(10,4) AS porcentagem
               FROM atendimentos_per_region
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -5887,7 +5961,7 @@ cells:
                       ticks: {}
                       labels: {}
                     title: "   "
-                    dataFrameColumn: region
+                    dataFrameColumn: região
                   series:
                     - id: 869bd0ad-ff24-4857-9461-8bea4192132b
                       type: bar
@@ -5909,7 +5983,7 @@ cells:
                           numDecimalDigits: 0
                           abbreviateLargeNumbers: false
                       dataFrameColumns:
-                        - percentage
+                        - porcentagem
                       colorOrder: ascending
                       color:
                         type: static
@@ -5917,8 +5991,6 @@ cells:
                       opacity:
                         type: static
                         value: 0.5
-                      tooltip:
-                        type: auto
                       dataLabels:
                         fontSize: 10
                         position: outside-end
@@ -5947,7 +6019,7 @@ cells:
       cells:
         - cellType: SQL
           cellId: 37eda986-d7f8-4a2d-aad2-87dfdd950a4f
-          cellLabel: capital x não capital
+          cellLabel: "Atendimentos realizados: capital x não capital"
           config:
             source: |-
               SELECT
@@ -5983,15 +6055,15 @@ cells:
                   END AS capital,
                   CASE 
                       WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 'atendimentos' 
-                      WHEN s.status = 'matched' THEN 'matched'
-                      ELSE 'pedidos de acolhimento' 
-                  END AS atendimentos,
-                  COUNT(*) AS pedidos_de_acolhimento_per_state
+                      WHEN s.status = 'matched' THEN 'matches sem atendimento'
+                      ELSE 'pedidos de acolhimento sem match' 
+                  END AS categoria,
+                  COUNT(*) AS total
               FROM match.support_requests s
               LEFT JOIN match.matches m USING (support_request_id)
               WHERE 
                   s.status != 'duplicated'
-                  AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Filtrar apenas o último ano' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
+                  AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Ver dados apenas dos últimos 12 meses' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
               GROUP BY 1, 2
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -6063,26 +6135,30 @@ cells:
                             count: 5
                           labels: {}
                         title: "    "
-                        aggregate: sum
                       dataFrameColumns:
-                        - pedidos_de_acolhimento_per_state
-                      colorDataFrameColumn: atendimentos
+                        - total
+                      colorDataFrameColumn: categoria
                       colorOrder: descending
                       color:
                         type: series
                         defaultColor: "#ffa600"
                         colorsBySeriesValues:
-                          matched: "#9CA3B4"
                           atendimentos: "#f95d6a"
-                          pedidos de acolhimento: "#CFD3DE"
+                          matches sem atendimento: "#9CA3B4"
+                          pedidos de acolhimento sem match: "#CFD3DE"
                       opacity:
                         type: series
                         opacitiesBySeriesValues:
-                          matched: 0.5
                           atendimentos: 0.8
-                          pedidos de acolhimento: 0.5
+                          matches sem atendimento: 0.5
+                          pedidos de acolhimento sem match: 0.5
                       tooltip:
-                        type: auto
+                        type: manual
+                        fields:
+                          - type: number
+                            dataFrameColumn: total
+                          - type: string
+                            dataFrameColumn: categoria
                       barWidth: 1
                       orientation: horizontal
                       layout: stacked
@@ -6095,10 +6171,12 @@ cells:
             chartSelection: {}
             colorMappings:
               capital: "#f95d6a"
-              matched: "#9CA3B4"
+              matched: "#ffa600"
               atendimentos: "#f95d6a"
               não capital: "#ffd6d5"
-              pedidos de acolhimento: "#CFD3DE"
+              pedidos de acolhimento: "#ffa600"
+              matches sem atendimento: "#9CA3B4"
+              pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_40
             outputResult: false
             displayTableConfig: null
@@ -6113,7 +6191,7 @@ cells:
       cells:
         - cellType: SQL
           cellId: 0c5eb9b6-5d46-41b0-933a-f415459d02e0
-          cellLabel: "% de atendimentos"
+          cellLabel: "Atendimentos realizado: % de atendimentos capital x não capital"
           config:
             source: |-
               WITH atendimentos_capital AS (
@@ -6148,18 +6226,18 @@ cells:
                           WHEN city = 'PALMAS' AND state = 'TO' THEN 'capital'
                       ELSE 'não capital'
                       END AS capital,
-                      COUNT(*) AS pedidos_de_acolhimento_count,
-                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_count
+                      COUNT(*) AS "pedidos de acolhimento",
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos
                   FROM match.support_requests s
                   LEFT JOIN match.matches m USING (support_request_id)
                   WHERE 
                       s.status != 'duplicated'
-                      AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Filtrar apenas o último ano' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
+                      AND s.created_at >= CASE WHEN {{ atendimentos_time_filter }} = 'Ver dados apenas dos últimos 12 meses' THEN CURRENT_DATE - INTERVAL '1 YEAR' ELSE '2010-01-01' END
                   GROUP BY 1
               )
               SELECT 
                   *,
-                  atendimentos_count/pedidos_de_acolhimento_count::NUMERIC(10,4) AS percentage
+                  atendimentos/"pedidos de acolhimento"::NUMERIC(10,4) AS porcentagem
               FROM atendimentos_capital
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -6240,7 +6318,7 @@ cells:
                           numDecimalDigits: 0
                           abbreviateLargeNumbers: false
                       dataFrameColumns:
-                        - percentage
+                        - porcentagem
                       colorOrder: ascending
                       color:
                         type: static
@@ -6248,8 +6326,6 @@ cells:
                       opacity:
                         type: static
                         value: 0.5
-                      tooltip:
-                        type: auto
                       dataLabels:
                         color: "#003f5c"
                         fontSize: 10
@@ -6272,7 +6348,7 @@ cells:
             displayTableConfig: null
   - cellType: MARKDOWN
     cellId: 2da72370-3165-40dc-9070-97db4d122c1d # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: regiões norte e nordeste
+    cellLabel: "Atendimentos realizados: regiões norte e nordeste"
     config:
       source: "##### Regiões norte e nordeste"
   - cellType: BLOCK
@@ -6286,12 +6362,12 @@ cells:
       cells:
         - cellType: SQL
           cellId: 64b63ea9-e9df-4b7e-9b94-8fdb57413d69
-          cellLabel: norte
+          cellLabel: "Atendimentos realizados: norte"
           config:
             source: |-
               WITH capitals AS (
                   SELECT
-                      DATE_TRUNC('year', s.created_at) AS year,
+                      DATE_TRUNC('year', s.created_at) AS ano,
                       CASE
                           WHEN state IN ('AM', 'PA', 'AC', 'RR', 'RO', 'AP', 'TO') THEN 'norte'
                           WHEN state IN ('MA', 'PI', 'CE', 'RN', 'PB', 'PE', 'AL', 'SE', 'BA') THEN 'nordeste'
@@ -6333,18 +6409,17 @@ cells:
                       END AS "capital x não capital",
                       CASE 
                           WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 'atendimentos' 
-                          WHEN s.status = 'matched' THEN 'matched'
-                          ELSE 'pedidos de acolhimento' 
-                      END AS atendimentos,
-                      COUNT(*) AS support_request_per_year
+                          WHEN s.status = 'matched' THEN 'matches sem atendimento'
+                          ELSE 'pedidos de acolhimento sem match' 
+                      END AS categoria,
+                      COUNT(*) AS total
                   FROM match.support_requests s
                   LEFT JOIN match.matches m  USING (support_request_id)
                   WHERE s.status != 'duplicated'
                   GROUP BY 1, 2, 3, 4
               )
               SELECT
-                  *,
-                  SUM(support_request_per_year) OVER(PARTITION BY "capital x não capital" ORDER BY year)::INT AS cumulative_support_request_count
+                  *
               FROM capitals
               WHERE "região"= 'norte'
             dataFrameCell: false
@@ -6410,6 +6485,7 @@ cells:
               type: layered
               facet:
                 facetHorizontal:
+                  sort: ascending
                   type: string
                   dataFrameColumn: capital x não capital
               layers:
@@ -6425,7 +6501,7 @@ cells:
                       labels: {}
                     title: ano
                     timeUnit: year
-                    dataFrameColumn: year
+                    dataFrameColumn: ano
                   series:
                     - id: 80616841-4fb3-4d01-8525-df2bab0f19a6
                       type: bar
@@ -6439,26 +6515,30 @@ cells:
                             count: 3
                           labels: {}
                         title: "   "
-                        aggregate: sum
                       dataFrameColumns:
-                        - support_request_per_year
-                      colorDataFrameColumn: atendimentos
+                        - total
+                      colorDataFrameColumn: categoria
                       colorOrder: descending
                       color:
                         type: series
                         defaultColor: "#ffa600"
                         colorsBySeriesValues:
-                          matched: "#9CA3B4"
                           atendimentos: "#f95d6a"
-                          pedidos de acolhimento: "#CFD3DE"
+                          matches sem atendimento: "#9CA3B4"
+                          pedidos de acolhimento sem match: "#CFD3DE"
                       opacity:
                         type: series
                         opacitiesBySeriesValues:
-                          matched: 0.5
-                          atendimentos: 0.7
-                          pedidos de acolhimento: 0.5
+                          atendimentos: 0.8
+                          matches sem atendimento: 0.5
+                          pedidos de acolhimento sem match: 0.5
                       tooltip:
-                        type: auto
+                        type: manual
+                        fields:
+                          - type: number
+                            dataFrameColumn: total
+                          - type: string
+                            dataFrameColumn: categoria
                       legendTitle: "   "
                       barWidth: 1
                       orientation: vertical
@@ -6472,11 +6552,13 @@ cells:
             chartSelection: {}
             colorMappings:
               capital: "#ff7c43"
-              matched: "#9CA3B4"
+              matched: "#ffa600"
               matches: "#ff7c43"
               atendimentos: "#f95d6a"
               não capital: "#EECA3B"
-              pedidos de acolhimento: "#CFD3DE"
+              pedidos de acolhimento: "#ffa600"
+              matches sem atendimento: "#9CA3B4"
+              pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_51
             outputResult: false
             displayTableConfig: null
@@ -6491,12 +6573,12 @@ cells:
       cells:
         - cellType: SQL
           cellId: 780c5898-c991-4252-9e79-84f3003dce68
-          cellLabel: norte - % de atendimentos
+          cellLabel: "Atendimentos realizados: norte - % de atendimentos"
           config:
             source: |-
               WITH capitals AS (
                   SELECT
-                      DATE_TRUNC('year', s.created_at) AS year,
+                      DATE_TRUNC('year', s.created_at) AS ano,
                       CASE
                           WHEN state IN ('AM', 'PA', 'AC', 'RR', 'RO', 'AP', 'TO') THEN 'norte'
                           WHEN state IN ('MA', 'PI', 'CE', 'RN', 'PB', 'PE', 'AL', 'SE', 'BA') THEN 'nordeste'
@@ -6536,8 +6618,8 @@ cells:
                           WHEN city = 'PALMAS' AND state = 'TO' THEN 'capital'
                           ELSE 'não capital'
                       END AS "capital x não capital",
-                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_per_year,
-                      COUNT(*) AS support_request_per_year
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS "atendimentos por ano",
+                      COUNT(*) AS "pedidos de acolhimento por ano"
                   FROM match.support_requests s
                   LEFT JOIN match.matches m  USING (support_request_id)
                   WHERE s.status != 'duplicated'
@@ -6545,7 +6627,7 @@ cells:
               )
               SELECT
                   *,
-                  atendimentos_per_year/support_request_per_year::NUMERIC(10,4) AS percentage
+                  "atendimentos por ano"/"pedidos de acolhimento por ano"::NUMERIC(10,4) AS percentage
               FROM capitals
               WHERE "região"= 'norte'
             dataFrameCell: false
@@ -6651,7 +6733,7 @@ cells:
                       labels: {}
                     title: ano
                     timeUnit: year
-                    dataFrameColumn: year
+                    dataFrameColumn: ano
                   series:
                     - id: 80616841-4fb3-4d01-8525-df2bab0f19a6
                       type: bar
@@ -6680,8 +6762,6 @@ cells:
                       opacity:
                         type: static
                         value: 0.6
-                      tooltip:
-                        type: auto
                       dataLabels:
                         position: outside-end
                       barWidth: 1
@@ -6704,22 +6784,22 @@ cells:
             outputResult: false
             displayTableConfig: null
   - cellType: BLOCK
-    cellId: f3190c2c-14fe-4a47-bef4-a69c78290cda # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellId: 44d542ba-83f2-4cd4-9b73-e2da205e4c7e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
     config:
       blockConfig:
-        sqlCellId: 0ef03dbf-9eb2-4b16-bf48-e89d0b2227db
-        chartCellId: 3087fc73-a22a-42af-a5df-e6108b63423b
+        sqlCellId: 1c17edae-03fb-4af6-9c96-250cfe881dfe
+        chartCellId: 5acdde0f-6bd2-444c-880d-f46865018363
         activeTab: chart
       cells:
         - cellType: SQL
-          cellId: 0ef03dbf-9eb2-4b16-bf48-e89d0b2227db
-          cellLabel: nordeste
+          cellId: 1c17edae-03fb-4af6-9c96-250cfe881dfe
+          cellLabel: "Atendimentos realizados: nordeste"
           config:
             source: |-
               WITH capitals AS (
                   SELECT
-                      DATE_TRUNC('year', s.created_at) AS year,
+                      DATE_TRUNC('year', s.created_at) AS ano,
                       CASE
                           WHEN state IN ('AM', 'PA', 'AC', 'RR', 'RO', 'AP', 'TO') THEN 'norte'
                           WHEN state IN ('MA', 'PI', 'CE', 'RN', 'PB', 'PE', 'AL', 'SE', 'BA') THEN 'nordeste'
@@ -6761,23 +6841,22 @@ cells:
                       END AS "capital x não capital",
                       CASE 
                           WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 'atendimentos' 
-                          WHEN s.status = 'matched' THEN 'matched'
-                          ELSE 'pedidos de acolhimento' 
-                      END AS atendimentos,
-                      COUNT(*) AS support_request_per_year
+                          WHEN s.status = 'matched' THEN 'matches sem atendimento'
+                          ELSE 'pedidos de acolhimento sem match' 
+                      END AS categoria,
+                      COUNT(*) AS total
                   FROM match.support_requests s
                   LEFT JOIN match.matches m  USING (support_request_id)
                   WHERE s.status != 'duplicated'
                   GROUP BY 1, 2, 3, 4
               )
               SELECT
-                  *,
-                  SUM(support_request_per_year) OVER(PARTITION BY "capital x não capital" ORDER BY year)::INT AS cumulative_support_request_count
+                  *
               FROM capitals
               WHERE "região"= 'nordeste'
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
-            resultVariableName: pedidos_de_acolhimento_total_11
+            resultVariableName: pedidos_de_acolhimento_total_15
             useRichDisplay: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
@@ -6830,7 +6909,7 @@ cells:
               pinnedColumns: null
               hiddenColumns: null
         - cellType: CHARTV2
-          cellId: 3087fc73-a22a-42af-a5df-e6108b63423b
+          cellId: 5acdde0f-6bd2-444c-880d-f46865018363
           cellLabel: nordeste
           config:
             height: null
@@ -6838,6 +6917,7 @@ cells:
               type: layered
               facet:
                 facetHorizontal:
+                  sort: ascending
                   type: string
                   dataFrameColumn: capital x não capital
               layers:
@@ -6853,7 +6933,7 @@ cells:
                       labels: {}
                     title: ano
                     timeUnit: year
-                    dataFrameColumn: year
+                    dataFrameColumn: ano
                   series:
                     - id: 80616841-4fb3-4d01-8525-df2bab0f19a6
                       type: bar
@@ -6867,31 +6947,35 @@ cells:
                             count: 3
                           labels: {}
                         title: "   "
-                        aggregate: sum
                       dataFrameColumns:
-                        - support_request_per_year
-                      colorDataFrameColumn: atendimentos
+                        - total
+                      colorDataFrameColumn: categoria
                       colorOrder: descending
                       color:
                         type: series
                         defaultColor: "#ffa600"
                         colorsBySeriesValues:
-                          matched: "#9CA3B4"
                           atendimentos: "#f95d6a"
-                          pedidos de acolhimento: "#CFD3DE"
+                          matches sem atendimento: "#9CA3B4"
+                          pedidos de acolhimento sem match: "#CFD3DE"
                       opacity:
                         type: series
                         opacitiesBySeriesValues:
-                          matched: 0.5
                           atendimentos: 0.8
-                          pedidos de acolhimento: 0.5
+                          matches sem atendimento: 0.5
+                          pedidos de acolhimento sem match: 0.5
                       tooltip:
-                        type: auto
+                        type: manual
+                        fields:
+                          - type: number
+                            dataFrameColumn: total
+                          - type: string
+                            dataFrameColumn: categoria
                       legendTitle: "   "
                       barWidth: 1
                       orientation: vertical
                       layout: stacked
-                  dataFrame: pedidos_de_acolhimento_total_11
+                  dataFrame: pedidos_de_acolhimento_total_15
               settings:
                 legend:
                   position: bottom
@@ -6900,31 +6984,33 @@ cells:
             chartSelection: {}
             colorMappings:
               capital: "#ff7c43"
-              matched: "#9CA3B4"
+              matched: "#ffa600"
               matches: "#ff7c43"
               atendimentos: "#f95d6a"
               não capital: "#EECA3B"
-              pedidos de acolhimento: "#CFD3DE"
-            resultVariable: filter_result_52
+              pedidos de acolhimento: "#ffa600"
+              matches sem atendimento: "#9CA3B4"
+              pedidos de acolhimento sem match: "#CFD3DE"
+            resultVariable: filter_result_56
             outputResult: false
             displayTableConfig: null
   - cellType: BLOCK
-    cellId: 48a4ea6b-43af-4882-96ca-8067201c68c7 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellId: 0c3bba4b-970a-4725-ba20-de596b8c9ed2 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
     config:
       blockConfig:
-        sqlCellId: 92095065-4d4a-4ff6-ab71-c17b818f785a
-        chartCellId: 5530f8a4-0470-4118-aa84-6f8c035aa3dc
+        sqlCellId: 38bc97af-660f-4364-a045-eecd337930f4
+        chartCellId: 1d850c86-16d6-469f-9e15-a2ea5e139d8c
         activeTab: chart
       cells:
         - cellType: SQL
-          cellId: 92095065-4d4a-4ff6-ab71-c17b818f785a
-          cellLabel: nordeste - % de atendimentos
+          cellId: 38bc97af-660f-4364-a045-eecd337930f4
+          cellLabel: "Atendimentos realizados: nordeste - % de atendimentos"
           config:
             source: |-
               WITH capitals AS (
                   SELECT
-                      DATE_TRUNC('year', s.created_at) AS year,
+                      DATE_TRUNC('year', s.created_at) AS ano,
                       CASE
                           WHEN state IN ('AM', 'PA', 'AC', 'RR', 'RO', 'AP', 'TO') THEN 'norte'
                           WHEN state IN ('MA', 'PI', 'CE', 'RN', 'PB', 'PE', 'AL', 'SE', 'BA') THEN 'nordeste'
@@ -6964,8 +7050,8 @@ cells:
                           WHEN city = 'PALMAS' AND state = 'TO' THEN 'capital'
                           ELSE 'não capital'
                       END AS "capital x não capital",
-                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS atendimentos_per_year,
-                      COUNT(*) AS support_request_per_year
+                      SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS "atendimentos por ano",
+                      COUNT(*) AS "pedidos de acolhimento por ano"
                   FROM match.support_requests s
                   LEFT JOIN match.matches m  USING (support_request_id)
                   WHERE s.status != 'duplicated'
@@ -6973,12 +7059,12 @@ cells:
               )
               SELECT
                   *,
-                  atendimentos_per_year/support_request_per_year::NUMERIC(10,4) AS percentage
+                  "atendimentos por ano"/"pedidos de acolhimento por ano"::NUMERIC(10,4) AS percentage
               FROM capitals
               WHERE "região"= 'nordeste'
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
-            resultVariableName: pedidos_de_acolhimento_total_13
+            resultVariableName: pedidos_de_acolhimento_total_16
             useRichDisplay: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
@@ -7056,7 +7142,7 @@ cells:
               pinnedColumns: null
               hiddenColumns: null
         - cellType: CHARTV2
-          cellId: 5530f8a4-0470-4118-aa84-6f8c035aa3dc
+          cellId: 1d850c86-16d6-469f-9e15-a2ea5e139d8c
           cellLabel: nordeste - % de atendimentos
           config:
             height: null
@@ -7079,7 +7165,7 @@ cells:
                       labels: {}
                     title: ano
                     timeUnit: year
-                    dataFrameColumn: year
+                    dataFrameColumn: ano
                   series:
                     - id: 80616841-4fb3-4d01-8525-df2bab0f19a6
                       type: bar
@@ -7108,14 +7194,12 @@ cells:
                       opacity:
                         type: static
                         value: 0.6
-                      tooltip:
-                        type: auto
                       dataLabels:
                         position: outside-end
                       barWidth: 1
                       orientation: vertical
                       layout: stacked
-                  dataFrame: pedidos_de_acolhimento_total_13
+                  dataFrame: pedidos_de_acolhimento_total_16
               settings:
                 legend:
                   position: bottom
@@ -7123,7 +7207,7 @@ cells:
                 selectionEnabled: false
             chartSelection: {}
             colorMappings: {}
-            resultVariable: filter_result_54
+            resultVariable: filter_result_57
             outputResult: false
             displayTableConfig: null
   - cellType: MARKDOWN
@@ -8033,14 +8117,14 @@ appLayout:
                 - showSource: false
                   hideOutput: false
                   type: CELL
-                  cellId: 0ef03dbf-9eb2-4b16-bf48-e89d0b2227db
+                  cellId: 1c17edae-03fb-4af6-9c96-250cfe881dfe
                   sharedFilterId: null
                   height: 300
                   showLabel: true
                 - showSource: false
                   hideOutput: false
                   type: CELL
-                  cellId: 92095065-4d4a-4ff6-ab71-c17b818f785a
+                  cellId: 38bc97af-660f-4364-a045-eecd337930f4
                   sharedFilterId: null
                   height: 300
                   showLabel: true
