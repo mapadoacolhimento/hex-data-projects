@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 2d61bfc6-0dd0-4000-b4f4-d8f3a3aa55a2 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: be56f304-d5c5-4486-a0db-1abeb97c278d # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -7211,6 +7211,239 @@ cells:
             outputResult: false
             displayTableConfig: null
   - cellType: MARKDOWN
+    cellId: 78531e1e-8de0-45ea-95a3-5aa1028a4ccb # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Jornada da MSR
+    config:
+      source: "# Jornada da MSR"
+  - cellType: SQL
+    cellId: ab664d2c-c473-409c-b085-5d1376b4f8c8 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: "Jornada da MSR: eventos"
+    config:
+      source: |
+        WITH support_request_events_with_rn AS (
+            SELECT 
+                *,
+                ROW_NUMBER() OVER (PARTITION BY support_request_id ORDER BY created_at) AS rn
+            FROM match.support_request_status_history
+        ),
+        correct_support_request_id AS (
+            SELECT 
+                DISTINCT support_request_id
+            FROM support_request_events_with_rn
+            WHERE 
+                status = 'open' 
+                AND rn = 1
+                AND created_at > '2024-01-25'
+                AND support_request_id NOT IN (57972, 57973, 57976, 57971, 57977, 57978, 57980, 57979, 57981, 57982, 57983, 57984, 57985, 57986, 57987, 57988, 57989, 57992, 57991, 57995, 57994, 57996, 57997, 57999, 57998)
+        ),
+        correct_support_request_status AS (
+            SELECT
+                support_request_id,
+                CASE
+                    WHEN status = 'open' AND rn > 1 THEN 'waiting_for_match'
+                    ELSE status::VARCHAR
+                END AS status,
+                created_at
+            FROM support_request_events_with_rn
+        ),
+        matches_with_rn AS (
+            SELECT 
+                match_id,
+                support_request_id,
+                match_stage,
+                ROW_NUMBER() OVER (PARTITION BY support_request_id ORDER BY created_at DESC) AS rn
+            FROM match.matches
+            INNER JOIN correct_support_request_id USING (support_request_id)
+        ),
+        correct_matches AS (
+            SELECT 
+                match_id,
+                support_request_id,
+                match_stage
+            FROM matches_with_rn
+            WHERE rn = 1
+        ),
+        support_request_events AS (
+            SELECT
+                support_request_id,
+                status,
+                created_at
+            FROM correct_support_request_status
+           INNER JOIN correct_support_request_id USING (support_request_id)
+        ),
+        support_request_events_with_match_stage AS (
+            SELECT 
+                support_request_id,
+                CASE 
+                    WHEN s.status = 'matched' THEN CONCAT(match_stage, '_match')
+                    ELSE s.status::VARCHAR
+                END AS status,
+                s.created_at,
+                match_stage
+            FROM support_request_events s
+            LEFT JOIN match.matches USING (support_request_id)
+        ),
+        match_events AS (
+            SELECT 
+                support_request_id,
+                CASE
+                    WHEN status IN ('interrupted_before_support', 'interrupted_after_support') THEN 'interrupted'
+                    ELSE status::VARCHAR
+                END AS status,
+                created_at
+            FROM match.match_status_history
+            INNER JOIN correct_matches USING(match_id)
+            WHERE status != 'waiting_contact'
+        ),
+        all_events AS (
+            SELECT
+                support_request_id,
+                status AS event,
+                created_at
+            FROM support_request_events_with_match_stage
+            UNION ALL
+            SELECT
+                support_request_id,
+                status AS event,
+                created_at
+            FROM match_events
+        ),
+        sources_and_targets AS (
+            SELECT 
+                *,
+                event AS source,
+                LEAD(event) OVER (PARTITION BY support_request_id ORDER BY created_at) AS target
+            FROM all_events
+        )
+        SELECT
+            source,
+            target,
+            ARRAY_AGG(support_request_id),
+            COUNT(*) AS value
+        FROM sources_and_targets
+        WHERE 
+            target IS NOT NULL
+            -- AND CONCAT(source, '+', target) NOT IN ('match_interrupted_before_support+support_request_open', 'match_interrupted_before_support+support_request_public_service', 'match_interrupted_after_support+support_request_open')
+        GROUP BY source, target
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: new_match_events
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: CODE
+    cellId: 0d010a51-10b3-4b2e-a02e-5bec6c34ebaa # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: "Jornada da MSR: Sankey"
+    config:
+      source: |-
+        import plotly.graph_objects as go
+        import pandas as pd
+
+
+        unique_source_target = list(pd.unique(new_match_events[['source', 'target']].values.ravel('K')))
+        sources = [unique_source_target.index(item) for item in new_match_events['source']]
+        targets = [unique_source_target.index(item) for item in new_match_events['target']]
+        values = [item for item in new_match_events['value']]
+
+        def get_label_count(category):
+
+            if (category == 'open'):
+                count = new_match_events.loc[new_match_events['source'] == category, 'value'].sum()
+            else:
+                count = new_match_events.loc[new_match_events['target'] == category, 'value'].sum()
+            
+            return '(' + str(count) + ')'
+
+        label_dict = {
+          'open':'<b>realizou um pedido de acolhimento </b>' + get_label_count('open'),
+          'waiting_for_match':'<b>aguardando um novo match </b>' + get_label_count('waiting_for_match'),
+          'online_match':'<b>match_online </b>' + get_label_count('online_match'),
+          'expanded_match':'<b>match expandido </b>' + get_label_count('expanded_match'),
+          'ideal_match':'<b>match ideal </b>' + get_label_count('ideal_match'),
+          'waiting_contact':'<b>aguardando contato </b>' + get_label_count('waiting_contact'),
+          'public_service': '<b>encaminhada para serviço público </b>' + get_label_count('public_service'),
+          'in_contact': '<b>match em contato </b>' + get_label_count('in_contact'),
+          'expired': '<b>match expirado </b>' + get_label_count('expired'),
+          'interrupted': '<b>match interrompido </b> ' + get_label_count('interrupted'),
+          'completed': '<b>match concluído </b>' + get_label_count('completed')
+          }
+
+        position_dict = {
+            'open': [0.001, 0.2],
+            'waiting_for_match': [0.9, 0.7],
+            'online_match': [0.3, 0.65],
+            'expanded_match': [0.3, 0.57],
+            'ideal_match': [0.3, 0.15],
+            'waiting_contact': [0.4, 1],
+            'public_service': [0.7, 1],
+            'in_contact': [0.5, 0.001],
+            'expired': [0.6, 0.4],
+            'interrupted': [0.6, 0.5],
+            'completed': [0.95,0.8]
+
+        }
+
+        color_dict = {
+          'open':'rgba(255, 166, 0, 0.7)',
+          'waiting_for_match': '#665191',
+          'online_match':'rgba(255, 124, 67, 0.8)',
+          'expanded_match': 'rgba(255, 124, 67, 0.8)',
+          'ideal_match': 'rgba(255, 124, 67, 0.8)',
+          'waiting_contact':'rgb(69, 25, 82)',
+          'public_service': '#2f4b7c',
+          'in_contact': 'rgba(212, 80, 135, 1)',
+          'expired': 'rgb(69, 25, 82)',
+          'interrupted': 'rgba(249, 93, 106, 1)',
+          'completed': 'rgb(69, 25, 82)'
+        }
+
+        fig = go.Figure(data=[go.Sankey(
+            # arrangement='fixed',
+            node = dict(
+                x=[position_dict[x][0] for x in unique_source_target],
+                y=[position_dict[x][1] for x in unique_source_target],
+                pad = 1000,
+                thickness = 20,
+                line = dict(width = 0.5, color='#fff'),
+                label = [label_dict[x] for x in unique_source_target],
+                # color = len(sources)*['rgb(69, 25, 82)'],
+                color = [color_dict[x] for x in unique_source_target],
+                line_width= 0
+            ),
+            link = dict(
+              arrowlen=10,
+              source = sources, 
+              target = targets,
+              value =  values,
+              color = len(sources)*['#f0f0f0']
+              # color = [
+              #   'rgba(255, 166, 0, 0.2)', 
+              #   'rgba(188, 80, 144, 0.3)', 
+              #   'rgba(255, 99, 97, 0.3)', 
+              #   'rgba(88, 80, 141, 0.3)',
+              #   'rgba(255, 124, 67, 0.3)',
+              #   'rgba(0, 63, 92, 0.3)',
+              #   'rgba(160, 81, 149, 0.3)',
+              #   'rgba(160, 81, 149, 0.3)',
+              #   'rgba(88, 80, 141, 0.3)',
+                # ]
+
+          ))])
+
+        fig.update_layout(
+            margin=dict(l=50, r=20, t=150, b=150),
+            font_size=12, 
+            font_family='IBM Plex Sans',
+            width=1000, 
+            height=600,
+            )
+        fig.show()
+  - cellType: MARKDOWN
     cellId: 9b66307c-bf54-4b4e-bd45-68e09a879047 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Atendimentos concluídos
     config:
@@ -7569,15 +7802,6 @@ cells:
             resultVariable: filter_result_13
             outputResult: false
             displayTableConfig: null
-  - cellType: INPUT
-    cellId: 9255733b-fbc6-42b3-8394-e8d2cc4868c7 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: null
-    config:
-      inputType: FILE_UPLOAD
-      name: input_1
-      outputType: DATA_FRAME
-      options: null
-      defaultValue: null
 appLayout:
   visibleMetadataFields:
     - NAME
@@ -8128,4 +8352,26 @@ appLayout:
                   sharedFilterId: null
                   height: 300
                   showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 78531e1e-8de0-45ea-95a3-5aa1028a4ccb
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0d010a51-10b3-4b2e-a02e-5bec6c34ebaa
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
 sharedFilters: []
