@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 849e362d-2670-4c2d-950b-b9c4469e81fa # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 1218d6b9-e022-42bd-b896-7a637af0f1ad # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: fc81fcd3-0961-4ff8-a485-a95c42f2c645 # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: Match manual
@@ -21,6 +21,7 @@ sharedAssets:
   vcsPackages: []
   dataConnections:
     - dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030 # prod-mapa-org (postgres)
+    - dataConnectionId: e088838c-2205-4ff2-870b-07d163c93079 # prod-bonde (postgres)
   externalFileIntegrations: []
 cells:
   - cellType: MARKDOWN
@@ -52,7 +53,7 @@ cells:
               
             Esse ID também pode ser encontrado no título do ticket conforme mostra a imagem a seguir: 
                 
-            <img src="/api/v1/file/74d70282-4fbc-4803-8182-f253947bbc74" width="250" />
+            <img src="/api/v1/file/d31015af-f7cc-4b5b-9a45-625ffe9ec045" width="250" />
 
         2. **Insira esse ID no campo a seguir e clique em "Bucar voluntárias"**  
             
@@ -620,71 +621,6 @@ cells:
             outputResult: false
             displayTableConfig: null
   - cellType: MARKDOWN
-    cellId: 3a6d4371-2cf9-47f2-ae11-c379afc10cf1 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: Buscar MSRs próximas de uma Voluntária
-    config:
-      source: |
-        ### Buscar MSRs mais próximas de uma voluntária 📍
-        Para buscar as MSRs mais próximas de uma voluntária, siga esses passos:
-        1. **Insira o e-mail da voluntária no campo abaixo**  
-
-        2. **Clique em "Bucar MSRs"**  
-
-
-        -----------------------------------------------------------------------------
-  - cellType: INPUT
-    cellId: 09048cba-1de5-4811-b103-58aee5a2d47e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: E-mail da voluntáira
-    config:
-      inputType: TEXT_INPUT
-      name: search_msr_volunteer_email
-      outputType: STRING
-      options: null
-      defaultValue: dev.psi.mapa@gmail.com
-  - cellType: INPUT
-    cellId: 55effd50-bc3f-46da-ac45-9531f33a28b1 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: Buscar msrs
-    config:
-      inputType: BUTTON
-      name: search_msrs
-      outputType: BOOLEAN
-      options:
-        intent: none
-        icon: play
-        text: Buscar MSRs
-      defaultValue: null
-  - cellType: SQL
-    cellId: f7f03074-5ae5-4a33-8791-02a6d0a183ff # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: null
-    config:
-      source: |-
-        WITH fetch_volunteer_support_type AS (
-            SELECT support_type 
-            FROM volunteers
-            LEFT JOIN volunteer_availability ON id = volunteer_id
-            WHERE 
-                email = {{ search_msr_volunteer_email }}
-            LIMIT 1
-        )
-        SELECT 
-            msr_id,
-            city,
-            state
-        FROM match.support_requests s
-        INNER JOIN fetch_volunteer_support_type v ON v.support_type = s.support_type::VARCHAR
-        WHERE status IN ('open', 'public_service')
-      dataFrameCell: false
-      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
-      resultVariableName: dataframe
-      useRichDisplay: false
-      sqlCellOutputType: PANDAS
-      useQueryMode: false
-      castDecimals: true
-      useNativeDates: true
-      outputFilteredResult: true
-      allowDuplicateColumns: false
-      tableDisplayConfig: null
-  - cellType: MARKDOWN
     cellId: 46213b09-37e5-476c-9841-d9620c7f44ae # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Buscar voluntárias em um município 🌎
     config:
@@ -895,6 +831,213 @@ cells:
         pinnedColumns: null
         hiddenColumns: null
   - cellType: MARKDOWN
+    cellId: 3a6d4371-2cf9-47f2-ae11-c379afc10cf1 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Buscar MSRs próximas de uma Voluntária
+    config:
+      source: |
+        ### Buscar MSRs mais próximas de uma voluntária 📍
+        Para buscar as MSRs mais próximas de uma voluntária, siga esses passos:
+        1. **Insira o e-mail da voluntária no campo abaixo**  
+
+        2. **Clique em "Bucar MSRs"**  
+
+
+        -----------------------------------------------------------------------------
+  - cellType: INPUT
+    cellId: 09048cba-1de5-4811-b103-58aee5a2d47e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: E-mail da voluntáira
+    config:
+      inputType: TEXT_INPUT
+      name: search_msr_volunteer_email
+      outputType: STRING
+      options: null
+      defaultValue: dev.psi.mapa@gmail.com
+  - cellType: INPUT
+    cellId: 55effd50-bc3f-46da-ac45-9531f33a28b1 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Clique aqui para buscar MSRs
+    config:
+      inputType: BUTTON
+      name: fetch_msrs
+      outputType: BOOLEAN
+      options:
+        intent: none
+        icon: play
+        text: Buscar MSRs
+      defaultValue: null
+  - cellType: SQL
+    cellId: f7f03074-5ae5-4a33-8791-02a6d0a183ff # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: "SQL: Busca support_requests com o mesmo support_type"
+    config:
+      source: |-
+        WITH fetch_volunteer_support_type AS (
+            SELECT support_type 
+            FROM volunteers
+            LEFT JOIN volunteer_availability ON id = volunteer_id
+            WHERE 
+                email = {{ search_msr_volunteer_email }}
+            LIMIT 1
+        )
+        SELECT 
+            msr_id,
+            zendesk_ticket_id,
+            status,
+            city,
+            state,
+            lat,
+            lng
+        FROM match.support_requests s
+        INNER JOIN fetch_volunteer_support_type v ON v.support_type = s.support_type::VARCHAR
+        WHERE 
+            status IN ('open', 'public_service')
+            AND lat IS NOT NULL
+            AND lng IS NOT NULL
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: msrs_waiting_for_match
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: SQL
+    cellId: 554d4831-35f1-42ee-bdea-5fc087267e77 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: "SQL: Busca infos das MSRs na solidarity_users"
+    config:
+      source: |-
+        SELECT 
+            user_id AS msr_id,
+            name AS nome,
+            email, 
+            whatsapp AS phone
+        FROM solidarity_users
+        WHERE organization_id = 360273031591
+      dataFrameCell: false
+      dataConnectionId: e088838c-2205-4ff2-870b-07d163c93079
+      resultVariableName: msr_info
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: CODE
+    cellId: 3119dfe8-6722-407f-b961-12a286c0da90 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: "Python: Calcula distâncias das MSRs à Voluntária"
+    config:
+      source: |
+        from geopy.distance import geodesic
+
+        # Calculate the distance between two points
+        def calculate_distance(lat1, lng1, lat2, lng2):
+            return geodesic((lat1, lng1), (lat2, lng2)).kilometers
+
+
+        # Get the reference point from the first row of msr_data
+        ref_point = msr_data.iloc[0][["lat", "lng"]]
+
+        msrs_with_distance = msrs_waiting_for_match.copy()
+
+        # Calculate the distance for each volunteer and add it as a new column
+        if (fetch_msrs == True):
+            msrs_with_distance["distance_to_volunteer"] = msrs_waiting_for_match.apply(
+                lambda row: calculate_distance(
+                    row["lat"], row["lng"], ref_point["lat"], ref_point["lng"]
+                ),
+                axis=1,
+            )
+  - cellType: SQL
+    cellId: 294bbb1c-3227-4d71-a337-514e13cf5b09 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: "SQL: Mostra a tabela com as MSRs mais próximas à Voluntária"
+    config:
+      source: |-
+        SELECT
+            CONCAT(ROUND(distance_to_volunteer, 1)::VARCHAR, ' km') AS "distância à Voluntária",
+            nome,
+            email AS "e-mail",
+            zendesk_ticket_id AS "ticket ID",
+            CASE
+                WHEN phone IS NULL THEN '-'
+                ELSE phone 
+            END AS "telefone",
+            CASE
+                WHEN status = 'open' THEN 'solicitação recebida'
+                ELSE 'encaminhada para serviço público'
+            END AS status,
+            city AS município,
+            state AS UF
+        FROM msrs_with_distance
+        INNER JOIN msr_info USING (msr_id)
+        ORDER BY distance_to_volunteer 
+      dataFrameCell: true
+      dataConnectionId: null
+      resultVariableName: dataframe
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 15
+        height: 420
+        hideIcons: true
+        hideIndex: true
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        filters: null
+        columnProperties:
+          - originalName: UF
+            renameTo: null
+            size: 70
+            wrapText: null
+            displayFormat: null
+          - originalName: distância à Voluntária
+            renameTo: null
+            size: 171
+            wrapText: null
+            displayFormat: null
+          - originalName: e-mail
+            renameTo: null
+            size: 244
+            wrapText: null
+            displayFormat: null
+          - originalName: município
+            renameTo: null
+            size: 108
+            wrapText: null
+            displayFormat: null
+          - originalName: nome
+            renameTo: null
+            size: 168
+            wrapText: null
+            displayFormat: null
+          - originalName: status
+            renameTo: null
+            size: 216
+            wrapText: null
+            displayFormat: null
+          - originalName: telefone
+            renameTo: null
+            size: 111
+            wrapText: null
+            displayFormat: null
+          - originalName: ticket ID
+            renameTo: null
+            size: 101
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+  - cellType: MARKDOWN
     cellId: 27cbec60-f605-48c5-85e4-95ca57c6c7d6 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Fazer um match entre uma MSR e uma voluntária escolhida 🤝
     config:
@@ -1092,6 +1235,49 @@ appLayout:
                   sharedFilterId: null
                   height: null
                   showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 3a6d4371-2cf9-47f2-ae11-c379afc10cf1
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
+        - columns:
+            - start: 0
+              end: 30
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 09048cba-1de5-4811-b103-58aee5a2d47e
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 30
+              end: 60
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 55effd50-bc3f-46da-ac45-9531f33a28b1
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 294bbb1c-3227-4d71-a337-514e13cf5b09
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
         - columns:
             - start: 0
               end: 120
