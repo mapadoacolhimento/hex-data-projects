@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 7204fca5-d72a-4339-a223-824cb6f18b22 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: e3185381-d172-432f-88ce-631d5ae004e4 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -832,7 +832,7 @@ cells:
         valueOptions:
           - Ver dados apenas dos últimos 12 meses
           - Ver dados desde o início do Mapa
-      defaultValue: Ver dados apenas dos últimos 12 meses
+      defaultValue: Ver dados desde o início do Mapa
   - cellType: BLOCK
     cellId: 744e0c76-de8d-4909-89e7-134ebda67c6f # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -3332,7 +3332,7 @@ cells:
         valueOptions:
           - Ver dados apenas dos últimos 12 meses
           - Ver dados desde o início do Mapa
-      defaultValue: Ver dados apenas dos últimos 12 meses
+      defaultValue: Ver dados desde o início do Mapa
   - cellType: BLOCK
     cellId: 7f28b0d6-27f7-4851-8047-f21babf3562a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -7284,7 +7284,7 @@ cells:
         valueOptions:
           - Ver dados apenas dos últimos 12 meses
           - Ver dados desde o início do Mapa
-      defaultValue: Ver dados apenas dos últimos 12 meses
+      defaultValue: Ver dados desde o início do Mapa
   - cellType: BLOCK
     cellId: 8db6714e-26e3-4d31-911e-2cc29426ade6 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -10299,91 +10299,65 @@ cells:
     config:
       source: "# Jornada da MSR"
   - cellType: SQL
-    cellId: ab664d2c-c473-409c-b085-5d1376b4f8c8 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: "Jornada da MSR: eventos"
+    cellId: e3dd5db0-ecff-4364-8cef-c4c4f63d0d13 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: New match events
     config:
-      source: |
-        WITH support_request_events_with_rn AS (
-            SELECT 
-                *,
-                ROW_NUMBER() OVER (PARTITION BY support_request_id ORDER BY created_at) AS rn
-            FROM match.support_request_status_history
-        ),
-        correct_support_request_id AS (
+      source: |-
+        WITH valid_support_request_id AS (
             SELECT 
                 DISTINCT support_request_id
-            FROM support_request_events_with_rn
+            FROM match.support_requests
             WHERE 
-                status = 'open' 
-                AND rn = 1
-                AND created_at > '2024-01-25'
-                AND support_request_id NOT IN (57972, 57973, 57976, 57971, 57977, 57978, 57980, 57979, 57981, 57982, 57983, 57984, 57985, 57986, 57987, 57988, 57989, 57992, 57991, 57995, 57994, 57996, 57997, 57999, 57998)
+                created_at > '2024-01-25'
+                AND status != 'duplicated'
+                AND support_request_id NOT IN (57972, 57973, 57976, 57971, 57977, 57978, 57980, 57979, 57981, 57982, 57983, 57984, 57985, 57986, 57987, 57988, 57989, 57992, 57991, 57995, 57994, 57996, 57997, 57999, 57998, 58033, 58014)
         ),
-        correct_support_request_status AS (
-            SELECT
-                support_request_id,
-                CASE
-                    WHEN status = 'open' AND rn > 1 THEN 'waiting_for_match'
-                    ELSE status::VARCHAR
-                END AS status,
-                created_at
-            FROM support_request_events_with_rn
-        ),
-        matches_with_rn AS (
+        valid_support_request_status_history_with_rn AS (
             SELECT 
-                match_id,
-                support_request_id,
-                match_stage,
-                ROW_NUMBER() OVER (PARTITION BY support_request_id ORDER BY created_at DESC) AS rn
-            FROM match.matches
-            INNER JOIN correct_support_request_id USING (support_request_id)
-        ),
-        correct_matches AS (
-            SELECT 
-                match_id,
-                support_request_id,
-                match_stage
-            FROM matches_with_rn
-            WHERE rn = 1
-        ),
-        support_request_events AS (
-            SELECT
                 support_request_id,
                 status,
-                created_at
-            FROM correct_support_request_status
-           INNER JOIN correct_support_request_id USING (support_request_id)
+                created_at,
+                ROW_NUMBER() OVER(PARTITION BY support_request_id ORDER BY created_at) AS rn
+            FROM match.support_request_status_history
+            INNER JOIN valid_support_request_id USING (support_request_id)
         ),
-        support_request_events_with_match_stage AS (
+        support_request_events AS (
             SELECT 
                 support_request_id,
                 CASE 
-                    WHEN s.status = 'matched' THEN CONCAT(match_stage, '_match')
-                    ELSE s.status::VARCHAR
+                    WHEN rn > 1 AND status = 'open' THEN 'waiting_for_match' 
+                    ELSE status::VARCHAR 
                 END AS status,
-                s.created_at,
+                created_at
+            FROM valid_support_request_status_history_with_rn
+            WHERE status NOT IN ('matched', 'duplicated')
+        ),
+        valid_matches AS (
+            SELECT
+                match_id,
+                support_request_id,
                 match_stage
-            FROM support_request_events s
-            LEFT JOIN match.matches USING (support_request_id)
+            FROM match.matches
+            INNER JOIN valid_support_request_id USING (support_request_id)
         ),
         match_events AS (
-            SELECT 
+            SELECT
                 support_request_id,
-                CASE
+                CASE 
+                    WHEN status = 'waiting_contact' THEN CONCAT(match_stage, '_match')
                     WHEN status IN ('interrupted_before_support', 'interrupted_after_support') THEN 'interrupted'
                     ELSE status::VARCHAR
                 END AS status,
                 created_at
             FROM match.match_status_history
-            INNER JOIN correct_matches USING(match_id)
-            WHERE status != 'waiting_contact'
+            INNER JOIN valid_matches USING (match_id)
         ),
         all_events AS (
             SELECT
                 support_request_id,
                 status AS event,
                 created_at
-            FROM support_request_events_with_match_stage
+            FROM support_request_events
             UNION ALL
             SELECT
                 support_request_id,
@@ -10411,14 +10385,108 @@ cells:
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: new_match_events
-      useRichDisplay: false
+      useRichDisplay: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
       useNativeDates: true
       outputFilteredResult: true
       allowDuplicateColumns: false
-      tableDisplayConfig: null
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: accepts_online_support
+            renameTo: null
+            size: 183
+            wrapText: null
+            displayFormat: null
+          - originalName: array_agg
+            renameTo: null
+            size: 290
+            wrapText: null
+            displayFormat: null
+          - originalName: created_at
+            renameTo: null
+            size: 242
+            wrapText: null
+            displayFormat: null
+          - originalName: event
+            renameTo: null
+            size: 133
+            wrapText: null
+            displayFormat: null
+          - originalName: has_disability
+            renameTo: null
+            size: 128
+            wrapText: null
+            displayFormat: null
+          - originalName: msr_id
+            renameTo: null
+            size: 133
+            wrapText: null
+            displayFormat: null
+          - originalName: priority
+            renameTo: null
+            size: 94
+            wrapText: null
+            displayFormat: null
+          - originalName: requires_libras
+            renameTo: null
+            size: 136
+            wrapText: null
+            displayFormat: null
+          - originalName: source
+            renameTo: null
+            size: 126
+            wrapText: null
+            displayFormat: null
+          - originalName: status
+            renameTo: null
+            size: 133
+            wrapText: null
+            displayFormat: null
+          - originalName: support_expertise
+            renameTo: null
+            size: 153
+            wrapText: null
+            displayFormat: null
+          - originalName: support_request_id
+            renameTo: null
+            size: 162
+            wrapText: null
+            displayFormat: null
+          - originalName: support_type
+            renameTo: null
+            size: 127
+            wrapText: null
+            displayFormat: null
+          - originalName: target
+            renameTo: null
+            size: 133
+            wrapText: null
+            displayFormat: null
+          - originalName: value
+            renameTo: null
+            size: 84
+            wrapText: null
+            displayFormat: null
+          - originalName: zendesk_ticket_id
+            renameTo: null
+            size: 153
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
   - cellType: CODE
     cellId: 0d010a51-10b3-4b2e-a02e-5bec6c34ebaa # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "Jornada da MSR: Sankey"
@@ -10443,7 +10511,7 @@ cells:
             return '(' + str(count) + ')'
 
         label_dict = {
-          'open':'<b>realizou um pedido de acolhimento </b>' + get_label_count('open'),
+          'open':'<b>pedido de acolhimento </b>' + get_label_count('open'),
           'waiting_for_match':'<b>aguardando um novo match </b>' + get_label_count('waiting_for_match'),
           'online_match':'<b>match_online </b>' + get_label_count('online_match'),
           'expanded_match':'<b>match expandido </b>' + get_label_count('expanded_match'),
@@ -10453,21 +10521,23 @@ cells:
           'in_contact': '<b>match em contato </b>' + get_label_count('in_contact'),
           'expired': '<b>match expirado </b>' + get_label_count('expired'),
           'interrupted': '<b>match interrompido </b> ' + get_label_count('interrupted'),
-          'completed': '<b>match concluído </b>' + get_label_count('completed')
+          'completed': '<b>match concluído </b>' + get_label_count('completed'),
+          'social_worker': '<b>assistente social </b>' + get_label_count('social_worker')
           }
 
         position_dict = {
-            'open': [0.001, 0.2],
-            'waiting_for_match': [0.9, 0.7],
-            'online_match': [0.3, 0.65],
-            'expanded_match': [0.3, 0.57],
-            'ideal_match': [0.3, 0.15],
+            'open': [0.001, 0.5],
+            'waiting_for_match': [0.55, 1],
+            'online_match': [0.18, 1],
+            'expanded_match': [0.18, 0.9],
+            'ideal_match': [0.18, 0.5],
             'waiting_contact': [0.4, 1],
-            'public_service': [0.7, 1],
-            'in_contact': [0.5, 0.001],
+            'public_service': [0.18, 0.1],
+            'in_contact': [0.35, 0.7],
             'expired': [0.6, 0.4],
-            'interrupted': [0.6, 0.5],
-            'completed': [0.95,0.8]
+            'interrupted': [0.35, 1],
+            'completed': [0.75, 0.2],
+            'social_worker': [0.18,0.001]
 
         }
 
@@ -10482,7 +10552,8 @@ cells:
           'in_contact': 'rgba(212, 80, 135, 1)',
           'expired': 'rgb(69, 25, 82)',
           'interrupted': 'rgba(249, 93, 106, 1)',
-          'completed': 'rgb(69, 25, 82)'
+          'completed': 'rgb(69, 25, 82)',
+          'social_worker': 'rgb(69, 25, 82)'
         }
 
         fig = go.Figure(data=[go.Sankey(
@@ -10519,10 +10590,10 @@ cells:
           ))])
 
         fig.update_layout(
-            margin=dict(l=50, r=20, t=150, b=150),
+            margin=dict(l=50, r=0, t=150, b=150),
             font_size=12, 
             font_family='IBM Plex Sans',
-            width=1000, 
+            width=1600, 
             height=600,
             )
         fig.show()
@@ -11573,7 +11644,7 @@ appLayout:
                   type: CELL
                   cellId: a8b74453-768a-4957-8cd7-46ccf25366f6
                   sharedFilterId: null
-                  height: 400
+                  height: 350
                   showLabel: true
             - start: 80
               end: 120
@@ -11583,7 +11654,7 @@ appLayout:
                   type: CELL
                   cellId: b0d5f0c1-4835-4482-8742-e99be5cc363b
                   sharedFilterId: null
-                  height: 400
+                  height: 350
                   showLabel: true
         - columns:
             - start: 0
@@ -11597,7 +11668,7 @@ appLayout:
                   height: 350
                   showLabel: true
             - start: 40
-              end: 85
+              end: 80
               elements:
                 - showSource: false
                   hideOutput: false
