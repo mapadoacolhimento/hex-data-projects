@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: e3185381-d172-432f-88ce-631d5ae004e4 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 8df3763f-7ea7-4d17-b29c-3d18e293d7f3 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -12,6 +12,7 @@ meta:
   castDecimalsDefault: true
   logicQueryCacheTimeout: null
   publishedQueryCacheTimeout: null
+  hexType: PROJECT
 projectAssets:
   dataConnections: []
   envVars: []
@@ -10371,17 +10372,21 @@ cells:
                 event AS source,
                 LEAD(event) OVER (PARTITION BY support_request_id ORDER BY created_at) AS target
             FROM all_events
+        ),
+        sankey AS (
+            SELECT
+                source,
+                target,
+                ARRAY_AGG(support_request_id),
+                COUNT(*) AS value
+            FROM sources_and_targets
+            WHERE 
+                target IS NOT NULL
+            GROUP BY source, target
         )
-        SELECT
-            source,
-            target,
-            ARRAY_AGG(support_request_id),
-            COUNT(*) AS value
-        FROM sources_and_targets
-        WHERE 
-            target IS NOT NULL
-            -- AND CONCAT(source, '+', target) NOT IN ('match_interrupted_before_support+support_request_open', 'match_interrupted_before_support+support_request_public_service', 'match_interrupted_after_support+support_request_open')
-        GROUP BY source, target
+        SELECT *
+        FROM sankey
+        WHERE value > 2
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: new_match_events
@@ -10487,6 +10492,25 @@ cells:
         columnOrdering: null
         pinnedColumns: null
         hiddenColumns: null
+  - cellType: SQL
+    cellId: fcd2af93-87b2-4114-adf1-6693eaa61b7b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT *
+        FROM match.support_requests
+        WHERE support_request_id = 58082
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
   - cellType: CODE
     cellId: 0d010a51-10b3-4b2e-a02e-5bec6c34ebaa # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "Jornada da MSR: Sankey"
@@ -10522,22 +10546,24 @@ cells:
           'expired': '<b>match expirado </b>' + get_label_count('expired'),
           'interrupted': '<b>match interrompido </b> ' + get_label_count('interrupted'),
           'completed': '<b>match concluído </b>' + get_label_count('completed'),
-          'social_worker': '<b>assistente social </b>' + get_label_count('social_worker')
+          'social_worker': '<b>assistente social </b>' + get_label_count('social_worker'),
+          'manual_match': '<b>match manual</b> ' + get_label_count('manual_match')
           }
 
         position_dict = {
             'open': [0.001, 0.5],
-            'waiting_for_match': [0.55, 1],
-            'online_match': [0.18, 1],
-            'expanded_match': [0.18, 0.9],
-            'ideal_match': [0.18, 0.5],
+            'waiting_for_match': [0.35, 0.7],
+            'online_match': [0.15, 1],
+            'expanded_match': [0.15, 0.94],
+            'ideal_match': [0.15, 0.5],
             'waiting_contact': [0.4, 1],
-            'public_service': [0.18, 0.1],
-            'in_contact': [0.35, 0.7],
+            'public_service': [0.25, 0.1],
+            'in_contact': [0.25, 0.3],
             'expired': [0.6, 0.4],
-            'interrupted': [0.35, 1],
+            'interrupted': [0.25, 0.5],
             'completed': [0.75, 0.2],
-            'social_worker': [0.18,0.001]
+            'social_worker': [0.25,0.001],
+            'manual_match': [0.5,0.5]
 
         }
 
@@ -10553,7 +10579,8 @@ cells:
           'expired': 'rgb(69, 25, 82)',
           'interrupted': 'rgba(249, 93, 106, 1)',
           'completed': 'rgb(69, 25, 82)',
-          'social_worker': 'rgb(69, 25, 82)'
+          'social_worker': 'rgb(69, 25, 82)',
+          'manual_match': 'rgba(255, 124, 67, 0.8)'
         }
 
         fig = go.Figure(data=[go.Sankey(
@@ -10570,7 +10597,7 @@ cells:
                 line_width= 0
             ),
             link = dict(
-              arrowlen=10,
+              arrowlen=20,
               source = sources, 
               target = targets,
               value =  values,
