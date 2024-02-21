@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 8df3763f-7ea7-4d17-b29c-3d18e293d7f3 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 530c7982-0b61-477a-b0fa-2a60087b85d8 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -106,6 +106,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: a6e89fa5-15ef-496f-b2f8-e1fac76eafb1
           cellLabel: total
@@ -239,6 +240,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 3aa479a8-957f-428a-9e47-5b97ac7497de
           cellLabel: por ano
@@ -357,6 +359,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 1889345f-016e-4b2c-80de-fb1636b8fa13
           cellLabel: por mês no último ano
@@ -513,6 +516,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: f53729ca-5e93-4b56-8a94-3ca0a23d2c30
           cellLabel: total
@@ -642,6 +646,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 960089ca-c702-4bec-877b-e1ad907c1438
           cellLabel: por ano
@@ -756,6 +761,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 74dc11fd-9684-43b9-a122-c19c9d57b221
           cellLabel: por mês no último ano
@@ -892,6 +898,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 5a8eb824-162c-4cb7-9088-71ed2303313f
           cellLabel: estados
@@ -1020,6 +1027,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 8677e808-6e42-4caf-a46a-26ca27ca5a4f
           cellLabel: regiões
@@ -1159,6 +1167,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 0f21fc9c-4e76-4eb2-9dc4-29c131f213e9
           cellLabel: capitais x não capitais
@@ -1283,6 +1292,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 7784dcec-f50e-46c2-b95d-9a9c4f936dfd
           cellLabel: "Pedidos de acolhimento: lat lng"
@@ -1523,6 +1533,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 80fd91ad-9a7d-4593-83a9-ad6acd5e0c66
           cellLabel: norte
@@ -1720,6 +1731,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 94c42b02-da53-4686-a0da-dd44a1a80637
           cellLabel: nordeste
@@ -1917,6 +1929,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: c4da9cc3-b2d1-4bde-b03e-abcdad70d861
           cellLabel: centro-oeste
@@ -2114,6 +2127,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 2ead6d43-4c4c-402e-b431-295d0d7dcbbf
           cellLabel: sudeste
@@ -2310,6 +2324,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 805bca30-198f-4049-92d9-fc8805e411fa
           cellLabel: sul
@@ -2503,6 +2518,7 @@ cells:
         columnOrdering: null
         pinnedColumns: null
         hiddenColumns: null
+        pinIndexColumns: false
   - cellType: CHARTV2
     cellId: a9b09729-4004-4133-95b8-4ba1e6b4c568 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -2696,6 +2712,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 510ac6d2-9ab0-4fc1-9f02-84e85a2c6146
           cellLabel: total
@@ -2960,6 +2977,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: c73f170d-39e8-4f66-8786-133cff896288
           cellLabel: por ano
@@ -3166,6 +3184,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 43e4c512-af02-466b-b2b0-a390ba46c3b5
           cellLabel: por mês no último ano
@@ -3415,6 +3434,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: fde3bb0e-07e5-4c61-9d2d-e74159e15825
           cellLabel: estados
@@ -3567,6 +3587,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: ef9d7b4a-3e82-4bbc-9007-ab4155a5bc30
           cellLabel: "% de matches"
@@ -3702,6 +3723,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 66fbbf42-dce7-41a0-84c1-f9daf8e15b4c
           cellLabel: regiões
@@ -3853,6 +3875,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 2f7b070f-9500-41e8-a1f7-3a56d5e8bfd1
           cellLabel: "% de matches"
@@ -4033,6 +4056,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 10883f9a-5dbf-424e-a33f-a102a6ecb245
           cellLabel: capital x não capital
@@ -4217,6 +4241,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: fbf21fd7-28e2-47ba-bb93-2b8115003e6e
           cellLabel: "% de matches"
@@ -4409,6 +4434,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: ffe272c3-1dcf-4bd1-a352-5e230baad5ba
           cellLabel: norte
@@ -4602,6 +4628,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: ec48efb5-7d20-4d0b-add2-1b7521693bee
           cellLabel: nordeste
@@ -4795,6 +4822,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: b8c30d0e-f05f-424b-9022-b43c4e0d8495
           cellLabel: centro-oeste
@@ -4988,6 +5016,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 1ca1f789-b7d7-48bc-9ba1-a17d52cb4bb4
           cellLabel: sudeste
@@ -5180,6 +5209,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 3d0f69a2-b02f-4d80-aa25-6fcd0f2dacc9
           cellLabel: sul
@@ -5400,6 +5430,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 95dfdc8f-68ce-4a5a-9dd5-22fafe37f1a7
           cellLabel: norte - % de matches
@@ -5617,6 +5648,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 9dd2c751-cfd3-4eef-81aa-5d04ff2f692b
           cellLabel: nordeste - % de matches
@@ -5834,6 +5866,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: fc7f0c3c-05a0-4be8-98ee-3b61bfa2fae8
           cellLabel: centro-oeste - % de matches
@@ -6051,6 +6084,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 604cac44-b785-48fb-8bdc-9b9b53830cc7
           cellLabel: sudeste - % de matches
@@ -6268,6 +6302,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 650efe8a-7807-4c6a-a365-2892373ba526
           cellLabel: sul - % de matches
@@ -6462,6 +6497,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: e29c9628-b84d-4471-a342-6db06e9835ee
           cellLabel: cumulativo
@@ -6818,6 +6854,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 2b5f4331-e10b-410c-915f-dfeb63c52f13
           cellLabel: por ano
@@ -7084,6 +7121,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: eeb1f7c9-6a52-45cc-bb7a-7b0f78dd1ec3
           cellLabel: por mês no último ano
@@ -7370,6 +7408,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 64ed76a6-d14a-4bf4-9ae0-dd72c2a95074
           cellLabel: estados
@@ -7532,6 +7571,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: b6427add-eed8-4abd-9dec-a648d1dd9a05
           cellLabel: "% de atendimentos"
@@ -7667,6 +7707,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 8c78f3fd-b2f6-4119-a8da-63004da54fbe
           cellLabel: regiões
@@ -7810,6 +7851,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 0f239949-07f2-4aed-b692-78780a3e06a7
           cellLabel: "% de atendimentos"
@@ -7972,6 +8014,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 48cd3a8d-c9ab-4fc5-844a-246b3d4fd899
           cellLabel: capital x não capital
@@ -8147,6 +8190,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: bb9d17de-cd2b-437e-9732-eeb9875c09bd
           cellLabel: "% de atendimentos"
@@ -8343,6 +8387,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 5d77a5a3-d15f-4990-aa1b-0a042dbc11d7
           cellLabel: norte
@@ -8539,6 +8584,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: ec573a39-57d0-4b24-bcc0-81270d006b7c
           cellLabel: nordeste
@@ -8735,6 +8781,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 41803288-231b-4b0a-b91f-0178d57ae774
           cellLabel: centro-oeste
@@ -8931,6 +8978,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: df5524dd-a192-4585-a29d-930478160e48
           cellLabel: sudeste
@@ -9126,6 +9174,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: fbbcc980-0078-4b69-b9c8-3e27d1d5b504
           cellLabel: sul
@@ -9347,6 +9396,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: afaf4d03-4a5b-4f3d-8235-c30c59ebab41
           cellLabel: norte - % de atendimentos
@@ -9565,6 +9615,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 430f6cba-8e74-458e-9464-25d143d6d37f
           cellLabel: nordeste - % de atendimentos
@@ -9783,6 +9834,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 64a88ef6-6bfb-4c6a-84f6-57833d4d5796
           cellLabel: centro-oeste - % de atendimentos
@@ -10001,6 +10053,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: a77c5490-f5fe-4f9a-9d2b-5953cbf80a4f
           cellLabel: sudeste - % de atendimentos
@@ -10219,6 +10272,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 2f7cfd53-3b3f-49fc-bf98-08755ed8784e
           cellLabel: sul - % de atendimentos
@@ -10366,12 +10420,47 @@ cells:
                 created_at
             FROM match_events
         ),
+        paths AS (
+            SELECT 
+                support_request_id,
+                event,
+                created_at,
+                ARRAY_AGG(event) OVER(
+                    PARTITION BY support_request_id 
+                    ORDER BY created_at 
+                    RANGE BETWEEN 
+                        UNBOUNDED PRECEDING
+                        AND UNBOUNDED FOLLOWING 
+                ) AS path
+            FROM all_events
+        ),
+        agg_paths AS (
+            SELECT
+                path,
+                COUNT(DISTINCT support_request_id) AS path_count
+            FROM paths
+            GROUP BY path
+        ),
+        valid_paths AS (
+            SELECT 
+                path
+            FROM agg_paths
+            WHERE path_count > 1
+        ),
+        valid_all_events AS (
+            SELECT
+                support_request_id,
+                event,
+                created_at
+            FROM paths
+            INNER JOIN valid_paths USING (path)
+        ),
         sources_and_targets AS (
             SELECT 
                 *,
                 event AS source,
                 LEAD(event) OVER (PARTITION BY support_request_id ORDER BY created_at) AS target
-            FROM all_events
+            FROM valid_all_events
         ),
         sankey AS (
             SELECT
@@ -10386,7 +10475,7 @@ cells:
         )
         SELECT *
         FROM sankey
-        WHERE value > 2
+        ORDER BY source
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: new_match_events
@@ -10419,6 +10508,11 @@ cells:
             size: 290
             wrapText: null
             displayFormat: null
+          - originalName: count
+            renameTo: null
+            size: 85
+            wrapText: null
+            displayFormat: null
           - originalName: created_at
             renameTo: null
             size: 242
@@ -10437,6 +10531,16 @@ cells:
           - originalName: msr_id
             renameTo: null
             size: 133
+            wrapText: null
+            displayFormat: null
+          - originalName: path
+            renameTo: null
+            size: 400
+            wrapText: null
+            displayFormat: null
+          - originalName: path_count
+            renameTo: null
+            size: 116
             wrapText: null
             displayFormat: null
           - originalName: priority
@@ -10492,25 +10596,7 @@ cells:
         columnOrdering: null
         pinnedColumns: null
         hiddenColumns: null
-  - cellType: SQL
-    cellId: fcd2af93-87b2-4114-adf1-6693eaa61b7b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: null
-    config:
-      source: |-
-        SELECT *
-        FROM match.support_requests
-        WHERE support_request_id = 58082
-      dataFrameCell: false
-      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
-      resultVariableName: dataframe
-      useRichDisplay: false
-      sqlCellOutputType: PANDAS
-      useQueryMode: false
-      castDecimals: true
-      useNativeDates: true
-      outputFilteredResult: true
-      allowDuplicateColumns: false
-      tableDisplayConfig: null
+        pinIndexColumns: false
   - cellType: CODE
     cellId: 0d010a51-10b3-4b2e-a02e-5bec6c34ebaa # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "Jornada da MSR: Sankey"
@@ -10542,7 +10628,7 @@ cells:
           'ideal_match':'<b>match ideal </b>' + get_label_count('ideal_match'),
           'waiting_contact':'<b>aguardando contato </b>' + get_label_count('waiting_contact'),
           'public_service': '<b>encaminhada para serviço público </b>' + get_label_count('public_service'),
-          'in_contact': '<b>match em contato </b>' + get_label_count('in_contact'),
+          'in_contact': '<b>atendimento iniciado </b>' + get_label_count('in_contact'),
           'expired': '<b>match expirado </b>' + get_label_count('expired'),
           'interrupted': '<b>match interrompido </b> ' + get_label_count('interrupted'),
           'completed': '<b>match concluído </b>' + get_label_count('completed'),
@@ -10683,6 +10769,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 497fc6da-c08e-4ef1-a4d5-d25373e5cc41
           cellLabel: total
@@ -10812,6 +10899,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: 001c8456-6f75-41c0-97c3-cffa836dee7a
           cellLabel: por ano
@@ -10926,6 +11014,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: a5d03e48-1074-472e-bf92-8304130c0dec
           cellLabel: por mês no último ano
@@ -11504,58 +11593,6 @@ appLayout:
                   showLabel: false
         - columns:
             - start: 0
-              end: 40
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: 8e561d89-7861-41a7-ab5c-99e4545665f3
-                  sharedFilterId: null
-                  height: 350
-                  showLabel: true
-            - start: 40
-              end: 80
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: f3af0832-89ba-460f-8456-f9bfad9b3a3f
-                  sharedFilterId: null
-                  height: 350
-                  showLabel: true
-            - start: 80
-              end: 120
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: 010873b4-0d46-4e77-9130-a57df25cc78e
-                  sharedFilterId: null
-                  height: 350
-                  showLabel: true
-        - columns:
-            - start: 0
-              end: 40
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: 5208b54e-3ff8-466b-a0b0-5d65cd8f8ec5
-                  sharedFilterId: null
-                  height: 350
-                  showLabel: true
-            - start: 40
-              end: 80
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: 5101ec55-2138-491e-a877-a0d709486679
-                  sharedFilterId: null
-                  height: 350
-                  showLabel: true
-        - columns:
-            - start: 0
               end: 120
               elements:
                 - showSource: false
@@ -11715,58 +11752,6 @@ appLayout:
                   sharedFilterId: null
                   height: null
                   showLabel: false
-        - columns:
-            - start: 0
-              end: 40
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: edad3c30-4813-44f7-92c3-9262f301a4e9
-                  sharedFilterId: null
-                  height: 350
-                  showLabel: true
-            - start: 40
-              end: 80
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: e98e9cc5-95c7-4b93-bf50-fe285c1effdd
-                  sharedFilterId: null
-                  height: 350
-                  showLabel: true
-            - start: 80
-              end: 120
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: 03602472-fa8e-4183-9002-1b3ce3ab52f5
-                  sharedFilterId: null
-                  height: 350
-                  showLabel: true
-        - columns:
-            - start: 0
-              end: 40
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: 58e80315-98c5-4927-bd9d-631b0a5016d2
-                  sharedFilterId: null
-                  height: 350
-                  showLabel: true
-            - start: 40
-              end: 80
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: 5a40fd46-9328-49db-9cdd-c3130f436edb
-                  sharedFilterId: null
-                  height: 350
-                  showLabel: true
         - columns:
             - start: 0
               end: 120
