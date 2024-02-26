@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 8a434667-121f-4b6c-aee9-f9a93963abd4 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: c5ceca6f-5d8f-465d-aeb8-3add06cc79c9 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -11388,12 +11388,14 @@ cells:
                       colorOrder: ascending
                       color:
                         type: static
+                        color: "#ffa600"
                       opacity:
                         type: static
                         value: 1
                       tooltip:
                         type: auto
                       dataLabels:
+                        color: "#01011b"
                         fontSize: 12
                         position: above
                       point: true
