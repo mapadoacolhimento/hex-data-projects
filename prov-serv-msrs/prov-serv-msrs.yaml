@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 530c7982-0b61-477a-b0fa-2a60087b85d8 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: b95476cf-2e16-4315-b728-344b8c3cc2b8 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -11085,6 +11085,131 @@ cells:
     cellLabel: null
     config:
       source: "*O gráfico da região sudeste possui uma escala diferente.*"
+  - cellType: MARKDOWN
+    cellId: a5a4b3c2-4b8c-41d8-93fb-bf041ef0ee53 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Matches em andamento
+    config:
+      source: "# Matches em andamento"
+  - cellType: SQL
+    cellId: 41a2d414-9ea2-41b5-bb8b-1fd572085163 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Matches em andamento total
+    config:
+      source: |-
+        SELECT COUNT(*)
+        FROM match.matches 
+        WHERE status IN ('waiting_contact', 'in_contact')
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: matches_em_andamento_total
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: SQL
+    cellId: b6f19eb0-7ee5-488b-a358-8b9e3f147eb4 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Matches em andamento aguardando contato
+    config:
+      source: |-
+        SELECT COUNT(*)
+        FROM match.matches 
+        WHERE status = 'waiting_contact'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: matches_em_andamento_aguardando_contato
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: SQL
+    cellId: a889b638-da73-4b0e-9253-acd64c8842cf # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Matches em andamento atendimento iniciado
+    config:
+      source: |-
+        SELECT COUNT(*)
+        FROM match.matches 
+        WHERE status = 'in_contact'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: matches_em_andamento_atendimento_iniciado
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: METRIC
+    cellId: f3c0a55f-ab2e-4a9a-b491-aead72a5a41c # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      title: total de matches em andamento
+      valueVariableName: matches_em_andamento_total
+      showComparison: false
+      comparisonType: VALUE
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: ""
+      displayFormat:
+        format: PLAIN
+        currency: USD
+        columnType: NUMBER
+        numDecimalDigits: 2
+        abbreviateLargeNumbers: false
+      valueColumn: count
+      valueRowIndex: 0
+      comparisonColumn: null
+      comparisonRowIndex: null
+  - cellType: METRIC
+    cellId: 8ea4f13d-84ac-4a2b-bfcb-0b2cc1a18d1c # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      title: aguardando contato
+      valueVariableName: matches_em_andamento_aguardando_contato
+      showComparison: false
+      comparisonType: VALUE
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: ""
+      displayFormat:
+        format: PLAIN
+        currency: USD
+        columnType: NUMBER
+        numDecimalDigits: 2
+        abbreviateLargeNumbers: false
+      valueColumn: count
+      valueRowIndex: 0
+      comparisonColumn: null
+      comparisonRowIndex: null
+  - cellType: METRIC
+    cellId: 18b6973a-b864-4bdd-89eb-065048da99d3 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      title: atendimento iniciado
+      valueVariableName: matches_em_andamento_atendimento_iniciado
+      showComparison: false
+      comparisonType: VALUE
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: ""
+      displayFormat:
+        format: PLAIN
+        currency: USD
+        columnType: NUMBER
+        numDecimalDigits: 2
+        abbreviateLargeNumbers: false
+      valueColumn: count
+      valueRowIndex: 0
+      comparisonColumn: null
+      comparisonRowIndex: null
 appLayout:
   visibleMetadataFields:
     - NAME
@@ -11294,6 +11419,45 @@ appLayout:
                   cellId: 09e3a1d8-52a8-4971-8631-9edfa55b4b4c
                   sharedFilterId: null
                   height: 450
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: a5a4b3c2-4b8c-41d8-93fb-bf041ef0ee53
+                  sharedFilterId: null
+                  height: null
+                  showLabel: false
+        - columns:
+            - start: 0
+              end: 25
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: f3c0a55f-ab2e-4a9a-b491-aead72a5a41c
+                  sharedFilterId: null
+                  height: 250
+                  showLabel: true
+            - start: 25
+              end: 45
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 8ea4f13d-84ac-4a2b-bfcb-0b2cc1a18d1c
+                  sharedFilterId: null
+                  height: 100
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 18b6973a-b864-4bdd-89eb-065048da99d3
+                  sharedFilterId: null
+                  height: 100
                   showLabel: true
     - name: Territórios
       rows:
