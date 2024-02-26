@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: b95476cf-2e16-4315-b728-344b8c3cc2b8 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 8a434667-121f-4b6c-aee9-f9a93963abd4 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -2669,6 +2669,11 @@ cells:
                   size: 106
                   wrapText: null
                   displayFormat: null
+                - originalName: ano
+                  renameTo: null
+                  size: 196
+                  wrapText: null
+                  displayFormat: null
                 - originalName: cumulative_match_count
                   renameTo: null
                   size: 191
@@ -2684,6 +2689,11 @@ cells:
                   size: 247
                   wrapText: null
                   displayFormat: null
+                - originalName: matches por ano
+                  renameTo: null
+                  size: 145
+                  wrapText: null
+                  displayFormat: null
                 - originalName: matches_per_year
                   renameTo: null
                   size: 155
@@ -2694,14 +2704,34 @@ cells:
                   size: 128
                   wrapText: null
                   displayFormat: null
+                - originalName: pedidos de acolhimento por ano
+                  renameTo: null
+                  size: 228
+                  wrapText: null
+                  displayFormat: null
                 - originalName: percentage
                   renameTo: null
                   size: 116
                   wrapText: null
                   displayFormat: null
+                - originalName: porcentagem
+                  renameTo: null
+                  size: 165
+                  wrapText: null
+                  displayFormat: null
                 - originalName: support_requests_per_year
                   renameTo: null
                   size: 204
+                  wrapText: null
+                  displayFormat: null
+                - originalName: total de matches
+                  renameTo: null
+                  size: 145
+                  wrapText: null
+                  displayFormat: null
+                - originalName: total de pedidos de acolhimento
+                  renameTo: null
+                  size: 228
                   wrapText: null
                   displayFormat: null
                 - originalName: year
@@ -2790,6 +2820,7 @@ cells:
                             count: 5
                           labels: {}
                         title: "    "
+                        aggregate: sum
                         numberFormat:
                           format: NUMBER
                           currency: USD
@@ -11210,6 +11241,174 @@ cells:
       valueRowIndex: 0
       comparisonColumn: null
       comparisonRowIndex: null
+  - cellType: MARKDOWN
+    cellId: ad753005-6ee6-416f-95ed-df3bf1b79d1b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "# Pedidos de acolhimento aguardando match"
+  - cellType: BLOCK
+    cellId: df4ccb0f-5618-41ec-bcc1-9fdaa04e7671 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 2357ad9d-93f6-47fb-9f33-ac3b52e794e1
+        chartCellId: 38ffd59b-1c46-466d-86d7-3a88873b74f7
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 2357ad9d-93f6-47fb-9f33-ac3b52e794e1
+          cellLabel: evolução mensal das MSRs aguardando match
+          config:
+            source: |-
+              WITH date_dimension AS (
+                  SELECT DISTINCT
+                      DATE_TRUNC('month', created_at) AS "mês"
+                  FROM match.support_request_status_history
+              ),
+              all_support_requests AS (
+                  SELECT
+                      support_request_id
+                  FROM match.support_requests
+              ),
+              all_support_requests_all_months AS (
+                  SELECT 
+                      *
+                  FROM all_support_requests
+                  CROSS JOIN date_dimension
+              ),
+              support_request_status_history_with_rn_per_month AS (
+                  SELECT 
+                      support_request_id,
+                      status,
+                      created_at,
+                      ROW_NUMBER() OVER(PARTITION BY support_request_id, DATE_TRUNC('month', created_at) ORDER BY created_at DESC) AS month_rn
+                  FROM match.support_request_status_history
+              ),
+              support_request_last_status_per_month AS (
+                  SELECT
+                      support_request_id,
+                      status,
+                      DATE_TRUNC('month', created_at) AS "mês"
+                  FROM support_request_status_history_with_rn_per_month
+                  WHERE month_rn = 1
+              ),
+              support_requests_with_partitions AS (
+                  SELECT
+                      support_request_id,
+                      "mês",
+                      status,
+                      SUM(CASE WHEN status IS NULL THEN 0 ELSE 1 END) over (ORDER BY support_request_id) AS value_partition
+                  FROM all_support_requests_all_months
+                  LEFT JOIN support_request_last_status_per_month USING (support_request_id, "mês")
+              ),
+              support_requests_with_fill_the_gaps AS (
+                  SELECT 
+                      support_request_id,
+                      "mês",
+                      COALESCE(status, FIRST_VALUE(status) OVER (PARTITION BY value_partition ORDER BY "mês")) AS status
+                  FROM support_requests_with_partitions
+              )
+              SELECT 
+                  "mês",
+                  COUNT(DISTINCT CASE WHEN status = 'open' THEN support_request_id ELSE NULL END) AS "aguardando match"
+              FROM support_requests_with_fill_the_gaps
+              GROUP BY "mês"
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: dataframe
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: count
+                  renameTo: null
+                  size: 85
+                  wrapText: null
+                  displayFormat: null
+                - originalName: mês
+                  renameTo: null
+                  size: 196
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+        - cellType: CHARTV2
+          cellId: 38ffd59b-1c46-466d-86d7-3a88873b74f7
+          cellLabel: evolução mensal das MSRs aguardando match
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 3341ee37-538f-41ef-95c6-f28372d060de
+                  xAxis:
+                    type: datetime
+                    style:
+                      max: 1733022000000
+                      min: 1701399600000
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: mês
+                    timeUnit: yearmonth
+                    dataFrameColumn: mês
+                  series:
+                    - id: be6a1d6f-02cc-4dbb-86fc-38d36e66f4fb
+                      type: line
+                      axis:
+                        type: number
+                        style:
+                          max: 10000
+                          grid:
+                            style: dash
+                          ticks: {}
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - aguardando match
+                      colorOrder: ascending
+                      color:
+                        type: static
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        fontSize: 12
+                        position: above
+                      point: true
+                      stroke: solid
+                  dataFrame: dataframe
+              settings:
+                legend:
+                  position: right
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: filter_result
+            outputResult: false
+            displayTableConfig: null
 appLayout:
   visibleMetadataFields:
     - NAME
@@ -11422,7 +11621,7 @@ appLayout:
                   showLabel: true
         - columns:
             - start: 0
-              end: 120
+              end: 45
               elements:
                 - showSource: false
                   hideOutput: false
@@ -11431,6 +11630,16 @@ appLayout:
                   sharedFilterId: null
                   height: null
                   showLabel: false
+            - start: 50
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: ad753005-6ee6-416f-95ed-df3bf1b79d1b
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
         - columns:
             - start: 0
               end: 25
@@ -11440,7 +11649,7 @@ appLayout:
                   type: CELL
                   cellId: f3c0a55f-ab2e-4a9a-b491-aead72a5a41c
                   sharedFilterId: null
-                  height: 250
+                  height: 350
                   showLabel: true
             - start: 25
               end: 45
@@ -11450,14 +11659,24 @@ appLayout:
                   type: CELL
                   cellId: 8ea4f13d-84ac-4a2b-bfcb-0b2cc1a18d1c
                   sharedFilterId: null
-                  height: 100
+                  height: 150
                   showLabel: true
                 - showSource: false
                   hideOutput: false
                   type: CELL
                   cellId: 18b6973a-b864-4bdd-89eb-065048da99d3
                   sharedFilterId: null
-                  height: 100
+                  height: 150
+                  showLabel: true
+            - start: 50
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 2357ad9d-93f6-47fb-9f33-ac3b52e794e1
+                  sharedFilterId: null
+                  height: 350
                   showLabel: true
     - name: Territórios
       rows:
