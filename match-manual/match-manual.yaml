@@ -1,9 +1,9 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 1218d6b9-e022-42bd-b896-7a637af0f1ad # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: facfccb9-62f5-421d-a254-1f3049fb6d98 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: fc81fcd3-0961-4ff8-a485-a95c42f2c645 # DO NOT CHANGE - Unique ID of the project from which this file was generated
-  title: Match manual
+  title: "[PROV SERV] Match manual"
   timezone: null
   appTheme: SYS_PREF
   codeLanguage: PYTHON
@@ -12,6 +12,7 @@ meta:
   castDecimalsDefault: true
   logicQueryCacheTimeout: null
   publishedQueryCacheTimeout: null
+  hexType: PROJECT
 projectAssets:
   dataConnections: []
   envVars: []
@@ -53,7 +54,7 @@ cells:
               
             Esse ID também pode ser encontrado no título do ticket conforme mostra a imagem a seguir: 
                 
-            <img src="/api/v1/file/d31015af-f7cc-4b5b-9a45-625ffe9ec045" width="250" />
+            <img src="/api/v1/file/77fba927-21c2-4ba2-a742-351a266ef3c4" width="250" />
 
         2. **Insira esse ID no campo a seguir e clique em "Bucar voluntárias"**  
             
@@ -118,6 +119,7 @@ cells:
               defaultSortIndexColumn: null
               defaultSortDirection: ASC
               conditionalFormatting: null
+              calcs: null
               filters: null
               columnProperties:
                 - originalName: accepts_online_support
@@ -168,6 +170,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: ad92ed2b-859f-4a75-94b7-8ef848347db9
           cellLabel: "SQL: Busca o tipo de suporte relacionado ao ticket"
@@ -280,6 +283,7 @@ cells:
         defaultSortIndexColumn: null
         defaultSortDirection: ASC
         conditionalFormatting: null
+        calcs: null
         filters: null
         columnProperties:
           - originalName: first_name
@@ -305,6 +309,7 @@ cells:
         columnOrdering: null
         pinnedColumns: null
         hiddenColumns: null
+        pinIndexColumns: false
   - cellType: CODE
     cellId: 3d9e4835-dbcd-4a01-b586-9803e548d3d7 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "Python: Calcula distâncias das Voluntárias à MSR"
@@ -386,6 +391,7 @@ cells:
               defaultSortIndexColumn: null
               defaultSortDirection: ASC
               conditionalFormatting: null
+              calcs: null
               filters: null
               columnProperties:
                 - originalName: UF
@@ -571,6 +577,7 @@ cells:
               columnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
+              pinIndexColumns: false
         - cellType: CHARTV2
           cellId: c8860d1d-513b-4739-8756-44201aa33bd2
           cellLabel: "SQL: Mostra a tabela com as voluntárias mais próximas à MSR"
@@ -662,6 +669,7 @@ cells:
         defaultSortIndexColumn: null
         defaultSortDirection: ASC
         conditionalFormatting: null
+        calcs: null
         filters: null
         columnProperties:
           - originalName: state
@@ -672,6 +680,7 @@ cells:
         columnOrdering: null
         pinnedColumns: null
         hiddenColumns: null
+        pinIndexColumns: false
   - cellType: INPUT
     cellId: b66cb92a-dadc-4de8-a589-67969461614e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: UF
@@ -780,6 +789,7 @@ cells:
         defaultSortIndexColumn: null
         defaultSortDirection: ASC
         conditionalFormatting: null
+        calcs: null
         filters: null
         columnProperties:
           - originalName: anos de experiência
@@ -830,6 +840,7 @@ cells:
         columnOrdering: null
         pinnedColumns: null
         hiddenColumns: null
+        pinIndexColumns: false
   - cellType: MARKDOWN
     cellId: 3a6d4371-2cf9-47f2-ae11-c379afc10cf1 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Buscar MSRs próximas de uma Voluntária
@@ -992,6 +1003,7 @@ cells:
         defaultSortIndexColumn: null
         defaultSortDirection: ASC
         conditionalFormatting: null
+        calcs: null
         filters: null
         columnProperties:
           - originalName: UF
@@ -1037,6 +1049,7 @@ cells:
         columnOrdering: null
         pinnedColumns: null
         hiddenColumns: null
+        pinIndexColumns: false
   - cellType: MARKDOWN
     cellId: 27cbec60-f605-48c5-85e4-95ca57c6c7d6 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Fazer um match entre uma MSR e uma voluntária escolhida 🤝
@@ -1068,7 +1081,7 @@ cells:
       name: volunteer_email
       outputType: STRING
       options: null
-      defaultValue: dev.adv.mapa@gmail.com
+      defaultValue: ""
   - cellType: INPUT
     cellId: 697f3285-7c20-47cf-9e39-5fb4cbd71700 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Clique aqui para fazer o match
