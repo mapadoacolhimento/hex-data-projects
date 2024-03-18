@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: f43449ff-95f5-418f-aabd-caab6dd26aa1 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 7e41dad3-f3f0-4ca2-a620-40c2dfe7612f # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: fc81fcd3-0961-4ff8-a485-a95c42f2c645 # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: Match manual
@@ -56,7 +56,7 @@ cells:
               
             Esse ID também pode ser encontrado no título do ticket conforme mostra a imagem a seguir: 
                 
-            <img src="/api/v1/file/bd2a91f8-a510-43ec-bead-e3dcabf18593" width="250" />
+            <img src="/api/v1/file/31f01899-c9db-44c1-aa0a-038da9eec9ab" width="250" />
 
         2. **Insira esse ID no campo a seguir e clique em "Bucar voluntárias"**  
             
@@ -1103,7 +1103,6 @@ cells:
       source: |-
         import requests
         import json
-        import time
 
         # Define the function to make the request
         def make_request():
@@ -1122,12 +1121,8 @@ cells:
             response = requests.post(endpoint, json=body, headers=headers)
             if response.status_code == requests.codes.ok:
                 print("Match realizado com sucesso <3")
-                time.sleep(5)
-                run_match = False
             else:
                 print("Por algum motivo o match não deu certo :/ Manda esse erro pra equipe de tech:", response.json())
-                time.sleep(5)
-                run_match = False
 
 
         if run_match == True:
