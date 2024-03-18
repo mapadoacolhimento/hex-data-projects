@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: c5ceca6f-5d8f-465d-aeb8-3add06cc79c9 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 7442e78b-684a-4107-9797-34921ed75008 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -3383,7 +3383,7 @@ cells:
         valueOptions:
           - Ver dados apenas dos últimos 12 meses
           - Ver dados desde o início do Mapa
-      defaultValue: Ver dados desde o início do Mapa
+      defaultValue: Ver dados apenas dos últimos 12 meses
   - cellType: BLOCK
     cellId: 7f28b0d6-27f7-4851-8047-f21babf3562a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -10388,7 +10388,7 @@ cells:
     cellId: e3dd5db0-ecff-4364-8cef-c4c4f63d0d13 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: New match events
     config:
-      source: |-
+      source: |
         WITH valid_support_request_id AS (
             SELECT 
                 DISTINCT support_request_id
@@ -10411,7 +10411,7 @@ cells:
             SELECT 
                 support_request_id,
                 CASE 
-                    WHEN rn > 1 AND status = 'open' THEN 'waiting_for_match' 
+                    WHEN rn > 1 AND status IN ('open', 'special_case')  THEN 'waiting_for_match' 
                     ELSE status::VARCHAR 
                 END AS status,
                 created_at
@@ -10506,6 +10506,7 @@ cells:
         )
         SELECT *
         FROM sankey
+        WHERE CONCAT(source, '+', target) NOT IN ('manual_match+manual_match')
         ORDER BY source
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -10658,7 +10659,7 @@ cells:
           'expanded_match':'<b>match expandido </b>' + get_label_count('expanded_match'),
           'ideal_match':'<b>match ideal </b>' + get_label_count('ideal_match'),
           'waiting_contact':'<b>aguardando contato </b>' + get_label_count('waiting_contact'),
-          'public_service': '<b>encaminhada para serviço público </b>' + get_label_count('public_service'),
+          'public_service': '<b>serviço público </b>' + get_label_count('public_service'),
           'in_contact': '<b>atendimento iniciado </b>' + get_label_count('in_contact'),
           'expired': '<b>match expirado </b>' + get_label_count('expired'),
           'interrupted': '<b>match interrompido </b> ' + get_label_count('interrupted'),
@@ -10669,17 +10670,17 @@ cells:
 
         position_dict = {
             'open': [0.001, 0.5],
-            'waiting_for_match': [0.35, 0.7],
+            'waiting_for_match': [0.4, 0.7],
             'online_match': [0.15, 1],
-            'expanded_match': [0.15, 0.94],
-            'ideal_match': [0.15, 0.5],
+            'expanded_match': [0.15, 0.9],
+            'ideal_match': [0.15, 0.55],
             'waiting_contact': [0.4, 1],
-            'public_service': [0.25, 0.1],
+            'public_service': [0.4, 0.1],
             'in_contact': [0.25, 0.3],
-            'expired': [0.6, 0.4],
-            'interrupted': [0.25, 0.5],
+            'expired': [0.25, 0.5],
+            'interrupted': [0.25, 0.7],
             'completed': [0.75, 0.2],
-            'social_worker': [0.25,0.001],
+            'social_worker': [0.15,0.001],
             'manual_match': [0.5,0.5]
 
         }
