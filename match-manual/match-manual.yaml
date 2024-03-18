@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 8877bc41-856c-46ad-bad1-406a532e128e # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: c2292daa-9be8-493b-9de0-9e71c8a1e273 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: fc81fcd3-0961-4ff8-a485-a95c42f2c645 # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] Match manual"
@@ -54,7 +54,7 @@ cells:
               
             Esse ID também pode ser encontrado no título do ticket conforme mostra a imagem a seguir: 
                 
-            <img src="/api/v1/file/8ab3e9ed-6372-43d2-8c4a-224938fed923" width="250" />
+            <img src="/api/v1/file/b3a9e6b0-afb1-4478-8f70-49636bd66700" width="250" />
 
         2. **Insira esse ID no campo a seguir e clique em "Bucar voluntárias"**  
             
@@ -1081,7 +1081,7 @@ cells:
       name: volunteer_email
       outputType: STRING
       options: null
-      defaultValue: teste@voluntaria
+      defaultValue: teste2
   - cellType: INPUT
     cellId: 697f3285-7c20-47cf-9e39-5fb4cbd71700 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Clique aqui para fazer o match
@@ -1093,6 +1093,15 @@ cells:
         intent: primary
         icon: play
         text: Fazer match
+      defaultValue: null
+  - cellType: INPUT
+    cellId: 0429e731-7532-46be-a3d7-ca6323e83351 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Reset
+    config:
+      inputType: BUTTON
+      name: reset
+      outputType: BOOLEAN
+      options: null
       defaultValue: null
   - cellType: CODE
     cellId: b3622178-fbbd-4c82-89de-bf4a91f48c31 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -1127,7 +1136,16 @@ cells:
             # make_request()
             print("vou fazer o request com " + volunteer_email)
         else:
-            print("Aguardando comando para realizar o match...")
+            print("Aguardando comando para realizar o match... " + volunteer_email)
+  - cellType: CODE
+    cellId: 448f152d-cf78-4093-8d6d-7bd6fed468a5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |
+        if reset == True:
+            run_match = False
+            volunteer_email = 'resetado'
+            print("vou fazer o request com " + volunteer_email)
 appLayout:
   visibleMetadataFields:
     - NAME
