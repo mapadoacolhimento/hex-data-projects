@@ -1,16 +1,19 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 522bceac-37ce-4e06-967f-a6c727caa863 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 50ecfddf-5bc8-4c8c-88d4-a77285fd3058 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: fc81fcd3-0961-4ff8-a485-a95c42f2c645 # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: Match manual
-  timezone: null
+  timezone: Brazil/East
   appTheme: SYS_PREF
   codeLanguage: PYTHON
   status: null
   categories: []
   castDecimalsDefault: true
-  logicQueryCacheTimeout: null
+  logicQueryCacheTimeout:
+    type: fixed
+    unit: minutes
+    duration: 60
   publishedQueryCacheTimeout: null
   hexType: PROJECT
 projectAssets:
@@ -54,7 +57,7 @@ cells:
               
             Esse ID também pode ser encontrado no título do ticket conforme mostra a imagem a seguir: 
                 
-            <img src="/api/v1/file/ce695a3d-b6f3-4cec-a4c4-9a0750847d0b" width="250" />
+            <img src="/api/v1/file/8d5b8881-729f-4e57-bb05-fa66a709dc85" width="250" />
 
         2. **Insira esse ID no campo a seguir e clique em "Bucar voluntárias"**  
             
@@ -1072,7 +1075,7 @@ cells:
       name: msr_zendesk_ticket_id_match
       outputType: NUMBER
       options: null
-      defaultValue: 80125
+      defaultValue: 3
   - cellType: INPUT
     cellId: cd6a439f-ab51-4aad-814d-17848de07376 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: E-mail da voluntária
@@ -1081,7 +1084,7 @@ cells:
       name: volunteer_email
       outputType: STRING
       options: null
-      defaultValue: dev.adv.mapa@gmail.com
+      defaultValue: dev
   - cellType: INPUT
     cellId: 697f3285-7c20-47cf-9e39-5fb4cbd71700 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Clique aqui para fazer o match
@@ -1105,7 +1108,7 @@ cells:
         # Define the function to make the request
         def make_request():
             # Define the endpoint
-            endpoint = "https://6y5g1a25q4.execute-api.sa-east-1.amazonaws.com/manual-match"
+            endpoint = "https://kpb0mpgmm6.execute-api.sa-east-1.amazonaws.com/manual-match"
 
             # Define the parameters
             body = {
@@ -1124,9 +1127,15 @@ cells:
 
 
         if run_match == True:
+            print("vou fazer o request com:", volunteer_email)
             make_request()
         else:
             print("Aguardando comando para realizar o match...")
+  - cellType: CODE
+    cellId: a35a834b-0b18-4cc2-9d8a-42294fb660c9 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: print("email da voluntaria", volunteer_email)
 appLayout:
   visibleMetadataFields:
     - NAME
@@ -1344,4 +1353,15 @@ appLayout:
                   sharedFilterId: null
                   height: null
                   showLabel: false
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: a35a834b-0b18-4cc2-9d8a-42294fb660c9
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
 sharedFilters: []
