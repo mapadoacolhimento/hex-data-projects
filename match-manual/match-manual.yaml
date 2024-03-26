@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 7e41dad3-f3f0-4ca2-a620-40c2dfe7612f # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 1da4350d-c19a-447a-8b30-0cc2b1d573ab # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: fc81fcd3-0961-4ff8-a485-a95c42f2c645 # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: Match manual
@@ -56,7 +56,7 @@ cells:
               
             Esse ID também pode ser encontrado no título do ticket conforme mostra a imagem a seguir: 
                 
-            <img src="/api/v1/file/31f01899-c9db-44c1-aa0a-038da9eec9ab" width="250" />
+            <img src="/api/v1/file/76abed4a-5e8a-4c6a-9c23-793ccdd20dde" width="250" />
 
         2. **Insira esse ID no campo a seguir e clique em "Bucar voluntárias"**  
             
@@ -695,15 +695,38 @@ cells:
           dfName: states
           columnName: state
           variableName: states['state']
-      defaultValue: PE
+      defaultValue: SP
+  - cellType: INPUT
+    cellId: 50368214-9c67-4a09-bc33-270cf6a68ee5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Clique aqui para buscar os municípios
+    config:
+      inputType: BUTTON
+      name: buscar_municípios_dessa_uf
+      outputType: BOOLEAN
+      options:
+        intent: primary
+        icon: play
+        text: Buscar municípios
+      defaultValue: null
   - cellType: SQL
     cellId: 9e6e7b1a-8cc1-47ff-aa2a-ce099ea2b0d2 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: Busca municípios"
     config:
       source: |-
+        
+        {% if buscar_municípios_dessa_uf %}
         SELECT city_value
         FROM cities
-        WHERE state = COALESCE({{ state }}, 'AC')
+        WHERE state = {{ state }}
+        ORDER BY 1
+
+        {% else %}
+        SELECT city_value
+        FROM cities
+        WHERE state = 'AC'
+        ORDER BY 1
+
+        {% endif %}
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: cities
@@ -727,7 +750,7 @@ cells:
           dfName: cities
           columnName: city_value
           variableName: cities['city_value']
-      defaultValue: RECIFE
+      defaultValue: SAO PAULO
   - cellType: INPUT
     cellId: 34d67caa-9f4a-4b0e-9632-567e87c2e085 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Tipo de acolhimento
@@ -740,11 +763,24 @@ cells:
           - Psicológico
           - Jurídico
       defaultValue: Jurídico
+  - cellType: INPUT
+    cellId: 3fa6b24d-eaf6-48f4-9359-9f1eb899b21d # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Clique aqui para buscar as voluntárias
+    config:
+      inputType: BUTTON
+      name: bucar_voluntarias_municipio
+      outputType: BOOLEAN
+      options:
+        intent: primary
+        icon: play
+        text: Buscar voluntárias
+      defaultValue: null
   - cellType: SQL
     cellId: a2977f05-156f-42c2-b045-2ec5fabc467c # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: Mostra as Voluntárias no município selecionado"
     config:
       source: |-
+        {% if bucar_voluntarias_municipio %}
         SELECT
             CONCAT(first_name, ' ', last_name) AS "nome",
             email AS "e-mail",
@@ -772,6 +808,37 @@ cells:
             AND a.city = {{ city }}
             AND a.state = {{ state }}
         LIMIT 100
+
+        {% else %}
+        SELECT
+            CONCAT(first_name, ' ', last_name) AS "nome",
+            email AS "e-mail",
+            CASE
+                WHEN phone = 'not_found' THEN '-'
+                ELSE phone 
+            END AS "telefone",
+            CASE 
+                WHEN a.support_expertise = 'not_found' THEN '-'
+                ELSE a.support_expertise
+            END AS "especialidades",
+            CASE 
+                WHEN years_of_experience = 'not_found' THEN '-'
+                ELSE years_of_experience
+            END AS "anos de experiência",
+            max_matches::VARCHAR AS "disponibilidade",
+            current_matches AS "já possui matches",
+            a.city AS município,
+            a.state AS UF
+        FROM volunteer_availability a
+        LEFT JOIN volunteers b ON id = volunteer_id
+        WHERE 
+            is_available = TRUE
+            AND support_type = CASE WHEN {{ support_type }} = 'Psicológico' THEN 'psychological' ELSE 'legal' END
+            AND a.city = 'SAO PAULO'
+            AND a.state = 'SP'
+        LIMIT 100
+
+        {% endif %}
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: volunteer_city
@@ -873,7 +940,7 @@ cells:
       name: fetch_msrs
       outputType: BOOLEAN
       options:
-        intent: none
+        intent: primary
         icon: play
         text: Buscar MSRs
       defaultValue: null
@@ -1211,7 +1278,7 @@ appLayout:
                   showLabel: false
         - columns:
             - start: 0
-              end: 30
+              end: 10
               elements:
                 - showSource: false
                   hideOutput: false
@@ -1220,8 +1287,19 @@ appLayout:
                   sharedFilterId: null
                   height: null
                   showLabel: true
-            - start: 30
-              end: 60
+            - start: 10
+              end: 40
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 50368214-9c67-4a09-bc33-270cf6a68ee5
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 30
               elements:
                 - showSource: false
                   hideOutput: false
@@ -1230,13 +1308,23 @@ appLayout:
                   sharedFilterId: null
                   height: null
                   showLabel: true
-            - start: 60
-              end: 90
+            - start: 30
+              end: 55
               elements:
                 - showSource: false
                   hideOutput: false
                   type: CELL
                   cellId: 34d67caa-9f4a-4b0e-9632-567e87c2e085
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 55
+              end: 90
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 3fa6b24d-eaf6-48f4-9359-9f1eb899b21d
                   sharedFilterId: null
                   height: null
                   showLabel: true
