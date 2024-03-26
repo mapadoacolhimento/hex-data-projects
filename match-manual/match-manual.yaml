@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 1da4350d-c19a-447a-8b30-0cc2b1d573ab # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 5715987e-6635-402e-b054-825a6625d330 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: fc81fcd3-0961-4ff8-a485-a95c42f2c645 # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: Match manual
@@ -56,7 +56,7 @@ cells:
               
             Esse ID também pode ser encontrado no título do ticket conforme mostra a imagem a seguir: 
                 
-            <img src="/api/v1/file/76abed4a-5e8a-4c6a-9c23-793ccdd20dde" width="250" />
+            <img src="/api/v1/file/90e15230-0879-4e46-8941-ba741c854808" width="250" />
 
         2. **Insira esse ID no campo a seguir e clique em "Bucar voluntárias"**  
             
@@ -351,6 +351,7 @@ cells:
           cellLabel: "SQL: Mostra a tabela com as voluntárias mais próximas à MSR"
           config:
             source: |-
+              {% if fetch_volunteers_msr %}
               SELECT
                   CONCAT(ROUND(distance_to_msr, 1)::VARCHAR, ' km') AS "distância à MSR",
                   CONCAT(first_name, ' ', last_name) AS "nome",
@@ -374,6 +375,33 @@ cells:
                   state AS UF
               FROM available_volunteers_with_distance
               ORDER BY distance_to_msr
+
+              {% else %}
+              SELECT
+                  0 AS "distância à MSR",
+                  CONCAT(first_name, ' ', last_name) AS "nome",
+                  email AS "e-mail",
+                  CASE
+                      WHEN phone = 'not_found' THEN '-'
+                      ELSE phone 
+                  END AS "telefone",
+                  CASE 
+                      WHEN support_expertise = 'not_found' THEN '-'
+                      ELSE support_expertise
+                  END AS "especialidades",
+                  CASE 
+                      WHEN years_of_experience = 'not_found' THEN '-'
+                      ELSE years_of_experience
+                  END AS "anos de experiência",
+                  max_matches::VARCHAR AS "disponibilidade",
+                  current_matches AS "matches em curso",
+                  completed_matches AS "matches concluídos",
+                  city AS município,
+                  state AS UF
+              FROM available_volunteers_with_distance
+              WHERE 0 = 1
+
+              {% endif %}
             dataFrameCell: true
             dataConnectionId: null
             resultVariableName: closest_volunteers
@@ -836,6 +864,7 @@ cells:
             AND support_type = CASE WHEN {{ support_type }} = 'Psicológico' THEN 'psychological' ELSE 'legal' END
             AND a.city = 'SAO PAULO'
             AND a.state = 'SP'
+            AND 0 = 1
         LIMIT 100
 
         {% endif %}
@@ -1034,7 +1063,8 @@ cells:
     cellId: 294bbb1c-3227-4d71-a337-514e13cf5b09 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: Mostra a tabela com as MSRs mais próximas à Voluntária"
     config:
-      source: |-
+      source: |
+        {% if fetch_msrs %}
         SELECT
             CONCAT(ROUND(distance_to_volunteer, 1)::VARCHAR, ' km') AS "distância à Voluntária",
             nome,
@@ -1053,6 +1083,29 @@ cells:
         FROM msrs_with_distance
         INNER JOIN msr_info USING (msr_id)
         ORDER BY distance_to_volunteer 
+
+        {% else %}
+        SELECT
+            CONCAT(ROUND(distance_to_volunteer, 1)::VARCHAR, ' km') AS "distância à Voluntária",
+            nome,
+            email AS "e-mail",
+            zendesk_ticket_id AS "ticket ID",
+            CASE
+                WHEN phone IS NULL THEN '-'
+                ELSE phone 
+            END AS "telefone",
+            CASE
+                WHEN status = 'open' THEN 'solicitação recebida'
+                ELSE 'encaminhada para serviço público'
+            END AS status,
+            city AS município,
+            state AS UF
+        FROM msrs_with_distance
+        INNER JOIN msr_info USING (msr_id)
+        WHERE 0 = 1
+        ORDER BY distance_to_volunteer 
+
+        {% endif %}
       dataFrameCell: true
       dataConnectionId: null
       resultVariableName: dataframe
