@@ -1,0 +1,3266 @@
+schemaVersion: 3
+meta:
+  sourceVersionId: 7be992a4-53ae-4b7f-a46c-9c0c59052cb5 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  description: |+
+    Esse monitoramento apresenta os impactos da ação do Recadastro de Voluntárias realizado em Abril de 2024.
+
+  projectId: 4e0af48b-3567-492c-9572-c35394e4010d # DO NOT CHANGE - Unique ID of the project from which this file was generated
+  title: "[PROV SERV] Recadastro de Voluntárias"
+  timezone: null
+  appTheme: SYS_PREF
+  codeLanguage: PYTHON
+  status: null
+  categories: []
+  castDecimalsDefault: true
+  logicQueryCacheTimeout: null
+  publishedQueryCacheTimeout:
+    type: fixed
+    unit: days
+    duration: 1
+  hexType: PROJECT
+  allowExecutionReordering: true
+  prerunApp: false
+  cachePublishedAppState: true
+  refreshStalePublishedApp: true
+  autoRerunApp: true
+projectAssets:
+  dataConnections: []
+  envVars: []
+  secrets: []
+sharedAssets:
+  secrets: []
+  vcsPackages: []
+  dataConnections:
+    - dataConnectionId: 2a5a472c-4f75-4a9f-a452-faf59cd3dd71 # stg-mapa-org (postgres)
+    - dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030 # prod-mapa-org (postgres)
+  externalFileIntegrations: []
+cells:
+  - cellType: MARKDOWN
+    cellId: 4884b135-c9b7-4b7a-9809-c6c3ebb941e1 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "Grupo 1: Voluntárias ativas ociosas ou com match aguardando contato que se cadastraram entre 2018 e 2022"
+  - cellType: SQL
+    cellId: db73f117-a6a0-4335-b0e6-6cc68974bfa7 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Group 1
+    config:
+      source: |-
+        WITH idle_volunteers_2018_2022 AS (
+            SELECT volunteer_id
+            FROM volunteer_availability a
+            LEFT JOIN volunteers v ON id = volunteer_id
+            WHERE is_available = TRUE AND current_matches = 0
+            AND a.created_at BETWEEN '2018-01-01' AND '2023-01-01'
+            AND condition IN ('disponivel', 'indisponivel_sem_vagas')
+        ),
+        volunteers_with_waiting_contact_match_2018_2022 AS (
+            SELECT volunteer_id
+            FROM match.matches
+            LEFT JOIN volunteers v ON id = volunteer_id
+            WHERE status = 'waiting_contact'
+            AND v.created_at BETWEEN '2018-01-01' AND '2023-01-01'
+            AND condition IN ('disponivel', 'indisponivel_sem_vagas')
+        ),
+        all_group_1 AS (
+            SELECT volunteer_id
+            FROM idle_volunteers_2018_2022
+            UNION ALL
+            SELECT volunteer_id
+            FROM volunteers_with_waiting_contact_match_2018_2022
+        )
+        SELECT DISTINCT
+            volunteer_id,
+            'group_1' AS recadastro_group
+        FROM all_group_1
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: group_1
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: recadastro_group
+            renameTo: null
+            size: 150
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 122
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: MARKDOWN
+    cellId: cc4d7e84-ae6d-4205-904b-b10abec94698 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "Grupo 2: Voluntárias ativas ociosas ou com match aguardando contato que se cadastraram de de 2023 até hoje"
+  - cellType: SQL
+    cellId: 0b7ceee8-da53-45e3-b57c-d4c1542a409b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Group 2
+    config:
+      source: |-
+        WITH idle_volunteers_2023_2024 AS (
+            SELECT volunteer_id
+            FROM volunteer_availability a
+            LEFT JOIN volunteers v ON id = volunteer_id
+            WHERE is_available = TRUE AND current_matches = 0
+            AND a.created_at BETWEEN '2023-01-01' AND '2024-01-24'
+            AND condition IN ('disponivel', 'indisponivel_sem_vagas')
+        ),
+        volunteers_with_waiting_contact_match_2023_2024 AS (
+            SELECT volunteer_id
+            FROM match.matches
+            LEFT JOIN volunteers v ON id = volunteer_id
+            WHERE status = 'waiting_contact'
+            AND v.created_at BETWEEN '2023-01-01' AND '2024-01-24'
+            AND condition IN ('disponivel', 'indisponivel_sem_vagas')
+        ),
+        all_group_2 AS (
+            SELECT volunteer_id
+            FROM idle_volunteers_2023_2024
+            UNION ALL
+            SELECT volunteer_id
+            FROM volunteers_with_waiting_contact_match_2023_2024
+        )
+        SELECT DISTINCT
+            volunteer_id,
+            'group_2' AS recadastro_group
+        FROM all_group_2
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: group_2
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: recadastro_group
+            renameTo: null
+            size: 150
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 122
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: MARKDOWN
+    cellId: 09911103-bb90-4948-8df2-d123d5686437 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "Grupo 3: Voluntárias Reprovadas em Estudo de Caso cadastradas entre 2018 e junho de 2023"
+  - cellType: SQL
+    cellId: a3388d81-503b-4518-8d04-f733e09be852 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Group 3
+    config:
+      source: |-
+        SELECT 
+            DISTINCT id AS volunteer_id,
+            'group_3' AS recadastro_group
+        FROM volunteers
+        WHERE
+            condition = 'reprovada_estudo_de_caso'
+            AND created_at BETWEEN '2018-01-01' AND '2023-07-01'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: group_3
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: recadastro_group
+            renameTo: null
+            size: 150
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 122
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: MARKDOWN
+    cellId: 53060d03-fd1d-4e8a-aa5a-9457ca80e18c # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "Grupo 4: Voluntárias Reprovadas em Estudo de Caso que se cadastraram em  2018 a 2022: “oi, lembra que você se inscreveu no Mapa? para concluir seu cadastro, você precisa fazer a capacitação” -"
+  - cellType: SQL
+    cellId: db9c3af4-1f45-4a85-9fc0-4d8db23c026e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Group 4
+    config:
+      source: |-
+        SELECT 
+            DISTINCT id AS volunteer_id,
+            'group_4' AS recadastro_group
+        FROM volunteers
+        WHERE
+            condition = 'reprovada_estudo_de_caso'
+            AND created_at BETWEEN '2023-07-01' AND '2024-01-24'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: group_4
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: recadastro_group
+            renameTo: null
+            size: 150
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 122
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: MARKDOWN
+    cellId: 5de56fd4-55ca-443f-b07d-915dd0cdae92 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "Grupo 5: Voluntárias com Dados Incompletos"
+  - cellType: SQL
+    cellId: 40813fed-5eae-4cd2-a6b8-d15dbc2c42ad # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Group 5
+    config:
+      source: |-
+        SELECT 
+            DISTINCT id AS volunteer_id,
+            'group_5' AS recadastro_group
+        FROM volunteers
+        WHERE condition IN ('dados_incompletos_endereço', 'dados_incompletos_telefone')
+        AND created_at < '2024-01-24'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: group_5
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: recadastro_group
+            renameTo: null
+            size: 150
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 122
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: MARKDOWN
+    cellId: da6b34b3-be21-4401-85cf-edc1a046793a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "Grupo 6: Voluntárias advogadas Reprovadas por Registro Inválido"
+  - cellType: SQL
+    cellId: a10eb602-f830-4aab-ba4e-854e946b69fe # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Group 6
+    config:
+      source: |-
+        SELECT DISTINCT id AS volunteer_id,
+            'group_6' AS recadastro_group
+        FROM volunteers
+        WHERE condition = 'reprovada_registro_inválido'
+        AND occupation = 'lawyer'
+        AND created_at < '2024-01-24'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: group_6
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: recadastro_group
+            renameTo: null
+            size: 150
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 122
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: MARKDOWN
+    cellId: 1a0f4bcd-83e0-44f3-8e42-7a0092e09a96 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "Grupo 7: Voluntárias psicólogas Reprovadas por Registro Inválido"
+  - cellType: SQL
+    cellId: 52360177-8c18-4f33-86a8-6404c5ce7b90 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Group 7
+    config:
+      source: |-
+        SELECT DISTINCT id AS volunteer_id,
+            'group_7' AS recadastro_group
+        FROM volunteers
+        WHERE condition = 'reprovada_registro_inválido'
+        AND occupation = 'psychologist'
+        AND created_at < '2024-01-24'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: group_7
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: recadastro_group
+            renameTo: null
+            size: 150
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 122
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: MARKDOWN
+    cellId: dc58cd90-0f2c-4097-9748-ba891cde93fb # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "Grupo 8: Voluntárias ausentes"
+  - cellType: SQL
+    cellId: f281cf00-0fca-4d78-9bdb-4844f8104fc9 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Group 8
+    config:
+      source: |-
+        SELECT DISTINCT
+            id AS volunteer_id,
+            'group_8' AS recadastro_group
+        FROM volunteers
+        WHERE condition IN ('indisponível_agenda', 'indisponível_férias', 'indisponível_maternidade', 'indisponível_outros_motivos', 'indisponível_saude', 'indisponível_-sem_resposta', 'indisponível_trabalho_e_estudo')
+        AND created_at < '2024-01-24'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: group_8
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: recadastro_group
+            renameTo: null
+            size: 150
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 122
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 4b17c1cc-d67d-49c1-b2f2-358b12a93483 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: All groups
+    config:
+      source: |-
+        WITH all_groups AS (
+            SELECT *
+            FROM group_1
+            UNION ALL
+            SELECT *
+            FROM group_2
+            UNION ALL
+            SELECT *
+            FROM group_3
+            UNION ALL
+            SELECT *
+            FROM group_4
+            UNION ALL
+            SELECT *
+            FROM group_5
+            UNION ALL
+            SELECT *
+            FROM group_6
+            UNION ALL
+            SELECT *
+            FROM group_7
+            UNION ALL
+            SELECT *
+            FROM group_8
+
+        )
+        SELECT
+            volunteer_id,
+            recadastro_group
+        FROM all_groups
+      dataFrameCell: true
+      dataConnectionId: null
+      resultVariableName: all_groups
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: recadastro_group
+            renameTo: null
+            size: 150
+            wrapText: null
+            displayFormat: null
+          - originalName: recadastro_groups
+            renameTo: null
+            size: 156
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 122
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: eab1236c-2444-4c7c-a585-4ca59b04e7a4 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: query completa
+    config:
+      source: |-
+        WITH idle_volunteers_2018_2022 AS (
+            SELECT volunteer_id
+            FROM volunteer_availability a
+            LEFT JOIN volunteers v ON id = volunteer_id
+            WHERE is_available = TRUE AND current_matches = 0
+            AND a.created_at BETWEEN '2018-01-01' AND '2023-01-01'
+            AND condition IN ('disponivel', 'indisponivel_sem_vagas')
+        ),
+        volunteers_with_waiting_contact_match_2018_2022 AS (
+            SELECT volunteer_id
+            FROM match.matches
+            LEFT JOIN volunteers v ON id = volunteer_id
+            WHERE status = 'waiting_contact'
+            AND v.created_at BETWEEN '2018-01-01' AND '2023-01-01'
+            AND condition IN ('disponivel', 'indisponivel_sem_vagas')
+        ),
+        all_group_1 AS (
+            SELECT volunteer_id
+            FROM idle_volunteers_2018_2022
+            UNION ALL
+            SELECT volunteer_id
+            FROM volunteers_with_waiting_contact_match_2018_2022
+        ),
+        group_1 AS (
+            SELECT DISTINCT
+                volunteer_id,
+                'group_1' AS recadastro_group
+            FROM all_group_1    
+        ),
+        idle_volunteers_2023_2024 AS (
+            SELECT volunteer_id
+            FROM volunteer_availability a
+            LEFT JOIN volunteers v ON id = volunteer_id
+            WHERE is_available = TRUE AND current_matches = 0
+            AND a.created_at BETWEEN '2023-01-01' AND '2024-01-24'
+            AND condition IN ('disponivel', 'indisponivel_sem_vagas')
+        ),
+        volunteers_with_waiting_contact_match_2023_2024 AS (
+            SELECT volunteer_id
+            FROM match.matches
+            LEFT JOIN volunteers v ON id = volunteer_id
+            WHERE status = 'waiting_contact'
+            AND v.created_at BETWEEN '2023-01-01' AND '2024-01-24'
+            AND condition IN ('disponivel', 'indisponivel_sem_vagas')
+        ),
+        all_group_2 AS (
+            SELECT volunteer_id
+            FROM idle_volunteers_2023_2024
+            UNION ALL
+            SELECT volunteer_id
+            FROM volunteers_with_waiting_contact_match_2023_2024
+        ),
+        group_2 AS (
+            SELECT DISTINCT
+                volunteer_id,
+                'group_2' AS recadastro_group
+            FROM all_group_2
+        ),
+        group_3 AS (
+            SELECT 
+                DISTINCT id AS volunteer_id,
+                'group_3' AS recadastro_group
+            FROM volunteers
+            WHERE
+                condition = 'reprovada_estudo_de_caso'
+                AND created_at BETWEEN '2018-01-01' AND '2023-07-01'
+        ),
+        group_4 AS (
+            SELECT 
+                DISTINCT id AS volunteer_id,
+                'group_4' AS recadastro_group
+            FROM volunteers
+            WHERE
+                condition = 'reprovada_estudo_de_caso'
+                AND created_at BETWEEN '2023-07-01' AND '2024-01-24'
+        ),
+        group_5 AS (
+            SELECT 
+                DISTINCT id AS volunteer_id,
+                'group_5' AS recadastro_group
+            FROM volunteers
+            WHERE condition IN ('dados_incompletos_endereço', 'dados_incompletos_telefone')
+            AND created_at < '2024-01-24'
+        ),
+        group_6 AS (
+            SELECT DISTINCT id AS volunteer_id,
+                'group_6' AS recadastro_group
+            FROM volunteers
+            WHERE condition = 'reprovada_registro_inválido'
+            AND occupation = 'lawyer'
+            AND created_at < '2024-01-24'
+        ),
+        group_7 AS (
+            SELECT DISTINCT id AS volunteer_id,
+                'group_7' AS recadastro_group
+            FROM volunteers
+            WHERE condition = 'reprovada_registro_inválido'
+            AND occupation = 'psychologist'
+            AND created_at < '2024-01-24'
+        ),
+        group_8 AS (
+            SELECT DISTINCT
+                id AS volunteer_id,
+                'group_8' AS recadastro_group
+            FROM volunteers
+            WHERE condition IN ('indisponível_agenda', 'indisponível_férias', 'indisponível_maternidade', 'indisponível_outros_motivos', 'indisponível_saude', 'indisponível_-sem_resposta', 'indisponível_trabalho_e_estudo')
+            AND created_at < '2024-01-24'
+        ),
+        all_groups AS (
+            SELECT *
+            FROM group_1
+            UNION ALL
+            SELECT *
+            FROM group_2
+            UNION ALL
+            SELECT *
+            FROM group_3
+            UNION ALL
+            SELECT *
+            FROM group_4
+            UNION ALL
+            SELECT *
+            FROM group_5
+            UNION ALL
+            SELECT *
+            FROM group_6
+            UNION ALL
+            SELECT *
+            FROM group_7
+            UNION ALL
+            SELECT *
+            FROM group_8
+
+        )
+        SELECT
+            volunteer_id,
+            recadastro_group AS volunteer_segment_group
+        FROM all_groups
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_22
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: MARKDOWN
+    cellId: 94f357dc-0939-4253-9232-74ff557787da # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "### Voluntárias não-ativas com matches em andamento"
+  - cellType: SQL
+    cellId: 4eba43d4-2abb-43cf-b3f6-45a86d554559 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |
+        SELECT 
+            condition AS "status da mulher", 
+            email, 
+            CASE WHEN status = 'waiting_contact' THEN 'encaminhamento realizado' ELSE 'atendimento iniciado' END AS "status do acolhimento", 
+            volunteer_zendesk_ticket_id AS "ticket ID do Zendesk", 
+            m.updated_at AS "atualizado em"
+        FROM match.matches m
+        LEFT JOIN volunteers ON id = volunteer_id
+        WHERE status IN ('waiting_contact', 'in_contact')
+        AND volunteer_id IS NOT NULL
+        AND condition NOT IN ('disponivel', 'indisponivel_sem_vagas', 'indisponível_agenda', 'indisponível_férias', 'indisponível_maternidade', 'indisponível_outros_motivos', 'indisponível_saude', 'indisponível_-sem_resposta', 'indisponível_trabalho_e_estudo')
+        ORDER BY m.updated_at DESC
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_24
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 15
+        height: 420
+        hideIcons: true
+        hideIndex: true
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: atualizado em
+            renameTo: null
+            size: 242
+            wrapText: null
+            displayFormat: null
+          - originalName: condition
+            renameTo: null
+            size: 245
+            wrapText: null
+            displayFormat: null
+          - originalName: email
+            renameTo: null
+            size: 208
+            wrapText: null
+            displayFormat: null
+          - originalName: status
+            renameTo: null
+            size: 158
+            wrapText: null
+            displayFormat: null
+          - originalName: status da mulher
+            renameTo: null
+            size: 179
+            wrapText: null
+            displayFormat: null
+          - originalName: status do acolhimento
+            renameTo: null
+            size: 185
+            wrapText: null
+            displayFormat: null
+          - originalName: ticket ID do Zendesk
+            renameTo: null
+            size: 166
+            wrapText: null
+            displayFormat: null
+          - originalName: updated_at
+            renameTo: null
+            size: 195
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 122
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_zendesk_ticket_id
+            renameTo: null
+            size: 210
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 91327b68-2c82-43a4-b6a5-f4a815f14b85 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |
+        SELECT 
+            condition AS "status da mulher", 
+            email, 
+            CASE WHEN status = 'waiting_contact' THEN 'encaminhamento realizado' ELSE 'atendimento iniciado' END AS "status do acolhimento", 
+            volunteer_zendesk_ticket_id AS "ticket ID do Zendesk", 
+            v.updated_at AS "atualizado em"
+        FROM match.matches m
+        LEFT JOIN volunteers v ON id = volunteer_id
+        WHERE status IN ('waiting_contact', 'in_contact')
+        AND volunteer_id IS NOT NULL
+        AND condition IN ('cadastrada', 'capacitacao', 'aprovada')
+        AND v.updated_at >= '2024-01-25'
+        ORDER BY m.updated_at DESC
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_28
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: SQL
+    cellId: 822a7154-93c1-484d-9ddd-b0f0a13aa0ff # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT 
+            condition AS "status da mulher", 
+            email, 
+            CASE WHEN status = 'waiting_contact' THEN 'encaminhamento realizado' ELSE 'atendimento iniciado' END AS "status do acolhimento", 
+            volunteer_zendesk_ticket_id AS "ticket ID do Zendesk", 
+            v.updated_at AS "atualizado em"
+        FROM match.matches m
+        LEFT JOIN volunteers v ON id = volunteer_id
+        WHERE status IN ('waiting_contact', 'in_contact')
+        AND volunteer_id IS NOT NULL
+        AND condition IN ('cadastrada', 'capacitacao', 'aprovada')
+        AND v.updated_at >= '2024-01-25'
+        ORDER BY m.updated_at DESC
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_29
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: MARKDOWN
+    cellId: 737fa5d2-aa86-43bd-b6bb-ca3e6e3e0235 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "# Monitoramento"
+  - cellType: MARKDOWN
+    cellId: 0c3df7e2-7148-4037-89db-98089b2103bd # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        -----
+        ## Engajamento ✍️
+  - cellType: MARKDOWN
+    cellId: 156f37fc-be2d-4dde-8d4b-78b3525a5b23 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "### total"
+  - cellType: SQL
+    cellId: a7693d03-8d0f-45a5-8fe5-2524c2f14852 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Voluntarias acionadas
+    config:
+      source: |-
+        SELECT COUNT(*)
+        FROM volunteer_segments
+        WHERE segment_name = 'recadastro_2024'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: voluntarias_acionadas
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: SQL
+    cellId: cd5b0a2b-a468-43c9-a22c-da6fcb1e2901 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: En
+    config:
+      source: |-
+        WITH descadastradas AS (
+            SELECT COUNT(*) AS total_descadastradas
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND condition = 'descadastrada'
+        ),
+        recadastradas AS (
+            SELECT COUNT(*) AS total_recadastradas
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND fields_of_work != 'not_found'
+        )
+        SELECT
+            total_recadastradas + total_descadastradas AS total
+        FROM recadastradas
+        CROSS JOIN descadastradas
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: voluntarias_engajadas
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: count
+            renameTo: null
+            size: 85
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+          - originalName: total
+            renameTo: null
+            size: 80
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 122
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 90282d36-24e8-4167-957a-2ed922974520 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Taxa engajamento
+    config:
+      source: |-
+        WITH voluntarias_acionadas AS (
+            SELECT COUNT(*) AS total_acionadas
+            FROM volunteer_segments
+            WHERE segment_name = 'recadastro_2024'
+        ),
+        descadastradas AS (
+            SELECT COUNT(*) AS total_descadastradas
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND condition = 'descadastrada'
+        ),
+        recadastradas AS (
+            SELECT COUNT(*) AS total_recadastradas
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND fields_of_work != 'not_found'
+        ),
+        voluntarias_engajadas AS (
+            SELECT
+                total_recadastradas + total_descadastradas AS total_engajadas
+            FROM recadastradas
+            CROSS JOIN descadastradas
+        )
+        SELECT total_engajadas/total_acionadas::NUMERIC(10,4)
+        FROM voluntarias_acionadas
+        CROSS JOIN voluntarias_engajadas
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: taxa_engajamento
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: METRIC
+    cellId: 815a288b-a4d2-453d-8870-a53582094fcf # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      title: voluntárias acionadas
+      valueVariableName: voluntarias_acionadas
+      showComparison: false
+      comparisonType: null
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: null
+      displayFormat: null
+      valueColumn: count
+      valueRowIndex: 0
+      comparisonColumn: null
+      comparisonRowIndex: null
+  - cellType: METRIC
+    cellId: b865b6ef-c221-4c28-be31-bbc558cc415a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      title: voluntárias engajadas
+      valueVariableName: voluntarias_engajadas
+      showComparison: false
+      comparisonType: VALUE
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: ""
+      displayFormat:
+        format: PLAIN
+        currency: USD
+        columnType: NUMBER
+        numDecimalDigits: 2
+        abbreviateLargeNumbers: false
+      valueColumn: total
+      valueRowIndex: 0
+      comparisonColumn: null
+      comparisonRowIndex: null
+  - cellType: METRIC
+    cellId: f5517b95-2de7-483c-a1e0-6ce1d5967721 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      title: taxa de engajamento
+      valueVariableName: taxa_engajamento
+      showComparison: false
+      comparisonType: VALUE
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: ""
+      displayFormat:
+        format: PERCENT
+        currency: USD
+        columnType: NUMBER
+        numDecimalDigits: 2
+        abbreviateLargeNumbers: false
+      valueColumn: ?column?
+      valueRowIndex: 0
+      comparisonColumn: null
+      comparisonRowIndex: 0
+  - cellType: MARKDOWN
+    cellId: 274b8bf5-4ddb-4921-aa82-80b78f067d72 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "### por grupo"
+  - cellType: MARKDOWN
+    cellId: f2a6ee73-faaa-43d4-b792-d43206b7a868 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        - **grupo 1:** Voluntárias ativas ociosas ou com match aguardando contato que se cadastraram entre 2018 e 2022
+
+        - **grupo 2:** Voluntárias ativas ociosas ou com match aguardando contato que se cadastraram de de 2023 até hoje
+
+        - **grupo 3:** Voluntárias Reprovadas em Estudo de Caso cadastradas entre 2018 e junho de 2023
+
+        - **grupo 4:** Voluntárias Reprovadas em Estudo de Caso cadastradas a partir de julho de 2023
+
+        - **grupo 5:** Voluntárias com Dados Incompletos
+
+        - **grupo 6:** Voluntárias advogadas Reprovadas por Registro Inválido
+
+        - **grupo 7:** Voluntárias psicólogas Reprovadas por Registro Inválido
+
+        - **grupo 8:** Voluntárias ausentes
+  - cellType: BLOCK
+    cellId: b8da2f79-07ce-4c3c-b9c8-80937d4afac5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 113c689d-164e-4eb7-8046-ea676326ab66
+        chartCellId: 3983ce7f-4f10-41a6-8060-40ae87155847
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 113c689d-164e-4eb7-8046-ea676326ab66
+          cellLabel: voluntárias acionadas
+          config:
+            source: |
+              SELECT 
+                  volunteer_segment_group,
+                  COUNT(*) AS total_acionadas
+              FROM volunteer_segments
+              WHERE segment_name = 'recadastro_2024'
+              GROUP BY 1
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: dataframe_35
+            useRichDisplay: false
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties: []
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 3983ce7f-4f10-41a6-8060-40ae87155847
+          cellLabel: voluntárias acionadas
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: cc7cf247-a284-4d28-b46d-362400984ae3
+                  xAxis:
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "   "
+                    dataFrameColumn: volunteer_segment_group
+                  series:
+                    - id: 9a3e28ee-3de0-4343-99be-dfcbf0d3d94d
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "     "
+                        aggregate: sum
+                        numberFormat:
+                          format: NUMBER
+                          currency: USD
+                          columnType: NUMBER
+                          numDecimalDigits: 0
+                          abbreviateLargeNumbers: false
+                      dataFrameColumns:
+                        - total_acionadas
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#365CA3"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#01011b"
+                        fontSize: 12
+                        position: outside-end
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: dataframe_35
+              settings:
+                legend:
+                  position: right
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: filter_result_2
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: BLOCK
+    cellId: 416e17a4-8364-4e36-bb69-fb99d37d6be8 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 47479aa6-7af9-4134-b5d8-852d585bb504
+        chartCellId: 1a7024a2-a660-4617-a72c-cc3e7533c7ce
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 47479aa6-7af9-4134-b5d8-852d585bb504
+          cellLabel: voluntária engajadas
+          config:
+            source: |
+              SELECT 
+                  volunteer_segment_group,
+                  COUNT(*) AS total_acionadas
+              FROM volunteer_segments s
+              INNER JOIN volunteers v ON id = volunteer_id
+              WHERE segment_name = 'recadastro_2024'
+              AND v.updated_at >= '2024-04-02'
+              GROUP BY 1
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: dataframe_36
+            useRichDisplay: false
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties: []
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 1a7024a2-a660-4617-a72c-cc3e7533c7ce
+          cellLabel: voluntária engajadas
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: cc7cf247-a284-4d28-b46d-362400984ae3
+                  xAxis:
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "   "
+                    dataFrameColumn: volunteer_segment_group
+                  series:
+                    - id: 9a3e28ee-3de0-4343-99be-dfcbf0d3d94d
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "     "
+                        aggregate: sum
+                        numberFormat:
+                          format: NUMBER
+                          currency: USD
+                          columnType: NUMBER
+                          numDecimalDigits: 0
+                          abbreviateLargeNumbers: false
+                      dataFrameColumns:
+                        - total_acionadas
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#DB2C6F"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#01011b"
+                        fontSize: 12
+                        position: outside-end
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: dataframe_36
+              settings:
+                legend:
+                  position: right
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: filter_result_3
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: BLOCK
+    cellId: c3b7006a-67d9-4e3e-8f07-aa78e7c75957 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 8869efd1-3a6c-4c04-849c-90a7c240a988
+        chartCellId: 6403659a-5a8f-4a80-bc62-5901f825e834
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 8869efd1-3a6c-4c04-849c-90a7c240a988
+          cellLabel: taxa de engajamento
+          config:
+            source: |-
+              WITH voluntarias_acionadas AS (
+                  SELECT 
+                      volunteer_segment_group,
+                      COUNT(*) AS total_acionadas
+                  FROM volunteer_segments
+                  WHERE segment_name = 'recadastro_2024'
+                  GROUP BY 1
+              ),
+              voluntarias_engajadas AS (
+                  SELECT 
+                      volunteer_segment_group,
+                      COUNT(*) total_engajadas
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND v.updated_at >= '2024-04-02'
+                  GROUP BY 1
+              )
+              SELECT 
+                  volunteer_segment_group, 
+                  total_engajadas/total_acionadas::NUMERIC(10,4) AS percentage
+              FROM voluntarias_acionadas
+              LEFT JOIN voluntarias_engajadas USING(volunteer_segment_group)
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: dataframe_34
+            useRichDisplay: false
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig: null
+        - cellType: CHARTV2
+          cellId: 6403659a-5a8f-4a80-bc62-5901f825e834
+          cellLabel: taxa de engajamento
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: cc7cf247-a284-4d28-b46d-362400984ae3
+                  xAxis:
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "   "
+                    dataFrameColumn: volunteer_segment_group
+                  series:
+                    - id: 9a3e28ee-3de0-4343-99be-dfcbf0d3d94d
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "     "
+                        aggregate: sum
+                        numberFormat:
+                          format: PERCENT
+                          currency: USD
+                          columnType: NUMBER
+                          numDecimalDigits: 0
+                          abbreviateLargeNumbers: false
+                      dataFrameColumns:
+                        - percentage
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#CFD3DE"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#01011b"
+                        fontSize: 12
+                        position: outside-end
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: dataframe_34
+              settings:
+                legend:
+                  position: right
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: filter_result
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: 386c9385-7951-4e93-ae99-462ad2b47a58 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ### insights 💡
+        - Os grupos 4, 5, 6 e 7 são grupos com baixíssimo retorno.
+  - cellType: BLOCK
+    cellId: fc3d3034-3d12-4b7c-ac28-91a5da3fd43d # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 38bf0466-ff3f-496b-95fb-153751164d73
+        chartCellId: 82437ad5-b772-4234-8a29-b0a5ded1cdeb
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 38bf0466-ff3f-496b-95fb-153751164d73
+          cellLabel: engajamento a cada dia
+          config:
+            source: |-
+              WITH descadastradas AS (
+                  SELECT volunteer_id, v.updated_at, 'descadastrada' AS categoria, volunteer_segment_group
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND condition = 'descadastrada'
+              ),
+              status_history_rn AS (
+                  SELECT 
+                      volunteer_id,
+                      status,
+                      created_at,
+                      ROW_NUMBER() OVER(PARTITION BY volunteer_id ORDER BY created_at) AS rn
+                  FROM volunteer_status_history
+                  WHERE created_at >= '2024-04-02'
+                  AND status IN ('cadastrada', 'disponivel', 'indisponivel_sem_vagas')
+              ),
+              volunteer_status AS (
+                  SELECT *
+                  FROM status_history_rn 
+                  WHERE rn=1
+              ),
+              recadastradas AS (
+                  SELECT volunteer_id, COALESCE(t.created_at, h.created_at, v.updated_at) AS updated_at, 'recadastrada' AS categoria, volunteer_segment_group
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  LEFT JOIN volunteer_training_history h USING (volunteer_id)
+                  LEFT JOIN volunteer_status t USING (volunteer_id)
+                  WHERE segment_name = 'recadastro_2024'
+                  AND fields_of_work != 'not_found'
+                  AND (event IS NULL OR event = 'started_training')
+              ),
+              voluntarias_engajadas AS (
+                  SELECT
+                      *
+                  FROM recadastradas
+                  UNION ALL
+                  SELECT *
+                  FROM descadastradas
+              )
+              SELECT 
+                  DATE_TRUNC('DAY', updated_at),
+                  COUNT(*)
+              FROM voluntarias_engajadas
+              GROUP BY 1
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: dataframe_31
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: categoria
+                  renameTo: null
+                  size: 111
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count
+                  renameTo: null
+                  size: 85
+                  wrapText: null
+                  displayFormat: null
+                - originalName: date_trunc
+                  renameTo: null
+                  size: 196
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 46
+                  wrapText: null
+                  displayFormat: null
+                - originalName: volunteer_segment_group
+                  renameTo: null
+                  size: 197
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 82437ad5-b772-4234-8a29-b0a5ded1cdeb
+          cellLabel: engajamento após lançamento
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 5033fce0-179d-46ad-b2c1-2a82a2a673e9
+                  xAxis:
+                    type: datetime
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "    "
+                    dataFrameColumn: date_trunc
+                  series:
+                    - id: e27c5c72-5de1-4290-ad06-be09f93bdb46
+                      type: line
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - count
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#DB2C6F"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        fontSize: 12
+                        position: above
+                      point: true
+                      stroke: solid
+                  dataFrame: dataframe_31
+              settings:
+                legend:
+                  position: right
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: filter_result
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: 90a7b7be-37c1-4397-a9b8-7fe25fc67b01 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "### por grupo"
+  - cellType: BLOCK
+    cellId: 6d9a8599-5ab0-42f7-a6b6-14203e6b7382 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 7a18c77a-4be7-4e4e-8abe-48e4aa9dec64
+        chartCellId: ede20ee0-caff-4cdc-a6ff-11915f30139e
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 7a18c77a-4be7-4e4e-8abe-48e4aa9dec64
+          cellLabel: null
+          config:
+            source: |-
+              WITH descadastradas AS (
+                  SELECT volunteer_id, v.updated_at, 'descadastrada' AS categoria, volunteer_segment_group
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND condition = 'descadastrada'
+              ),
+              status_history_rn AS (
+                  SELECT 
+                      volunteer_id,
+                      status,
+                      created_at,
+                      ROW_NUMBER() OVER(PARTITION BY volunteer_id ORDER BY created_at) AS rn
+                  FROM volunteer_status_history
+                  WHERE created_at >= '2024-04-02'
+                  AND status IN ('cadastrada', 'disponivel', 'indisponivel_sem_vagas')
+              ),
+              volunteer_status AS (
+                  SELECT *
+                  FROM status_history_rn 
+                  WHERE rn=1
+              ),
+              recadastradas AS (
+                  SELECT volunteer_id, COALESCE(t.created_at, h.created_at, v.updated_at) AS updated_at, 'recadastrada' AS categoria, volunteer_segment_group
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  LEFT JOIN volunteer_training_history h USING (volunteer_id)
+                  LEFT JOIN volunteer_status t USING (volunteer_id)
+                  WHERE segment_name = 'recadastro_2024'
+                  AND fields_of_work != 'not_found'
+                  AND (event IS NULL OR event = 'started_training')
+              ),
+              voluntarias_engajadas AS (
+                  SELECT
+                      *
+                  FROM recadastradas
+                  UNION ALL
+                  SELECT *
+                  FROM descadastradas
+              )
+              SELECT 
+                  DATE_TRUNC('DAY', updated_at),
+                  volunteer_segment_group AS grupo,
+                  COUNT(*)
+              FROM voluntarias_engajadas
+              WHERE volunteer_segment_group IN ('group_1', 'group_2', 'group_3', 'group_4')
+              GROUP BY 1, 2
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: dataframe_46
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: categoria
+                  renameTo: null
+                  size: 111
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count
+                  renameTo: null
+                  size: 85
+                  wrapText: null
+                  displayFormat: null
+                - originalName: date_trunc
+                  renameTo: null
+                  size: 196
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 46
+                  wrapText: null
+                  displayFormat: null
+                - originalName: volunteer_segment_group
+                  renameTo: null
+                  size: 197
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: ede20ee0-caff-4cdc-a6ff-11915f30139e
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              facet:
+                facetVertical:
+                  type: string
+                  dataFrameColumn: grupo
+              layers:
+                - id: 5033fce0-179d-46ad-b2c1-2a82a2a673e9
+                  xAxis:
+                    type: datetime
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "        "
+                    dataFrameColumn: date_trunc
+                  series:
+                    - id: e27c5c72-5de1-4290-ad06-be09f93bdb46
+                      type: line
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "        "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - count
+                      colorDataFrameColumn: grupo
+                      colorOrder: ascending
+                      color:
+                        type: series
+                        color: "#DB2C6F"
+                        colorsBySeriesValues: {}
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        fontSize: 8
+                        position: above
+                      point: true
+                      stroke: solid
+                      width: 1.5
+                  dataFrame: dataframe_46
+              settings:
+                legend:
+                  position: none
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              group_1: "#4C78A8"
+              group_2: "#F58518"
+              group_3: "#E45756"
+              group_4: "#72B7B2"
+              group_5: "#54A24B"
+              group_6: "#EECA3B"
+              group_7: "#B279A2"
+              group_8: "#FF9DA6"
+            resultVariable: filter_result_7
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: BLOCK
+    cellId: 29417246-b3b8-48f0-abe0-f5e2ac2b5a43 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 429619e0-922b-49fe-ad08-533ab3ba3d72
+        chartCellId: bfe7a203-a943-4df0-948c-5db2ce537c34
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 429619e0-922b-49fe-ad08-533ab3ba3d72
+          cellLabel: null
+          config:
+            source: |-
+              WITH descadastradas AS (
+                  SELECT volunteer_id, v.updated_at, 'descadastrada' AS categoria, volunteer_segment_group
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND condition = 'descadastrada'
+              ),
+              status_history_rn AS (
+                  SELECT 
+                      volunteer_id,
+                      status,
+                      created_at,
+                      ROW_NUMBER() OVER(PARTITION BY volunteer_id ORDER BY created_at) AS rn
+                  FROM volunteer_status_history
+                  WHERE created_at >= '2024-04-02'
+                  AND status IN ('cadastrada', 'disponivel', 'indisponivel_sem_vagas')
+              ),
+              volunteer_status AS (
+                  SELECT *
+                  FROM status_history_rn 
+                  WHERE rn=1
+              ),
+              recadastradas AS (
+                  SELECT volunteer_id, COALESCE(t.created_at, h.created_at, v.updated_at) AS updated_at, 'recadastrada' AS categoria, volunteer_segment_group
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  LEFT JOIN volunteer_training_history h USING (volunteer_id)
+                  LEFT JOIN volunteer_status t USING (volunteer_id)
+                  WHERE segment_name = 'recadastro_2024'
+                  AND fields_of_work != 'not_found'
+                  AND (event IS NULL OR event = 'started_training')
+              ),
+              voluntarias_engajadas AS (
+                  SELECT
+                      *
+                  FROM recadastradas
+                  UNION ALL
+                  SELECT *
+                  FROM descadastradas
+              )
+              SELECT 
+                  DATE_TRUNC('DAY', updated_at),
+                  volunteer_segment_group AS grupo,
+                  COUNT(*)
+              FROM voluntarias_engajadas
+              WHERE volunteer_segment_group IN ('group_5', 'group_6', 'group_7', 'group_8')
+              GROUP BY 1, 2
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: dataframe_47
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: categoria
+                  renameTo: null
+                  size: 111
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count
+                  renameTo: null
+                  size: 85
+                  wrapText: null
+                  displayFormat: null
+                - originalName: date_trunc
+                  renameTo: null
+                  size: 196
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 46
+                  wrapText: null
+                  displayFormat: null
+                - originalName: volunteer_segment_group
+                  renameTo: null
+                  size: 197
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: bfe7a203-a943-4df0-948c-5db2ce537c34
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              facet:
+                facetVertical:
+                  type: string
+                  dataFrameColumn: grupo
+              layers:
+                - id: 5033fce0-179d-46ad-b2c1-2a82a2a673e9
+                  xAxis:
+                    type: datetime
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "        "
+                    dataFrameColumn: date_trunc
+                  series:
+                    - id: e27c5c72-5de1-4290-ad06-be09f93bdb46
+                      type: line
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "        "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - count
+                      colorDataFrameColumn: grupo
+                      colorOrder: ascending
+                      color:
+                        type: series
+                        color: "#DB2C6F"
+                        colorsBySeriesValues: {}
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        fontSize: 8
+                        position: above
+                      point: true
+                      stroke: solid
+                      width: 1.5
+                  dataFrame: dataframe_47
+              settings:
+                legend:
+                  position: none
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              group_1: "#4C78A8"
+              group_2: "#F58518"
+              group_3: "#E45756"
+              group_4: "#72B7B2"
+              group_5: "#54A24B"
+              group_6: "#EECA3B"
+              group_7: "#B279A2"
+              group_8: "#FF9DA6"
+            resultVariable: filter_result_8
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: SQL
+    cellId: ad20ab1d-8134-4d68-8f36-5765e74e7cc8 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT COUNT(*) AS total_recadastradas
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND fields_of_work != 'not_found'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_42
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: SQL
+    cellId: 2f9f5c8e-fb5b-4427-8785-b5be1bd395a2 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT volunteer_id, COALESCE(h.created_at, v.updated_at) AS updated_at, v.created_at, 'recadastrada' AS categoria, volunteer_segment_group
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            LEFT JOIN volunteer_training_history h USING (volunteer_id)
+            WHERE segment_name = 'recadastro_2024'
+            AND fields_of_work != 'not_found'
+            AND (event IS NULL OR event = 'started_training')
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_43
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: SQL
+    cellId: 6f260b5f-e4c6-4023-8825-5c4f287d79c5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |
+        WITH status_history_rn AS (
+            SELECT 
+                volunteer_id,
+                status,
+                ROW_NUMBER() OVER(PARTITION BY volunteer_id ORDER BY created_at) AS rn
+            FROM volunteer_status_history
+            WHERE created_at >= '2024-04-02'
+            AND status IN ('cadastrada', 'disponivel', 'indisponivel_sem_vagas')
+        ),
+        volunteer_status AS (
+            SELECT *
+            FROM status_history_rn 
+            WHERE rn=1
+        )
+        SELECT COUNT(*)
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            LEFT JOIN volunteer_training_history h USING (volunteer_id)
+            LEFT JOIN volunteer_status sh USING (volunteer_id)
+            WHERE segment_name = 'recadastro_2024'
+            AND fields_of_work != 'not_found'
+            AND (event IS NULL OR event = 'started_training')
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_44
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: MARKDOWN
+    cellId: ea379ebe-edf4-4289-bb53-dc4e5cadff7d # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        -----
+        ## Resultados 📈
+  - cellType: MARKDOWN
+    cellId: 334daa1c-0adc-4f6b-98af-86f2a06074e5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "### total"
+  - cellType: BLOCK
+    cellId: 1bccf329-148b-495a-bde4-1b01058ec5ae # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: e23d99c3-a99c-4def-990c-e944c1614e93
+        chartCellId: 1bd03682-b383-496c-b89c-c0e4947c1289
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: e23d99c3-a99c-4def-990c-e944c1614e93
+          cellLabel: null
+          config:
+            source: |-
+              WITH descadastradas AS (
+                  SELECT volunteer_id, 'descadastrou' AS categoria
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND condition = 'descadastrada'
+              ),
+              recadastradas AS (
+                  SELECT volunteer_id, 'recadastrou' AS categoria
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND fields_of_work != 'not_found'
+              ),
+              voluntarias_engajadas AS (
+                  SELECT
+                      *
+                  FROM recadastradas
+                  UNION ALL
+                  SELECT *
+                  FROM descadastradas
+              )
+              SELECT 
+                  categoria,
+                  COUNT(*)
+              FROM voluntarias_engajadas
+              GROUP BY 1
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: dataframe_32
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties: []
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 1bd03682-b383-496c-b89c-c0e4947c1289
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 8106539a-13f6-4e4d-87cd-de93adbed47b
+                  xAxis:
+                    sort: descending
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "    "
+                    dataFrameColumn: categoria
+                  series:
+                    - id: 8bad7463-269f-47ef-b960-572e7920bd54
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - count
+                      colorDataFrameColumn: categoria
+                      colorOrder: ascending
+                      color:
+                        type: series
+                        colorsBySeriesValues:
+                          recadastrou: "#72B7B2"
+                          descadastrou: "#FF9DA6"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#01011b"
+                        fontSize: 12
+                        position: outside-end
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: dataframe_32
+              settings:
+                legend:
+                  position: none
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              recadastrou: "#F58518"
+              descadastrou: "#4C78A8"
+            resultVariable: filter_result
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: 44c95906-5a76-4298-987d-3cb6b312eb83 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### por grupos"
+  - cellType: BLOCK
+    cellId: e7616cb0-fb7b-4990-9893-0e1fb249fed4 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 86744daa-8b20-4e5e-8890-6c9f8a35dd07
+        chartCellId: b66c5806-12ee-4977-8cee-16c73e195cf5
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 86744daa-8b20-4e5e-8890-6c9f8a35dd07
+          cellLabel: null
+          config:
+            source: |-
+              WITH descadastradas AS (
+                  SELECT volunteer_id, volunteer_segment_group AS grupo, 'descadastrou' AS categoria
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND condition = 'descadastrada'
+              ),
+              recadastradas AS (
+                  SELECT volunteer_id, volunteer_segment_group AS grupo, 'recadastrou' AS categoria
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND fields_of_work != 'not_found'
+              ),
+              voluntarias_engajadas AS (
+                  SELECT
+                      *
+                  FROM recadastradas
+                  UNION ALL
+                  SELECT *
+                  FROM descadastradas
+              )
+              SELECT 
+                  grupo,
+                  categoria,
+                  COUNT(*)
+              FROM voluntarias_engajadas
+              WHERE grupo IN ('group_1', 'group_2', 'group_3', 'group_4')
+              GROUP BY 1, 2
+              ORDER BY 1, 2
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: dataframe_37
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: categoria
+                  renameTo: null
+                  size: null
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count
+                  renameTo: null
+                  size: null
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: b66c5806-12ee-4977-8cee-16c73e195cf5
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              facet:
+                facetVertical:
+                  type: string
+                  dataFrameColumn: grupo
+              layers:
+                - id: 8106539a-13f6-4e4d-87cd-de93adbed47b
+                  xAxis:
+                    sort: descending
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "       "
+                    dataFrameColumn: categoria
+                  series:
+                    - id: 8bad7463-269f-47ef-b960-572e7920bd54
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "        "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - count
+                      colorDataFrameColumn: categoria
+                      colorOrder: ascending
+                      color:
+                        type: series
+                        colorsBySeriesValues:
+                          recadastrou: "#72B7B2"
+                          descadastrou: "#FF9DA6"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#01011b"
+                        fontSize: 12
+                        position: outside-end
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: dataframe_37
+              settings:
+                legend:
+                  position: none
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              recadastrou: "#F58518"
+              descadastrou: "#4C78A8"
+            resultVariable: filter_result_4
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: BLOCK
+    cellId: 2cef7371-a564-422a-92f2-9f1e70a438d3 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: d9e05c33-f675-432c-b267-710c4db4c180
+        chartCellId: 5dfcc602-7c6e-4e94-9b59-c8e9241127d7
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: d9e05c33-f675-432c-b267-710c4db4c180
+          cellLabel: null
+          config:
+            source: |-
+              WITH descadastradas AS (
+                  SELECT volunteer_id, volunteer_segment_group AS grupo, 'descadastrou' AS categoria
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND condition = 'descadastrada'
+              ),
+              recadastradas AS (
+                  SELECT volunteer_id, volunteer_segment_group AS grupo, 'recadastrou' AS categoria
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND fields_of_work != 'not_found'
+              ),
+              voluntarias_engajadas AS (
+                  SELECT
+                      *
+                  FROM recadastradas
+                  UNION ALL
+                  SELECT *
+                  FROM descadastradas
+              )
+              SELECT 
+                  grupo,
+                  categoria,
+                  COUNT(*)
+              FROM voluntarias_engajadas
+              WHERE grupo IN ('group_5', 'group_6', 'group_7', 'group_8')
+              GROUP BY 1, 2
+              ORDER BY 1, 2
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: dataframe_38
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: categoria
+                  renameTo: null
+                  size: null
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count
+                  renameTo: null
+                  size: null
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 5dfcc602-7c6e-4e94-9b59-c8e9241127d7
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              facet:
+                facetVertical:
+                  sort: ascending
+                  type: string
+                  dataFrameColumn: grupo
+              layers:
+                - id: 8106539a-13f6-4e4d-87cd-de93adbed47b
+                  xAxis:
+                    sort: descending
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "    "
+                    dataFrameColumn: categoria
+                  series:
+                    - id: 8bad7463-269f-47ef-b960-572e7920bd54
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - count
+                      colorDataFrameColumn: categoria
+                      colorOrder: ascending
+                      color:
+                        type: series
+                        colorsBySeriesValues:
+                          recadastrou: "#72B7B2"
+                          descadastrou: "#FF9DA6"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#01011b"
+                        fontSize: 12
+                        position: outside-end
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: dataframe_38
+              settings:
+                legend:
+                  position: none
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              recadastrou: "#F58518"
+              descadastrou: "#4C78A8"
+            resultVariable: filter_result_5
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: SQL
+    cellId: 4afcc0d9-1729-4621-90e0-a332a5dd05b9 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT 
+            volunteer_segment_group,
+            CASE 
+                WHEN condition = 'descadastrada' THEN 'descadastrou'
+                ELSE 'recadastrou'
+            END AS categoria,
+            COUNT(*)
+        FROM volunteer_segments s
+        INNER JOIN volunteers v ON id = volunteer_id
+        WHERE segment_name = 'recadastro_2024'
+        AND v.updated_at >= '2024-04-02'
+        GROUP BY 1, 2
+        ORDER BY 1, 2
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_33
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: categoria
+            renameTo: null
+            size: 105
+            wrapText: null
+            displayFormat: null
+          - originalName: count
+            renameTo: null
+            size: 85
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_segment_group
+            renameTo: null
+            size: 197
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: MARKDOWN
+    cellId: c2e9667e-b264-4916-ab08-c8848160cd19 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ------
+        ## Desengajadas 😐
+  - cellType: BLOCK
+    cellId: 1b00d28f-6f4a-482a-957f-bdeafc46b03e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: f84457b5-5990-4842-8ea1-6007907592ef
+        chartCellId: 849a81c8-c40c-4313-9aaa-1e387d9ab84b
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: f84457b5-5990-4842-8ea1-6007907592ef
+          cellLabel: null
+          config:
+            source: |-
+              WITH voluntarias_acionadas AS (
+                  SELECT 
+                      volunteer_id,
+                      volunteer_segment_group AS grupo
+                  FROM volunteer_segments
+                  WHERE segment_name = 'recadastro_2024'
+              ),
+              descadastradas AS (
+                  SELECT volunteer_id, 'descadastrou' AS categoria
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND condition = 'descadastrada'
+              ),
+              recadastradas AS (
+                  SELECT volunteer_id, 'recadastrou' AS categoria
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND fields_of_work != 'not_found'
+              ),
+              voluntarias_engajadas AS (
+                  SELECT
+                      *
+                  FROM recadastradas
+                  UNION ALL
+                  SELECT *
+                  FROM descadastradas
+              ),
+              total AS (
+                  SELECT 
+                      volunteer_id,
+                      grupo,
+                      CASE WHEN categoria IS NOT NULL THEN 'engajou' ELSE 'não engajou' END AS engajou
+                  FROM voluntarias_acionadas
+                  LEFT JOIN voluntarias_engajadas USING(volunteer_id)
+              )
+              SELECT 
+                  grupo,
+                  engajou,
+                  COUNT(*)
+              FROM total
+              GROUP BY 1, 2
+              -- ORDER BY 1, 2
+
+
+
+              -- WITH voluntarias_acionadas AS (
+              --     SELECT 
+              --         volunteer_segment_group,
+              --         volunteer_id
+              --     FROM volunteer_segments
+              --     WHERE segment_name = 'recadastro_2024'
+              -- ),
+              -- voluntarias_engajadas AS (
+              --     SELECT 
+              --         volunteer_segment_group,
+              --         volunteer_id,
+              --         CASE WHEN v.updated_at >= '2024-04-02' THEN 'engajou' ELSE 'não engajou' END AS engajou
+              --     FROM volunteer_segments s
+              --     INNER JOIN volunteers v ON id = volunteer_id
+              --     WHERE segment_name = 'recadastro_2024'
+              -- )
+              -- SELECT 
+              --     volunteer_segment_group AS grupo,
+              --     engajou,
+              --     COUNT(*)
+              -- FROM voluntarias_engajadas
+              -- GROUP BY 1, 2
+              -- LEFT JOIN voluntarias_engajadas USING(volunteer_segment_group)
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: dataframe_39
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: case
+                  renameTo: null
+                  size: 80
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count
+                  renameTo: null
+                  size: 85
+                  wrapText: null
+                  displayFormat: null
+                - originalName: engajou
+                  renameTo: null
+                  size: 97
+                  wrapText: null
+                  displayFormat: null
+                - originalName: grupo
+                  renameTo: null
+                  size: 86
+                  wrapText: null
+                  displayFormat: null
+                - originalName: volunteer_id
+                  renameTo: null
+                  size: 122
+                  wrapText: null
+                  displayFormat: null
+                - originalName: volunteer_segment_group
+                  renameTo: null
+                  size: 197
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 849a81c8-c40c-4313-9aaa-1e387d9ab84b
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: cc7cf247-a284-4d28-b46d-362400984ae3
+                  xAxis:
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "   "
+                    dataFrameColumn: grupo
+                  series:
+                    - id: 9a3e28ee-3de0-4343-99be-dfcbf0d3d94d
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "     "
+                        aggregate: sum
+                        numberFormat:
+                          format: NUMBER
+                          currency: USD
+                          columnType: NUMBER
+                          numDecimalDigits: 0
+                          abbreviateLargeNumbers: false
+                      dataFrameColumns:
+                        - count
+                      colorDataFrameColumn: engajou
+                      colorOrder: descending
+                      color:
+                        type: series
+                        color: "#CFD3DE"
+                        colorsBySeriesValues:
+                          engajou: "#DB2C6F"
+                          não engajou: "#CFD3DE"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#01011b"
+                        fontSize: 12
+                        position: outside-end
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: dataframe_39
+              settings:
+                legend:
+                  position: right
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              engajou: "#4C78A8"
+              não engajou: "#F58518"
+            resultVariable: filter_result_6
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: 88979eb5-55cf-4662-8615-7ef9227fc4ad # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "# Segunda leva de emails"
+  - cellType: SQL
+    cellId: c0cf73fe-094f-44f5-89e7-3ff0e16a77e5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        WITH voluntarias_acionadas AS (
+            SELECT 
+                volunteer_id,
+                email,
+                volunteer_segment_group AS grupo
+            FROM volunteer_segments
+            LEFT JOIN volunteers ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+        ),
+        descadastradas AS (
+            SELECT volunteer_id, 'descadastrou' AS categoria
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND condition = 'descadastrada'
+        ),
+        recadastradas AS (
+            SELECT volunteer_id, 'recadastrou' AS categoria
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND fields_of_work != 'not_found'
+        ),
+        voluntarias_engajadas AS (
+            SELECT
+                *
+            FROM recadastradas
+            UNION ALL
+            SELECT *
+            FROM descadastradas
+        ),
+        total AS (
+            SELECT 
+                volunteer_id,
+                grupo,
+                email,
+                CASE WHEN categoria IS NOT NULL THEN 'engajou' ELSE 'não engajou' END AS engajou
+            FROM voluntarias_acionadas
+            LEFT JOIN voluntarias_engajadas USING(volunteer_id)
+        )
+        SELECT 
+            email, 
+            CASE WHEN engajou = 'engajou' THEN TRUE ELSE FALSE END AS recadastro_engajou
+        FROM total
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_45
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: email
+            renameTo: null
+            size: 211
+            wrapText: null
+            displayFormat: null
+          - originalName: recadastro_engajou
+            renameTo: null
+            size: 161
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: MARKDOWN
+    cellId: a8c321da-6dea-4756-91a8-02dacdb7c97b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |
+        ----
+        ## Insights 💡
+
+        - Tivemos um número maior de descadastradas do que recadastradas, ou seja, a campanha teve um **saldo negativo** ):
+
+        - As voluntárias **ativas** (grupos 1 e 2) e as **reprovadas em estudo de caso** (grupos 3 e 4) são as que mais responderam **positivamente**.
+
+        - Muitas voluntárias **ausentes** (grupo 8) se **descadastraram**.
+
+        - A divisão de grupos por data não parece ter muito impacto (grupos 1/2, grupos 3/4).
+
+        - Voluntárias com Dados Incompletos e Registro Inválido (grupos 5, 6 e 7) têm baixíssimo retorno.
+appLayout:
+  visibleMetadataFields:
+    - NAME
+    - DESCRIPTION
+    - AUTHOR
+    - LAST_EDITED
+    - LAST_RUN
+    - CATEGORIES
+    - STATUS
+    - TABLE_OF_CONTENTS
+  fullWidth: false
+  tabs:
+    - name: Tab 1
+      rows:
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0c3df7e2-7148-4037-89db-98089b2103bd
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 156f37fc-be2d-4dde-8d4b-78b3525a5b23
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 30
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 815a288b-a4d2-453d-8870-a53582094fcf
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: b865b6ef-c221-4c28-be31-bbc558cc415a
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: f5517b95-2de7-483c-a1e0-6ce1d5967721
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 30
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 38bf0466-ff3f-496b-95fb-153751164d73
+                  sharedFilterId: null
+                  height: 450
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 30
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 90a7b7be-37c1-4397-a9b8-7fe25fc67b01
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 60
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 7a18c77a-4be7-4e4e-8abe-48e4aa9dec64
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 60
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 429619e0-922b-49fe-ad08-533ab3ba3d72
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: ea379ebe-edf4-4289-bb53-dc4e5cadff7d
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 334daa1c-0adc-4f6b-98af-86f2a06074e5
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 75
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: e23d99c3-a99c-4def-990c-e944c1614e93
+                  sharedFilterId: null
+                  height: 200
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 44c95906-5a76-4298-987d-3cb6b312eb83
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 35
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: f2a6ee73-faaa-43d4-b792-d43206b7a868
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 40
+              end: 80
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 86744daa-8b20-4e5e-8890-6c9f8a35dd07
+                  sharedFilterId: null
+                  height: 550
+                  showLabel: true
+            - start: 81
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: d9e05c33-f675-432c-b267-710c4db4c180
+                  sharedFilterId: null
+                  height: 550
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: c2e9667e-b264-4916-ab08-c8848160cd19
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 100
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: f84457b5-5990-4842-8ea1-6007907592ef
+                  sharedFilterId: null
+                  height: 500
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: a8c321da-6dea-4756-91a8-02dacdb7c97b
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+sharedFilters: []
