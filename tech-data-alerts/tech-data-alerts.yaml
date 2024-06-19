@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: d23e9ee2-e259-41b0-94dc-3743b115cbf4 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: b2315962-b7ef-4bef-b769-634ee2d68983 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: |+
     Esse notebook contém os alertas de inconsistências no nosso banco de dados
 
@@ -37,6 +37,11 @@ cells:
     cellLabel: Erros
     config:
       source: errors = []
+  - cellType: MARKDOWN
+    cellId: 8524b95f-e7c3-4048-8c71-1269518ebb20 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Existem voluntárias disponíveis para match com condition != 'disponivel'"
   - cellType: SQL
     cellId: d3cd7862-9773-4728-b8ad-1989178b3553 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: Voluntárias que estão disponíveis na tabela volunteer_availability, mas não disponíveis na tabela volunteers"
@@ -142,6 +147,11 @@ cells:
       source: |-
         if(available_volunteers['count'][0] != 0):
             errors.append("Existem voluntárias disponíveis para match com condition != 'disponivel'")
+  - cellType: MARKDOWN
+    cellId: 89984bf0-2ecb-4c95-929a-2051f763e86a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Existem voluntárias condition = 'disponivel' e is_available = FALSE"
   - cellType: SQL
     cellId: 4bf484a5-b1a4-4017-982b-d29f903ed72b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: Voluntárias que estão com status Disponível mas is_available = FALSE"
@@ -247,6 +257,11 @@ cells:
       source: |-
         if(unavailable_volunteers['count'][0] != 0):
             errors.append("Existem voluntárias condition = 'disponivel' e is_available = FALSE")
+  - cellType: MARKDOWN
+    cellId: caf79766-75cd-49f1-a7d6-97f61277a0ff # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Existem voluntárias com discrepâncias no número de matches"
   - cellType: SQL
     cellId: 2b4cf9bf-0562-4666-9826-4b0516f83cd0 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: voluntárias com current_matches diferente do verificado na tabela matches"
@@ -285,6 +300,11 @@ cells:
       source: |-
         if(volunteers_match_count['count'][0] != 0):
             errors.append("Existem voluntárias com discrepâncias no número de matches")
+  - cellType: MARKDOWN
+    cellId: c94f11e1-980f-47d9-bbd5-c345415960df # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Voluntárias indiponíveis receberam match no último dia"
   - cellType: SQL
     cellId: 76bc3fb0-d44a-4f1c-a1ed-4ff3718cbb12 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: Voluntárias indisponíveis que receberam match no último dia"
@@ -396,6 +416,11 @@ cells:
       source: |-
         if(unavailable_volunteer_match_count['count'][0] != 0):
             errors.append("Voluntárias indiponíveis receberam match no último dia")
+  - cellType: MARKDOWN
+    cellId: e31aab7e-5415-4a62-9057-7eed83d5cc62 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Existem inconsistências na tabela support_request_status_history"
   - cellType: SQL
     cellId: d4bffaf0-346b-40b2-bf88-300250775e38 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: inconsistências na tabela support_request_status_history"
@@ -520,6 +545,11 @@ cells:
       source: |-
         if(support_request_status_history['count'][0] != 0):
             errors.append("Existem inconsistências na tabela support_request_status_history")
+  - cellType: MARKDOWN
+    cellId: 73d2a62c-ca87-46c5-8205-33bd67bb91b7 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Existem inconsistências na tabela match_status_history"
   - cellType: SQL
     cellId: 5572a79a-96f6-43ed-98a9-7694baeb7315 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: inconsistências na tabela match_status_history"
@@ -561,6 +591,11 @@ cells:
       source: |-
         if(match_status_history['count'][0] != 0):
             errors.append("Existem inconsistências na tabela match_status_history")
+  - cellType: MARKDOWN
+    cellId: cbc2ceb9-0845-4c84-aa47-d9b65a7b331e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Existem inconsistências na tabela volunteer_status_history"
   - cellType: SQL
     cellId: 087bb058-3b94-4b4b-9211-9c8afd1d5ff9 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: inconsistências na tabela volunteer_status_history"
@@ -602,6 +637,11 @@ cells:
       source: |-
         if(volunteer_status_history['count'][0] != 0):
             errors.append("Existem inconsistências na tabela volunteer_status_history")
+  - cellType: MARKDOWN
+    cellId: cdcac8e4-d5d7-4cf4-8416-f2d04bda022e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Existem problemas de integração das MSRs no listener-solidarity"
   - cellType: SQL
     cellId: 77ba3d01-cfc1-44c1-ae0c-528ff51b25cc # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: problema de integração das MSRs no listener-solidarity"
@@ -631,6 +671,11 @@ cells:
       source: |-
         if(bonde_rede_syncronized['count'][0] != 0):
             errors.append("Existem problemas de integração das MSRs no listener-solidarity")
+  - cellType: MARKDOWN
+    cellId: c7a10e04-e5d8-44fd-b640-39ce709a72cf # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Voluntárias teste se tornaram disponíveis para match"
   - cellType: SQL
     cellId: f5716778-6cc1-4476-8990-df0d6cbc5643 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: Voluntárias teste se tornaram disponíveis"
@@ -729,6 +774,11 @@ cells:
       source: |-
         if(voluntarias_teste['count'][0] != 0):
             errors.append("Voluntárias teste se tornaram disponíveis para match")
+  - cellType: MARKDOWN
+    cellId: b1471b0d-82bd-4084-b641-014d94d9f185 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Existem voluntárias com current_matches >= max_matches e estão disponíveis"
   - cellType: SQL
     cellId: e7a581c6-1a76-4b9d-a833-67496b0d1086 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: voluntárias com current_matches >= max_matches e estão disponíveis"
@@ -831,6 +881,11 @@ cells:
       source: |-
         if(voluntarias_current_matches['count'][0] != 0):
             errors.append("Existem voluntárias com current_matches >= max_matches e estão disponíveis")
+  - cellType: MARKDOWN
+    cellId: 357741dc-8374-485f-ab60-6cd1733692a5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Existem MSRs que estão no Bonde mas não possuem support_request"
   - cellType: SQL
     cellId: 687a1e4f-2eee-4741-89fd-3b8c60b74dea # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: MSRs que estão no bonde mas não possuem support_request "
@@ -1172,6 +1227,11 @@ cells:
       source: |-
         if(msrs_bonde_support_request['count'][0] != 0):
             errors.append("Existem MSRs que estão no Bonde mas não possuem support_request")
+  - cellType: MARKDOWN
+    cellId: 3f5f54da-b51c-4731-8f1c-b06156d5b684 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Existem MSRs desabilitadas com support_request"
   - cellType: SQL
     cellId: 4c5ebd1f-c12a-4b8a-b00e-355fe1a41c15 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Msrs desabilitadas
@@ -1276,7 +1336,7 @@ cells:
       source: |-
         SELECT *
         FROM match.support_requests
-        WHERE created_at >= '2024-01-25'
+        WHERE created_at >= '2024-06-19'
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: msr_id_support_requests
@@ -1299,9 +1359,44 @@ cells:
         calcs: null
         filters: null
         columnProperties:
+          - originalName: accepts_online_support
+            renameTo: null
+            size: 264
+            wrapText: null
+            displayFormat: null
+          - originalName: city
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: has_disability
+            renameTo: null
+            size: 168
+            wrapText: null
+            displayFormat: null
+          - originalName: lat
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: lng
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
           - originalName: msr_id
             renameTo: null
             size: 126
+            wrapText: null
+            displayFormat: null
+          - originalName: priority
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: requires_libras
+            renameTo: null
+            size: 180
             wrapText: null
             displayFormat: null
           - originalName: row-index-0
@@ -1309,9 +1404,24 @@ cells:
             size: 46
             wrapText: null
             displayFormat: null
+          - originalName: support_expertise
+            renameTo: null
+            size: 204
+            wrapText: null
+            displayFormat: null
           - originalName: support_request_id
             renameTo: null
             size: 159
+            wrapText: null
+            displayFormat: null
+          - originalName: support_type
+            renameTo: null
+            size: 144
+            wrapText: null
+            displayFormat: null
+          - originalName: zendesk_ticket_id
+            renameTo: null
+            size: 204
             wrapText: null
             displayFormat: null
         columnOrdering: null
@@ -1323,15 +1433,15 @@ cells:
         columnAggregations: null
   - cellType: SQL
     cellId: b01e79aa-1734-4992-9e3f-fdc513dadc80 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: null
+    cellLabel: "Msr "
     config:
       source: |-
-        SELECT *
+        SELECT COUNT(*) AS count
         FROM msrs_desabilitadas
         INNER JOIN msr_id_support_requests ON msr_id = user_id
       dataFrameCell: true
       dataConnectionId: null
-      resultVariableName: dataframe
+      resultVariableName: msrs_desabilitadas_com_support_request
       useRichDisplay: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
@@ -1351,6 +1461,11 @@ cells:
         calcs: null
         filters: null
         columnProperties:
+          - originalName: count_star()
+            renameTo: null
+            size: 144
+            wrapText: null
+            displayFormat: null
           - originalName: msr_id
             renameTo: null
             size: 133
@@ -1358,7 +1473,7 @@ cells:
             displayFormat: null
           - originalName: row-index-0
             renameTo: null
-            size: 46
+            size: 24
             wrapText: null
             displayFormat: null
           - originalName: support_request_id
@@ -1378,6 +1493,13 @@ cells:
         pinIndexColumns: false
         showAggregations: false
         columnAggregations: null
+  - cellType: CODE
+    cellId: 732051ce-1888-4ed5-bff9-4b9b3deb5cab # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: "Python: MSRs desabilitadas com support_request"
+    config:
+      source: |-
+        if(msrs_desabilitadas_com_support_request['count'][0] != 0):
+            errors.append("Existem MSRs desabilitadas com support_request")
   - cellType: CODE
     cellId: dfc0adcb-948b-44d4-a357-317f9fc425e5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: raise errors
