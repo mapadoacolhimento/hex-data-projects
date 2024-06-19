@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 67deca0b-f534-4130-8e7d-4899693f07e8 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: d23e9ee2-e259-41b0-94dc-3743b115cbf4 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: |+
     Esse notebook contém os alertas de inconsistências no nosso banco de dados
 
@@ -142,6 +142,111 @@ cells:
       source: |-
         if(available_volunteers['count'][0] != 0):
             errors.append("Existem voluntárias disponíveis para match com condition != 'disponivel'")
+  - cellType: SQL
+    cellId: 4bf484a5-b1a4-4017-982b-d29f903ed72b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: "SQL: Voluntárias que estão com status Disponível mas is_available = FALSE"
+    config:
+      source: |-
+        SELECT COUNT(*)
+        FROM volunteer_availability
+        LEFT JOIN volunteers ON id = volunteer_id
+        WHERE condition = 'disponivel' AND is_available = FALSE
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: unavailable_volunteers
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: count
+            renameTo: null
+            size: 85
+            wrapText: null
+            displayFormat: null
+          - originalName: current_matches
+            renameTo: null
+            size: 147
+            wrapText: null
+            displayFormat: null
+          - originalName: is_available
+            renameTo: null
+            size: 118
+            wrapText: null
+            displayFormat: null
+          - originalName: lat
+            renameTo: null
+            size: 83
+            wrapText: null
+            displayFormat: null
+          - originalName: lng
+            renameTo: null
+            size: 162
+            wrapText: null
+            displayFormat: null
+          - originalName: max_matches
+            renameTo: null
+            size: 131
+            wrapText: null
+            displayFormat: null
+          - originalName: offers_online_support
+            renameTo: null
+            size: 173
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+          - originalName: support_expertise
+            renameTo: null
+            size: 153
+            wrapText: null
+            displayFormat: null
+          - originalName: support_type
+            renameTo: null
+            size: 127
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_availability.city
+            renameTo: null
+            size: 191
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 122
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: CODE
+    cellId: 7c119f1f-1463-417a-b0be-8ce754a3758c # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: "Python: Voluntárias que estão com status Disponível mas is_available = FALSE"
+    config:
+      source: |-
+        if(unavailable_volunteers['count'][0] != 0):
+            errors.append("Existem voluntárias condition = 'disponivel' e is_available = FALSE")
   - cellType: SQL
     cellId: 2b4cf9bf-0562-4666-9826-4b0516f83cd0 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: voluntárias com current_matches diferente do verificado na tabela matches"
@@ -1067,6 +1172,212 @@ cells:
       source: |-
         if(msrs_bonde_support_request['count'][0] != 0):
             errors.append("Existem MSRs que estão no Bonde mas não possuem support_request")
+  - cellType: SQL
+    cellId: 4c5ebd1f-c12a-4b8a-b00e-355fe1a41c15 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Msrs desabilitadas
+    config:
+      source: |-
+        SELECT user_id
+        FROM public.solidarity_users
+        WHERE condition = 'desabilitada'
+      dataFrameCell: false
+      dataConnectionId: e088838c-2205-4ff2-870b-07d163c93079
+      resultVariableName: msrs_desabilitadas
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: created_at
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: email
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: iana_time_zone
+            renameTo: null
+            size: 168
+            wrapText: null
+            displayFormat: null
+          - originalName: id
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: name
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: phone
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: shared_phone_number
+            renameTo: null
+            size: 228
+            wrapText: null
+            displayFormat: null
+          - originalName: time_zone
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: updated_at
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: url
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: user_id
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 731941c0-51cf-4273-9d38-c3bb245303ef # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Msr id support requests
+    config:
+      source: |-
+        SELECT *
+        FROM match.support_requests
+        WHERE created_at >= '2024-01-25'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: msr_id_support_requests
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: msr_id
+            renameTo: null
+            size: 126
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: support_request_id
+            renameTo: null
+            size: 159
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: b01e79aa-1734-4992-9e3f-fdc513dadc80 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT *
+        FROM msrs_desabilitadas
+        INNER JOIN msr_id_support_requests ON msr_id = user_id
+      dataFrameCell: true
+      dataConnectionId: null
+      resultVariableName: dataframe
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: msr_id
+            renameTo: null
+            size: 133
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: support_request_id
+            renameTo: null
+            size: 159
+            wrapText: null
+            displayFormat: null
+          - originalName: user_id
+            renameTo: null
+            size: 133
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
   - cellType: CODE
     cellId: dfc0adcb-948b-44d4-a357-317f9fc425e5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: raise errors
