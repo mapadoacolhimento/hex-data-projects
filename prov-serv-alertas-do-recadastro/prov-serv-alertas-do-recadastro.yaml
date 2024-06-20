@@ -1,0 +1,262 @@
+schemaVersion: 3
+meta:
+  sourceVersionId: 7ae1d0fd-79a2-4e9b-a460-647eec2e7faf # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  description: null
+  projectId: 3dccddd4-d7e3-48f3-baf2-2592834aff7a # DO NOT CHANGE - Unique ID of the project from which this file was generated
+  title: "[PROV SERV] Alertas do Recadastro"
+  timezone: null
+  appTheme: SYS_PREF
+  codeLanguage: PYTHON
+  status: null
+  categories: []
+  castDecimalsDefault: true
+  logicQueryCacheTimeout: null
+  publishedQueryCacheTimeout: null
+  hexType: PROJECT
+  allowExecutionReordering: true
+  prerunApp: false
+  cachePublishedAppState: true
+  refreshStalePublishedApp: false
+  autoRerunApp: true
+projectAssets:
+  dataConnections: []
+  envVars: []
+  secrets: []
+sharedAssets:
+  secrets: []
+  vcsPackages: []
+  dataConnections:
+    - dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030 # prod-mapa-org (postgres)
+  externalFileIntegrations: []
+cells:
+  - cellType: CODE
+    cellId: 159de302-fefa-465d-8237-939d95c41edb # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: errors = []
+  - cellType: MARKDOWN
+    cellId: 67581ead-9d01-486f-abe2-2cc3ac43bc5e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ### 1. Voluntária está com status `Cadastrada`, `Capacitação` ou `Aprovada` mas possui match em andamento
+        Esse alerta acontece quando uma voluntária que possui match em andamento se Recadastra e seu status muda para `Cadastrada`, `Capactiação` ou `Aprovada`.
+
+        Se tiver algum erro, os casos serão mostrados na tabela abaixo.
+  - cellType: SQL
+    cellId: 9d41ffbe-3b69-4e1d-be84-148cc154067b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Voluntarias recadastradas
+    config:
+      source: |-
+        SELECT 
+            COUNT(*)
+        FROM match.matches m
+        LEFT JOIN volunteers v ON id = volunteer_id
+        WHERE status IN ('waiting_contact', 'in_contact')
+        AND volunteer_id IS NOT NULL
+        AND condition IN ('cadastrada', 'capacitacao', 'aprovada')
+        AND v.updated_at >= '2024-04-01'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: voluntarias_recadastradas
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: CODE
+    cellId: b0819a41-f02e-4ce0-9513-841cc5de09ca # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        if(voluntarias_recadastradas['count'][0] != 0):
+            exception = "Alerta de provisão: Voluntária está com status Cadastrada, Capacitação ou Aprovada mas possui match em andamento"
+            raise Exception(exception)
+        else:
+            print("sem problemas (:")
+  - cellType: SQL
+    cellId: 2e07ed78-4bb6-4ac3-95c8-c78041fea820 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT 
+            condition AS "status da mulher", 
+            email, 
+            CASE WHEN status = 'waiting_contact' THEN 'encaminhamento realizado' ELSE 'atendimento iniciado' END AS "status do acolhimento", 
+            volunteer_zendesk_ticket_id AS "ticket ID do Zendesk", 
+            v.updated_at AS "atualizado em"
+        FROM match.matches m
+        LEFT JOIN volunteers v ON id = volunteer_id
+        WHERE status IN ('waiting_contact', 'in_contact')
+        AND volunteer_id IS NOT NULL
+        AND condition IN ('cadastrada', 'capacitacao', 'aprovada')
+        AND v.updated_at >= '2024-01-25'
+        ORDER BY m.updated_at DESC
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: MARKDOWN
+    cellId: ea5e0b78-7d86-485b-a657-29d612f77e58 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ------
+        ### 2. Voluntária possui match em andamento, mas se descadastrou
+        Esse alerta acontece quando uma voluntária que possui match em andamento conseguiu se descadastrar sem interromper o match.
+
+        Se tiver algum erro, os casos serão mostrados na tabela abaixo.
+  - cellType: SQL
+    cellId: 7985dd7a-4046-4dbc-927d-67ae5aab401e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Voluntarias descadastradas
+    config:
+      source: |-
+        SELECT
+            COUNT(*)
+        FROM match.matches m
+        LEFT JOIN volunteers v ON id = volunteer_id
+        WHERE status IN ('waiting_contact', 'in_contact')
+        AND volunteer_id IS NOT NULL
+        AND condition IN ('descadastrada')
+        AND v.updated_at >= '2024-04-01'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: voluntarias_descadastradas
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: CODE
+    cellId: 84cc920b-f95b-433f-be29-7cae718f0012 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        if(voluntarias_descadastradas['count'][0] != 0):
+            exception = "Alerta de provisão: Voluntária se Descadastrou mas possui match em andamento"
+            raise Exception(exception)
+        else:
+            print("sem problemas (:")
+  - cellType: SQL
+    cellId: 4c58a7e7-8cbf-4322-8138-e1da98ee7783 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT 
+            condition AS "status da mulher", 
+            email, 
+            CASE WHEN status = 'waiting_contact' THEN 'encaminhamento realizado' ELSE 'atendimento iniciado' END AS "status do acolhimento", 
+            volunteer_zendesk_ticket_id AS "ticket ID do Zendesk", 
+            v.updated_at AS "atualizado em"
+        FROM match.matches m
+        LEFT JOIN volunteers v ON id = volunteer_id
+        WHERE status IN ('waiting_contact', 'in_contact')
+        AND volunteer_id IS NOT NULL
+        AND condition IN ('descadastrada')
+        AND v.updated_at >= '2024-04-01'
+        ORDER BY m.updated_at DESC
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_3
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+appLayout:
+  visibleMetadataFields:
+    - NAME
+    - DESCRIPTION
+    - AUTHOR
+    - LAST_EDITED
+    - LAST_RUN
+    - CATEGORIES
+    - STATUS
+    - TABLE_OF_CONTENTS
+  fullWidth: false
+  tabs:
+    - name: Tab 1
+      rows:
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 67581ead-9d01-486f-abe2-2cc3ac43bc5e
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: true
+                  hideOutput: false
+                  type: CELL
+                  cellId: b0819a41-f02e-4ce0-9513-841cc5de09ca
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 2e07ed78-4bb6-4ac3-95c8-c78041fea820
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: ea5e0b78-7d86-485b-a657-29d612f77e58
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: true
+                  hideOutput: false
+                  type: CELL
+                  cellId: 84cc920b-f95b-433f-be29-7cae718f0012
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 4c58a7e7-8cbf-4322-8138-e1da98ee7783
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+sharedFilters: []
