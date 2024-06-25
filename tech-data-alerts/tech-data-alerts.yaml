@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: b2315962-b7ef-4bef-b769-634ee2d68983 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 2bf913f8-8370-436b-942b-69fd42ff08d2 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: |+
     Esse notebook contém os alertas de inconsistências no nosso banco de dados
 
@@ -300,6 +300,66 @@ cells:
       source: |-
         if(volunteers_match_count['count'][0] != 0):
             errors.append("Existem voluntárias com discrepâncias no número de matches")
+  - cellType: MARKDOWN
+    cellId: 05dc8248-8cb1-481a-9e23-646483112368 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Voluntárias sem volunteer_availability"
+  - cellType: SQL
+    cellId: 6a945c3f-4563-470f-ae32-954c61f319dc # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: "SQL: Voluntárias sem volunteer_availability"
+    config:
+      source: |-
+        SELECT COUNT(*)
+        FROM volunteers
+        LEFT JOIN volunteer_availability ON id = volunteer_id
+        WHERE is_available IS NULL
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: no_volunteer_availability
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: count
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: CODE
+    cellId: 26edf21e-643a-4d58-9cff-51f607773662 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: "Python: voluntárias sem volunteer_availability"
+    config:
+      source: |-
+        if(no_volunteer_availability['count'][0] != 0):
+            errors.append("Existem voluntárias que estão na tabela volunteers, mas não estão na tabela volunteer_availability")
   - cellType: MARKDOWN
     cellId: c94f11e1-980f-47d9-bbd5-c345415960df # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -1461,6 +1521,11 @@ cells:
         calcs: null
         filters: null
         columnProperties:
+          - originalName: count
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
           - originalName: count_star()
             renameTo: null
             size: 144
