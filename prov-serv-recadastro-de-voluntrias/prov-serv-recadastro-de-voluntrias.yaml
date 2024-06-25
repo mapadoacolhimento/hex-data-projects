@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 7be992a4-53ae-4b7f-a46c-9c0c59052cb5 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 8bbcbcf0-8c16-4425-a7c5-670ae5c42c92 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: |+
     Esse monitoramento apresenta os impactos da ação do Recadastro de Voluntárias realizado em Abril de 2024.
 
@@ -15,13 +15,13 @@ meta:
   logicQueryCacheTimeout: null
   publishedQueryCacheTimeout:
     type: fixed
-    unit: days
+    unit: hours
     duration: 1
   hexType: PROJECT
   allowExecutionReordering: true
   prerunApp: false
-  cachePublishedAppState: true
-  refreshStalePublishedApp: true
+  cachePublishedAppState: false
+  refreshStalePublishedApp: false
   autoRerunApp: true
 projectAssets:
   dataConnections: []
@@ -1122,8 +1122,10 @@ cells:
       displayFormat: null
       valueColumn: count
       valueRowIndex: 0
+      valueAggregate: null
       comparisonColumn: null
       comparisonRowIndex: null
+      comparisonAggregate: null
   - cellType: METRIC
     cellId: b865b6ef-c221-4c28-be31-bbc558cc415a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -1143,8 +1145,10 @@ cells:
         abbreviateLargeNumbers: false
       valueColumn: total
       valueRowIndex: 0
+      valueAggregate: null
       comparisonColumn: null
       comparisonRowIndex: null
+      comparisonAggregate: null
   - cellType: METRIC
     cellId: f5517b95-2de7-483c-a1e0-6ce1d5967721 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -1164,8 +1168,10 @@ cells:
         abbreviateLargeNumbers: false
       valueColumn: ?column?
       valueRowIndex: 0
+      valueAggregate: null
       comparisonColumn: null
       comparisonRowIndex: 0
+      comparisonAggregate: null
   - cellType: MARKDOWN
     cellId: 274b8bf5-4ddb-4921-aa82-80b78f067d72 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
