@@ -1,9 +1,7 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 8bbcbcf0-8c16-4425-a7c5-670ae5c42c92 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
-  description: |+
-    Esse monitoramento apresenta os impactos da ação do Recadastro de Voluntárias realizado em Abril de 2024.
-
+  sourceVersionId: 4d5d65db-f672-4006-a4a1-97bef32b440f # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  description: Esse monitoramento apresenta os impactos da ação do Recadastro de Voluntárias realizado em Abril de 2024.
   projectId: 4e0af48b-3567-492c-9572-c35394e4010d # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] Recadastro de Voluntárias"
   timezone: null
@@ -1894,7 +1892,7 @@ cells:
                       tooltip:
                         type: auto
                       dataLabels:
-                        fontSize: 8
+                        fontSize: 10
                         position: above
                       point: true
                       stroke: solid
@@ -2083,7 +2081,7 @@ cells:
                       tooltip:
                         type: auto
                       dataLabels:
-                        fontSize: 8
+                        fontSize: 10
                         position: above
                       point: true
                       stroke: solid
@@ -3149,7 +3147,7 @@ appLayout:
                   type: CELL
                   cellId: 7a18c77a-4be7-4e4e-8abe-48e4aa9dec64
                   sharedFilterId: null
-                  height: null
+                  height: 600
                   showLabel: true
             - start: 60
               end: 120
@@ -3159,7 +3157,7 @@ appLayout:
                   type: CELL
                   cellId: 429619e0-922b-49fe-ad08-533ab3ba3d72
                   sharedFilterId: null
-                  height: null
+                  height: 600
                   showLabel: true
         - columns:
             - start: 0
