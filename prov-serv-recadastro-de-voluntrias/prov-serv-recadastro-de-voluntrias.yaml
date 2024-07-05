@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 4d5d65db-f672-4006-a4a1-97bef32b440f # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 62cb20e8-4d88-4133-bd16-b9abb9568e97 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse monitoramento apresenta os impactos da ação do Recadastro de Voluntárias realizado em Abril de 2024.
   projectId: 4e0af48b-3567-492c-9572-c35394e4010d # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] Recadastro de Voluntárias"
@@ -1124,6 +1124,9 @@ cells:
       comparisonColumn: null
       comparisonRowIndex: null
       comparisonAggregate: null
+      valueResultVariable: null
+      comparisonResultVariable: null
+      outputResult: false
   - cellType: METRIC
     cellId: b865b6ef-c221-4c28-be31-bbc558cc415a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -1147,6 +1150,9 @@ cells:
       comparisonColumn: null
       comparisonRowIndex: null
       comparisonAggregate: null
+      valueResultVariable: null
+      comparisonResultVariable: null
+      outputResult: false
   - cellType: METRIC
     cellId: f5517b95-2de7-483c-a1e0-6ce1d5967721 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -1170,6 +1176,9 @@ cells:
       comparisonColumn: null
       comparisonRowIndex: 0
       comparisonAggregate: null
+      valueResultVariable: null
+      comparisonResultVariable: null
+      outputResult: false
   - cellType: MARKDOWN
     cellId: 274b8bf5-4ddb-4921-aa82-80b78f067d72 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -2199,7 +2208,7 @@ cells:
     cellId: 334daa1c-0adc-4f6b-98af-86f2a06074e5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
     config:
-      source: "### total"
+      source: "#### total"
   - cellType: BLOCK
     cellId: 1bccf329-148b-495a-bde4-1b01058ec5ae # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -2338,10 +2347,923 @@ cells:
             displayType: CHART
             displayTableConfig: null
   - cellType: MARKDOWN
+    cellId: a1e7281b-033c-45a9-923f-d892da79a79e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### como estão as que fizeram o Recadastro?"
+  - cellType: BLOCK
+    cellId: 038f3ed5-81e9-4ef5-8865-a60fba74311e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 4779215f-f68b-4cfe-8cd1-a9a9556b31ae
+        chartCellId: 40dc6d45-6543-4cb3-8902-6de69bd9fd1c
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 4779215f-f68b-4cfe-8cd1-a9a9556b31ae
+          cellLabel: null
+          config:
+            source: |-
+              WITH recadastradas AS (
+                  SELECT 
+                      volunteer_id, 
+                      'recadastrou' AS categoria,
+                      condition AS status
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND fields_of_work != 'not_found'
+              )
+              SELECT 
+                  status,
+                  COUNT(*)
+              FROM recadastradas
+              GROUP BY 1
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: dataframe_50
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: categoria
+                  renameTo: null
+                  size: 102
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 46
+                  wrapText: null
+                  displayFormat: null
+                - originalName: status
+                  renameTo: null
+                  size: 255
+                  wrapText: null
+                  displayFormat: null
+                - originalName: volunteer_id
+                  renameTo: null
+                  size: 119
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 40dc6d45-6543-4cb3-8902-6de69bd9fd1c
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 28d9b3c7-b2ff-4d81-9807-91df72f26753
+                  xAxis:
+                    sort:
+                      - cadastrada
+                      - capacitacao
+                      - aprovada
+                      - disponivel
+                      - indisponivel_sem_vagas
+                      - descadastrada
+                      - indisponível_-sem_resposta
+                      - indisponível_agenda
+                      - indisponível_outros_motivos
+                      - reprovada_registro_inválido
+                    type: string
+                    style:
+                      grid:
+                        style: solid
+                      ticks: {}
+                      labels: {}
+                    dataFrameColumn: status
+                  series:
+                    - id: f7a368a0-e693-4819-8487-5e63e1738119
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: solid
+                          ticks: {}
+                          labels: {}
+                      dataFrameColumns:
+                        - count
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#72B7B2"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#01011b"
+                        position: outside-end
+                      barWidth: 1
+                      orientation: vertical
+                      layout: grouped
+                  dataFrame: dataframe_50
+              settings:
+                legend:
+                  position: right
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: chart_result
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: SQL
+    cellId: 3e1182b3-8cb4-472e-9d4a-0a9e076019ae # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        WITH recadastradas AS (
+            SELECT 
+                volunteer_id, 
+                'recadastrou' AS categoria,
+                condition AS status
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND fields_of_work != 'not_found'
+        )
+        SELECT 
+            *
+        FROM recadastradas
+        WHERE status = 'indisponível_-sem_resposta'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_51
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: categoria
+            renameTo: null
+            size: 102
+            wrapText: null
+            displayFormat: null
+          - originalName: count
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+          - originalName: status
+            renameTo: null
+            size: 187
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 119
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 926f1e71-3374-425b-b917-2664b38e0f71 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT *
+        FROM volunteer_status_history
+        WHERE volunteer_id = 16738
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_52
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: created_at
+            renameTo: null
+            size: 242
+            wrapText: null
+            displayFormat: null
+          - originalName: id
+            renameTo: null
+            size: 68
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+          - originalName: status
+            renameTo: null
+            size: 201
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 119
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: BLOCK
+    cellId: 32f92ed9-c1ff-418a-bcdb-da72f5e3c9d3 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: cc3a6c0f-9556-478c-98cd-953b411aa174
+        chartCellId: abbf711e-234b-4fad-87f4-d8e62f2a11bb
+        activeTab: display
+      cells:
+        - cellType: SQL
+          cellId: cc3a6c0f-9556-478c-98cd-953b411aa174
+          cellLabel: Recadastradas ociosas
+          config:
+            source: |-
+              WITH recadastradas AS (
+                  SELECT 
+                      volunteer_id, 
+                      'recadastrou' AS categoria,
+                      condition AS status
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND fields_of_work != 'not_found'
+              )
+              SELECT 
+                  COUNT(DISTINCT volunteer_id)
+              FROM recadastradas v
+              LEFT JOIN match.matches m USING(volunteer_id)
+              WHERE m.created_at IS NULL
+              AND v.status = 'disponivel'
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: recadastradas_ociosas
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: city
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: condition
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count
+                  renameTo: null
+                  size: 82
+                  wrapText: null
+                  displayFormat: null
+                - originalName: created_at
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: email
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: first_name
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: id
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: last_name
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: latitude
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: neighborhood
+                  renameTo: null
+                  size: 144
+                  wrapText: null
+                  displayFormat: null
+                - originalName: phone
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: register_number
+                  renameTo: null
+                  size: 180
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 39
+                  wrapText: null
+                  displayFormat: null
+                - originalName: state
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: updated_at
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: zipcode
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: abbf711e-234b-4fad-87f4-d8e62f2a11bb
+          cellLabel: Recadastradas ociosas
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 0641eb8a-1a09-486e-9156-a31dc12b83e0
+                  xAxis:
+                    type: number
+                    style:
+                      grid:
+                        style: solid
+                      ticks: {}
+                      labels: {}
+                    dataFrameColumn: count
+                  series:
+                    - id: 44ee5cc6-cbc7-4f89-8e64-62aedc34a12c
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: solid
+                          ticks: {}
+                          labels: {}
+                        aggregate: count
+                      dataFrameColumns:
+                        - volunteer_id
+                      colorOrder: ascending
+                      color:
+                        type: static
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      barWidth: 1
+                      orientation: vertical
+                      layout: stacked
+                  dataFrame: recadastradas_ociosas
+              settings:
+                legend:
+                  position: right
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: chart_result
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: METRIC
+    cellId: c6be981e-9d96-4878-973f-0452f412cc1a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      title: estão ociosas
+      valueVariableName: recadastradas_ociosas
+      showComparison: false
+      comparisonType: null
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: null
+      displayFormat:
+        format: NUMBER
+        currency: USD
+        columnType: NUMBER
+        showSeparators: true
+        numDecimalDigits: -1
+        abbreviateLargeNumbers: false
+      valueColumn: count
+      valueRowIndex: 0
+      valueAggregate: null
+      comparisonColumn: null
+      comparisonRowIndex: null
+      comparisonAggregate: null
+      valueResultVariable: null
+      comparisonResultVariable: null
+      outputResult: false
+  - cellType: BLOCK
+    cellId: ae587892-af8f-4014-8b38-7f93c15758e5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 1be28b39-1525-4799-9eac-f6db210a099a
+        chartCellId: 831990e0-4b26-4eb5-967e-5f798a8605fa
+        activeTab: display
+      cells:
+        - cellType: SQL
+          cellId: 1be28b39-1525-4799-9eac-f6db210a099a
+          cellLabel: Recadastradas match
+          config:
+            source: |-
+              WITH recadastradas AS (
+                  SELECT 
+                      volunteer_id, 
+                      'recadastrou' AS categoria,
+                      condition AS status
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND fields_of_work != 'not_found'
+              )
+              SELECT 
+                  COUNT(DISTINCT volunteer_id)
+              FROM recadastradas v
+              LEFT JOIN match.matches m USING(volunteer_id)
+              WHERE m.created_at >= '2024-04-02'
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: recadastradas_match
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: city
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: condition
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count
+                  renameTo: null
+                  size: 82
+                  wrapText: null
+                  displayFormat: null
+                - originalName: created_at
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: email
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: first_name
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: id
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: last_name
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: latitude
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: neighborhood
+                  renameTo: null
+                  size: 144
+                  wrapText: null
+                  displayFormat: null
+                - originalName: phone
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: register_number
+                  renameTo: null
+                  size: 180
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 39
+                  wrapText: null
+                  displayFormat: null
+                - originalName: state
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: updated_at
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: zipcode
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 831990e0-4b26-4eb5-967e-5f798a8605fa
+          cellLabel: Recadastradas match
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 0641eb8a-1a09-486e-9156-a31dc12b83e0
+                  xAxis:
+                    type: number
+                    style:
+                      grid:
+                        style: solid
+                      ticks: {}
+                      labels: {}
+                    dataFrameColumn: count
+                  series:
+                    - id: 44ee5cc6-cbc7-4f89-8e64-62aedc34a12c
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: solid
+                          ticks: {}
+                          labels: {}
+                        aggregate: count
+                      dataFrameColumns:
+                        - volunteer_id
+                      colorOrder: ascending
+                      color:
+                        type: static
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      barWidth: 1
+                      orientation: vertical
+                      layout: stacked
+                  dataFrame: recadastradas_match
+              settings:
+                legend:
+                  position: right
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: chart_result_2
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: BLOCK
+    cellId: 9e942dbf-21b2-4dc8-a578-b83ebb7a8243 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 93b5e7d9-074c-4d0b-880c-319fd087cbfd
+        chartCellId: 922c897b-4327-4ea4-9c4e-ce325075aaa8
+        activeTab: display
+      cells:
+        - cellType: SQL
+          cellId: 93b5e7d9-074c-4d0b-880c-319fd087cbfd
+          cellLabel: null
+          config:
+            source: |-
+              WITH recadastradas AS (
+                  SELECT 
+                      volunteer_id, 
+                      'recadastrou' AS categoria,
+                      condition AS status
+                  FROM volunteer_segments s
+                  INNER JOIN volunteers v ON id = volunteer_id
+                  WHERE segment_name = 'recadastro_2024'
+                  AND fields_of_work != 'not_found'
+              )
+              SELECT 
+                  COUNT(DISTINCT volunteer_id)
+              FROM recadastradas v
+              LEFT JOIN match.matches m USING(volunteer_id)
+              WHERE m.created_at >= '2024-04-02' AND m.status = 'in_contact'
+            dataFrameCell: false
+            dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+            resultVariableName: recadastradas_match_2
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: city
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: condition
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count
+                  renameTo: null
+                  size: 82
+                  wrapText: null
+                  displayFormat: null
+                - originalName: created_at
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: email
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: first_name
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: id
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: last_name
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: latitude
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: neighborhood
+                  renameTo: null
+                  size: 144
+                  wrapText: null
+                  displayFormat: null
+                - originalName: phone
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: register_number
+                  renameTo: null
+                  size: 180
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 39
+                  wrapText: null
+                  displayFormat: null
+                - originalName: state
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: updated_at
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: zipcode
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 922c897b-4327-4ea4-9c4e-ce325075aaa8
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 0641eb8a-1a09-486e-9156-a31dc12b83e0
+                  xAxis:
+                    type: number
+                    style:
+                      grid:
+                        style: solid
+                      ticks: {}
+                      labels: {}
+                    dataFrameColumn: count
+                  series:
+                    - id: 44ee5cc6-cbc7-4f89-8e64-62aedc34a12c
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: solid
+                          ticks: {}
+                          labels: {}
+                        aggregate: count
+                      dataFrameColumns:
+                        - volunteer_id
+                      colorOrder: ascending
+                      color:
+                        type: static
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      barWidth: 1
+                      orientation: vertical
+                      layout: stacked
+                  dataFrame: recadastradas_match_2
+              settings:
+                legend:
+                  position: right
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: chart_result_3
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: METRIC
+    cellId: 6ab727bf-19e9-4d3e-9da6-ba4e0a644992 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      title: já receberam match
+      valueVariableName: recadastradas_match
+      showComparison: false
+      comparisonType: null
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: null
+      displayFormat:
+        format: NUMBER
+        currency: USD
+        columnType: NUMBER
+        showSeparators: true
+        numDecimalDigits: -1
+        abbreviateLargeNumbers: false
+      valueColumn: count
+      valueRowIndex: 0
+      valueAggregate: null
+      comparisonColumn: null
+      comparisonRowIndex: null
+      comparisonAggregate: null
+      valueResultVariable: null
+      comparisonResultVariable: null
+      outputResult: false
+  - cellType: MARKDOWN
     cellId: 44c95906-5a76-4298-987d-3cb6b312eb83 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
     config:
-      source: "#### por grupos"
+      source: "#### resultados por grupos"
   - cellType: BLOCK
     cellId: e7616cb0-fb7b-4990-9893-0e1fb249fed4 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -3056,6 +3978,230 @@ cells:
         - A divisão de grupos por data não parece ter muito impacto (grupos 1/2, grupos 3/4).
 
         - Voluntárias com Dados Incompletos e Registro Inválido (grupos 5, 6 e 7) têm baixíssimo retorno.
+  - cellType: SQL
+    cellId: 156ee878-97ba-4bb5-942d-dc766988aa1b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        WITH voluntarias_acionadas AS (
+            SELECT 
+                volunteer_id,
+                email,
+                volunteer_segment_group AS grupo
+            FROM volunteer_segments
+            LEFT JOIN volunteers ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+        ),
+        descadastradas AS (
+            SELECT volunteer_id, 'descadastrou' AS categoria
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND condition = 'descadastrada'
+        ),
+        recadastradas AS (
+            SELECT volunteer_id, 'recadastrou' AS categoria
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND fields_of_work != 'not_found'
+        ),
+        voluntarias_engajadas AS (
+            SELECT
+                *
+            FROM recadastradas
+            UNION ALL
+            SELECT *
+            FROM descadastradas
+        ),
+        total AS (
+            SELECT 
+                volunteer_id,
+                grupo,
+                email,
+                CASE WHEN categoria IS NOT NULL THEN 'engajou' ELSE 'não engajou' END AS engajou
+            FROM voluntarias_acionadas
+            LEFT JOIN voluntarias_engajadas USING(volunteer_id)
+        )
+        SELECT
+            volunteer_id,
+            match_id,
+            status
+            -- CASE WHEN engajou = 'engajou' THEN TRUE ELSE FALSE END AS recadastro_engajou
+        FROM total
+        LEFT JOIN match.matches USING(volunteer_id)
+        WHERE engajou = 'não engajou'
+        AND grupo = 'group_7'
+        AND status IN ('waiting_contact', 'in_contact')
+        -- AND grupo IN ('group_4', 'group_5', 'group_6', 'group_7')
+
+        -- 4, 5, 6 e 7
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_48
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: email
+            renameTo: null
+            size: 225
+            wrapText: null
+            displayFormat: null
+          - originalName: grupo
+            renameTo: null
+            size: 83
+            wrapText: null
+            displayFormat: null
+          - originalName: match_id
+            renameTo: null
+            size: 102
+            wrapText: null
+            displayFormat: null
+          - originalName: recadastro_engajou
+            renameTo: null
+            size: 158
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: status
+            renameTo: null
+            size: 88
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 119
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 4fbcb662-86fa-40cd-84b4-be83ef1e7380 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT *
+        FROM match.matches
+        WHERE match_id = 18060
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_49
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: created_at
+            renameTo: null
+            size: 196
+            wrapText: null
+            displayFormat: null
+          - originalName: match_id
+            renameTo: null
+            size: 102
+            wrapText: null
+            displayFormat: null
+          - originalName: match_stage
+            renameTo: null
+            size: 121
+            wrapText: null
+            displayFormat: null
+          - originalName: match_type
+            renameTo: null
+            size: 116
+            wrapText: null
+            displayFormat: null
+          - originalName: msr_id
+            renameTo: null
+            size: 118
+            wrapText: null
+            displayFormat: null
+          - originalName: msr_zendesk_ticket_id
+            renameTo: null
+            size: 177
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 24
+            wrapText: null
+            displayFormat: null
+          - originalName: status
+            renameTo: null
+            size: 88
+            wrapText: null
+            displayFormat: null
+          - originalName: support_request_id
+            renameTo: null
+            size: 159
+            wrapText: null
+            displayFormat: null
+          - originalName: support_type
+            renameTo: null
+            size: 124
+            wrapText: null
+            displayFormat: null
+          - originalName: updated_at
+            renameTo: null
+            size: 196
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 119
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_zendesk_ticket_id
+            renameTo: null
+            size: 207
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
 appLayout:
   visibleMetadataFields:
     - NAME
@@ -3172,7 +4318,7 @@ appLayout:
                   showLabel: true
         - columns:
             - start: 0
-              end: 120
+              end: 75
               elements:
                 - showSource: false
                   hideOutput: false
@@ -3181,6 +4327,13 @@ appLayout:
                   sharedFilterId: null
                   height: null
                   showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: e23d99c3-a99c-4def-990c-e944c1614e93
+                  sharedFilterId: null
+                  height: 200
+                  showLabel: true
         - columns:
             - start: 0
               end: 75
@@ -3188,9 +4341,37 @@ appLayout:
                 - showSource: false
                   hideOutput: false
                   type: CELL
-                  cellId: e23d99c3-a99c-4def-990c-e944c1614e93
+                  cellId: a1e7281b-033c-45a9-923f-d892da79a79e
                   sharedFilterId: null
-                  height: 200
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 80
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 4779215f-f68b-4cfe-8cd1-a9a9556b31ae
+                  sharedFilterId: null
+                  height: 450
+                  showLabel: true
+            - start: 85
+              end: 110
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: c6be981e-9d96-4878-973f-0452f412cc1a
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 6ab727bf-19e9-4d3e-9da6-ba4e0a644992
+                  sharedFilterId: null
+                  height: null
                   showLabel: true
         - columns:
             - start: 0
