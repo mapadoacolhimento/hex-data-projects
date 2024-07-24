@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 5715987e-6635-402e-b054-825a6625d330 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: be49a7b6-dacb-4422-857e-9b05a254b21b # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: fc81fcd3-0961-4ff8-a485-a95c42f2c645 # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: Match manual
@@ -15,6 +15,11 @@ meta:
   publishedQueryCacheTimeout:
     type: disabled
   hexType: PROJECT
+  allowExecutionReordering: true
+  prerunApp: false
+  cachePublishedAppState: false
+  refreshStalePublishedApp: false
+  autoRerunApp: false
 projectAssets:
   dataConnections: []
   envVars: []
@@ -56,7 +61,7 @@ cells:
               
             Esse ID também pode ser encontrado no título do ticket conforme mostra a imagem a seguir: 
                 
-            <img src="/api/v1/file/90e15230-0879-4e46-8941-ba741c854808" width="250" />
+            <img src="/api/v1/file/bbef4e87-a09b-4bcb-92d4-8e23c3f3886e" width="250" />
 
         2. **Insira esse ID no campo a seguir e clique em "Bucar voluntárias"**  
             
@@ -170,9 +175,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: ad92ed2b-859f-4a75-94b7-8ef848347db9
           cellLabel: "SQL: Busca o tipo de suporte relacionado ao ticket"
@@ -224,6 +232,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: SQL
     cellId: 02837760-8ce2-4987-8ca4-7675685d149c # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -309,9 +318,12 @@ cells:
             wrapText: null
             displayFormat: null
         columnOrdering: null
+        customColumnOrdering: null
         pinnedColumns: null
         hiddenColumns: null
         pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
   - cellType: CODE
     cellId: 3d9e4835-dbcd-4a01-b586-9803e548d3d7 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "Python: Calcula distâncias das Voluntárias à MSR"
@@ -605,9 +617,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: c8860d1d-513b-4739-8756-44201aa33bd2
           cellLabel: "SQL: Mostra a tabela com as voluntárias mais próximas à MSR"
@@ -656,7 +671,111 @@ cells:
             colorMappings: {}
             resultVariable: filter_result
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
+  - cellType: CODE
+    cellId: 972d052c-8615-454b-93dd-387c62910187 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Apply Lambda Function
+    config:
+      source: |-
+        closest_volunteers["link"] = closest_volunteers.apply(
+            lambda row: f'<a href="http://example.com/{row["e-mail"]}">Link</a>', axis=1
+        )
+  - cellType: TABLE_DISPLAY
+    cellId: 558bea90-59e4-404d-977b-1d87f7ee8928 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      dataFrameVariableName: closest_volunteers
+      resultVariable: table_result
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: UF
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: anos de experiência
+            renameTo: null
+            size: 228
+            wrapText: null
+            displayFormat: null
+          - originalName: disponibilidade
+            renameTo: null
+            size: 180
+            wrapText: null
+            displayFormat: null
+          - originalName: distância à MSR
+            renameTo: null
+            size: 180
+            wrapText: null
+            displayFormat: null
+          - originalName: e-mail
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: especialidades
+            renameTo: null
+            size: 168
+            wrapText: null
+            displayFormat: null
+          - originalName: link
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: matches concluídos
+            renameTo: null
+            size: 216
+            wrapText: null
+            displayFormat: null
+          - originalName: matches em curso
+            renameTo: null
+            size: 192
+            wrapText: null
+            displayFormat: null
+          - originalName: município
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: nome
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: output
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: telefone
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
   - cellType: MARKDOWN
     cellId: 46213b09-37e5-476c-9841-d9620c7f44ae # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Buscar voluntárias em um município 🌎
@@ -702,15 +821,23 @@ cells:
         calcs: null
         filters: null
         columnProperties:
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
           - originalName: state
             renameTo: null
             size: 82
             wrapText: null
             displayFormat: null
         columnOrdering: null
+        customColumnOrdering: null
         pinnedColumns: null
         hiddenColumns: null
         pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
   - cellType: INPUT
     cellId: b66cb92a-dadc-4de8-a589-67969461614e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: UF
@@ -723,7 +850,7 @@ cells:
           dfName: states
           columnName: state
           variableName: states['state']
-      defaultValue: SP
+      defaultValue: RJ
   - cellType: INPUT
     cellId: 50368214-9c67-4a09-bc33-270cf6a68ee5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Clique aqui para buscar os municípios
@@ -778,7 +905,7 @@ cells:
           dfName: cities
           columnName: city_value
           variableName: cities['city_value']
-      defaultValue: SAO PAULO
+      defaultValue: RIO DE JANEIRO
   - cellType: INPUT
     cellId: 34d67caa-9f4a-4b0e-9632-567e87c2e085 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Tipo de acolhimento
@@ -936,9 +1063,12 @@ cells:
             wrapText: null
             displayFormat: null
         columnOrdering: null
+        customColumnOrdering: null
         pinnedColumns: null
         hiddenColumns: null
         pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
   - cellType: MARKDOWN
     cellId: 3a6d4371-2cf9-47f2-ae11-c379afc10cf1 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Buscar MSRs próximas de uma Voluntária
@@ -1013,27 +1143,70 @@ cells:
       tableDisplayConfig: null
   - cellType: SQL
     cellId: 554d4831-35f1-42ee-bdea-5fc087267e77 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: "SQL: Busca infos das MSRs na solidarity_users"
+    cellLabel: "SQL: Busca infos das MSRs"
     config:
       source: |-
         SELECT 
-            user_id AS msr_id,
-            name AS nome,
+            msr_id,
+            first_name AS nome,
             email, 
-            whatsapp AS phone
-        FROM solidarity_users
-        WHERE organization_id = 360273031591
+            phone
+        FROM msr.msrs
+        INNER JOIN pii_sec.msr_pii USING(msr_id)
       dataFrameCell: false
-      dataConnectionId: e088838c-2205-4ff2-870b-07d163c93079
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: msr_info
-      useRichDisplay: false
+      useRichDisplay: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
       useNativeDates: true
       outputFilteredResult: true
       allowDuplicateColumns: false
-      tableDisplayConfig: null
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: email
+            renameTo: null
+            size: 226
+            wrapText: null
+            displayFormat: null
+          - originalName: msr_id
+            renameTo: null
+            size: 133
+            wrapText: null
+            displayFormat: null
+          - originalName: nome
+            renameTo: null
+            size: 83
+            wrapText: null
+            displayFormat: null
+          - originalName: phone
+            renameTo: null
+            size: 111
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
   - cellType: CODE
     cellId: 3119dfe8-6722-407f-b961-12a286c0da90 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "Python: Calcula distâncias das MSRs à Voluntária"
@@ -1169,9 +1342,12 @@ cells:
             wrapText: null
             displayFormat: null
         columnOrdering: null
+        customColumnOrdering: null
         pinnedColumns: null
         hiddenColumns: null
         pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
   - cellType: MARKDOWN
     cellId: 27cbec60-f605-48c5-85e4-95ca57c6c7d6 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: Fazer um match entre uma MSR e uma voluntária escolhida 🤝
