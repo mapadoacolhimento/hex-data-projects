@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 4c983bdd-1790-47a2-a7b5-9f73d0edb4ff # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 04b47322-6932-4ee6-8fb3-1acdcd0e4c1c # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: null
   projectId: 9ac76a7d-92d7-44c5-8b37-f959af2fb5de # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] Serviços Públicos"
@@ -62,7 +62,7 @@ cells:
               
             Esse ID também pode ser encontrado no título do ticket conforme mostra a imagem a seguir: 
                 
-            <img src="/api/v1/file/2fc8d005-f53c-4de8-97fe-72dc0546006e" width="250" />
+            <img src="/api/v1/file/bd0cb080-a3ba-4405-85c0-0f2b2df794fb" width="250" />
 
         2. **Insira esse ID no campo a seguir;**
 
@@ -1277,23 +1277,21 @@ cells:
         {% if generate_text %}
 
         SELECT 
-            user_id AS msr_id,
-            (STRING_TO_ARRAY(INITCAP(name), ' '))[1] AS msr_first_name
-        FROM solidarity_users
-        WHERE organization_id = 360273031591
+            msr_id,
+            first_name AS msr_first_name
+        FROM pii_sec.msr_pii
 
         {% else %}
 
         SELECT 
-            user_id AS msr_id,
-            (STRING_TO_ARRAY(INITCAP(name), ' '))[1] AS msr_first_name
-        FROM solidarity_users
-        WHERE organization_id = 360273031591
-        AND 0 = 1
+            msr_id,
+            first_name AS msr_first_name
+        FROM pii_sec.msr_pii
+        WHERE 0 = 1
 
         {% endif %}
       dataFrameCell: false
-      dataConnectionId: e088838c-2205-4ff2-870b-07d163c93079
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: msrs
       useRichDisplay: false
       sqlCellOutputType: PANDAS
