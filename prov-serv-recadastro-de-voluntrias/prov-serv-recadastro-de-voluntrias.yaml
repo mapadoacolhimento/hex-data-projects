@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 62cb20e8-4d88-4133-bd16-b9abb9568e97 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 7213d713-9151-4e16-9bda-1eac645063f0 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse monitoramento apresenta os impactos da ação do Recadastro de Voluntárias realizado em Abril de 2024.
   projectId: 4e0af48b-3567-492c-9572-c35394e4010d # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] Recadastro de Voluntárias"
@@ -1796,7 +1796,7 @@ cells:
                   volunteer_segment_group AS grupo,
                   COUNT(*)
               FROM voluntarias_engajadas
-              WHERE volunteer_segment_group IN ('group_1', 'group_2', 'group_3', 'group_4')
+              WHERE volunteer_segment_group IN ('group_1', 'group_2')
               GROUP BY 1, 2
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -1903,7 +1903,7 @@ cells:
                       dataLabels:
                         fontSize: 10
                         position: above
-                      point: true
+                      point: false
                       stroke: solid
                       width: 1.5
                   dataFrame: dataframe_46
@@ -1985,7 +1985,7 @@ cells:
                   volunteer_segment_group AS grupo,
                   COUNT(*)
               FROM voluntarias_engajadas
-              WHERE volunteer_segment_group IN ('group_5', 'group_6', 'group_7', 'group_8')
+              WHERE volunteer_segment_group IN ('group_3', 'group_8')
               GROUP BY 1, 2
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -2092,7 +2092,7 @@ cells:
                       dataLabels:
                         fontSize: 10
                         position: above
-                      point: true
+                      point: false
                       stroke: solid
                       width: 1.5
                   dataFrame: dataframe_47
@@ -4105,9 +4105,58 @@ cells:
     cellLabel: null
     config:
       source: |-
-        SELECT *
-        FROM match.matches
-        WHERE match_id = 18060
+        WITH voluntarias_acionadas AS (
+            SELECT 
+                volunteer_id,
+                first_name,
+                email,
+                volunteer_segment_group AS grupo
+            FROM volunteer_segments
+            LEFT JOIN volunteers ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+        ),
+        descadastradas AS (
+            SELECT volunteer_id, 'descadastrou' AS categoria
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND condition = 'descadastrada'
+        ),
+        recadastradas AS (
+            SELECT volunteer_id, 'recadastrou' AS categoria
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND fields_of_work != 'not_found'
+        ),
+        voluntarias_engajadas AS (
+            SELECT
+                *
+            FROM recadastradas
+            UNION ALL
+            SELECT *
+            FROM descadastradas
+        ),
+        total AS (
+            SELECT 
+                volunteer_id,
+                grupo,
+                email,
+                first_name,
+                CASE WHEN categoria IS NOT NULL THEN 'engajou' ELSE 'não engajou' END AS engajou
+            FROM voluntarias_acionadas
+            LEFT JOIN voluntarias_engajadas USING(volunteer_id)
+        )
+        SELECT DISTINCT 
+            volunteer_id,
+            INITCAP(first_name) AS first_name,
+            email
+        FROM total
+        LEFT JOIN match.matches USING(volunteer_id)
+        WHERE engajou = 'não engajou'
+        AND (status IS NULL OR status NOT IN ('waiting_contact', 'in_contact'))
+        AND grupo IN ('group_4', 'group_5', 'group_6', 'group_7')
+        AND email NOT IN ('keiteamaraladv@gmail.com', 'thaynayaredy@gmail.com', 'nascimento.c.mariana@gmail.com')
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: dataframe_49
@@ -4133,6 +4182,16 @@ cells:
           - originalName: created_at
             renameTo: null
             size: 196
+            wrapText: null
+            displayFormat: null
+          - originalName: email
+            renameTo: null
+            size: 213
+            wrapText: null
+            displayFormat: null
+          - originalName: first_name
+            renameTo: null
+            size: 110
             wrapText: null
             displayFormat: null
           - originalName: match_id
@@ -4195,6 +4254,40 @@ cells:
             size: 207
             wrapText: null
             displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 2d66027a-6ed4-41ed-bc35-3b5d36e021d0 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: ('flaviarv2@yahoo.com.br', 'psicoterapiapimentel@gmail.com', 'elen.dc1@live.com', 'gabrielawilde.psicologia@gmail.com', 'psicologia.luanamachado@gmail.com', 'mmherdy@gmail.com', 'josi.rocha256@gmail.com', 'joannaxavier.adv@gmail.com', 'vdacoelho@hotmail.com', 'eugeniagee28@gmail.com', 'sorayademourafreire@gmail.com', 'psicologakassianemendes@gmail.com', 'idalvaf.adv@hotmail.com', 'eliaomadaleno@gmail.com', 'samanthasalla.psi@outlook.com', 'alessandra2012@yahoo.com.br', 'roblanco1@gmail.com', 'amandamhauck@gmail.com', 'kiihl33@gmail.com', 'binhaaaca@hotmail.com', 'keryribeiropsico@gmail.com', 'olgatalmeida7@gmail.com', 'victoria.cabrallima@gmail.com', 'fernandamribeiro@yahoo.com.br', 'adv.lsarzedas@gmail.com', 'mirbruper@gmail.com', 'advcrismec@gmail.com', 'flavia.perez.rino@gmail.com', 'ribeirovieiramariana@gmail.com', 'masilbat@gmail.com', 'claricerlr@gmail.com')
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_53
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties: []
         columnOrdering: null
         customColumnOrdering: null
         pinnedColumns: null
@@ -4293,7 +4386,7 @@ appLayout:
                   type: CELL
                   cellId: 7a18c77a-4be7-4e4e-8abe-48e4aa9dec64
                   sharedFilterId: null
-                  height: 600
+                  height: 500
                   showLabel: true
             - start: 60
               end: 120
@@ -4303,7 +4396,7 @@ appLayout:
                   type: CELL
                   cellId: 429619e0-922b-49fe-ad08-533ab3ba3d72
                   sharedFilterId: null
-                  height: 600
+                  height: 500
                   showLabel: true
         - columns:
             - start: 0
