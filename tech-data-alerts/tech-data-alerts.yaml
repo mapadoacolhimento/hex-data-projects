@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: b29b1c35-e438-49b0-abc9-827227d20ff0 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: adc62142-07a8-4b5e-bfb8-a074d92f8bc2 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse notebook contém os alertas de inconsistências no nosso banco de dados
   projectId: 180416ec-9554-406b-bd4d-c4b4a95399be # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[TECH] Data alerts"
@@ -1882,6 +1882,66 @@ cells:
       source: |-
         if(expired_match_confirmations['count'][0] != 0):
             errors.append("Existem match_confirmations que deveriam ter expirado")
+  - cellType: MARKDOWN
+    cellId: dc56d7ab-42d6-4a42-8ebe-4a81c71c92e6 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Existem voluntárias disponíveis sem telefone"
+  - cellType: SQL
+    cellId: 8a7f7de4-4fba-4618-8490-7e2a8ec722cb # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Available volunteer without phone
+    config:
+      source: |-
+        SELECT COUNT(*)
+        FROM volunteer_availability
+        LEFT JOIN volunteers ON id = volunteer_id
+        WHERE is_available = TRUE AND phone = 'not_found'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: available_volunteer_without_phone
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: count
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: CODE
+    cellId: c14ca0cb-bb58-4afc-9e6e-6e254cfdfab4 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        if(available_volunteer_without_phone['count'][0] != 0):
+            errors.append("Existem voluntárias disponíveis sem telefone")
   - cellType: CODE
     cellId: dfc0adcb-948b-44d4-a357-317f9fc425e5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: raise errors
