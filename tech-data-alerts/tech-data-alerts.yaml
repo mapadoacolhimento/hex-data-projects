@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: adc62142-07a8-4b5e-bfb8-a074d92f8bc2 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 9f1d76fa-42cd-4194-9be5-bc59e009ae98 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse notebook contém os alertas de inconsistências no nosso banco de dados
   projectId: 180416ec-9554-406b-bd4d-c4b4a95399be # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[TECH] Data alerts"
@@ -696,40 +696,6 @@ cells:
         if(volunteer_status_history['count'][0] != 0):
             errors.append("Existem inconsistências na tabela volunteer_status_history")
   - cellType: MARKDOWN
-    cellId: cdcac8e4-d5d7-4cf4-8416-f2d04bda022e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: null
-    config:
-      source: "#### Existem problemas de integração das MSRs no listener-solidarity"
-  - cellType: SQL
-    cellId: 77ba3d01-cfc1-44c1-ae0c-528ff51b25cc # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: "SQL: problema de integração das MSRs no listener-solidarity"
-    config:
-      source: |-
-        SELECT 
-            COUNT(*)
-        FROM form_entries
-        WHERE 
-            rede_syncronized = FALSE 
-            AND widget_id = 16850
-      dataFrameCell: false
-      dataConnectionId: e088838c-2205-4ff2-870b-07d163c93079
-      resultVariableName: bonde_rede_syncronized
-      useRichDisplay: false
-      sqlCellOutputType: PANDAS
-      useQueryMode: false
-      castDecimals: true
-      useNativeDates: true
-      outputFilteredResult: true
-      allowDuplicateColumns: false
-      tableDisplayConfig: null
-  - cellType: CODE
-    cellId: 925509f5-2554-465a-b6d2-91c37f927142 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: "Python: problema de integração das MSRs no listener-solidarity"
-    config:
-      source: |-
-        if(bonde_rede_syncronized['count'][0] != 0):
-            errors.append("Existem problemas de integração das MSRs no listener-solidarity")
-  - cellType: MARKDOWN
     cellId: c7a10e04-e5d8-44fd-b640-39ce709a72cf # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
     config:
@@ -943,37 +909,21 @@ cells:
     cellId: 357741dc-8374-485f-ab60-6cd1733692a5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
     config:
-      source: "#### Existem MSRs que estão no Bonde mas não possuem support_request"
+      source: "#### Existem MSRs sem support_request"
   - cellType: SQL
     cellId: 687a1e4f-2eee-4741-89fd-3b8c60b74dea # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "SQL: MSRs que estão no bonde mas não possuem support_request "
     config:
       source: |-
-        WITH supports AS (
-            SELECT 
-                msr_id,
-                support_type
-            FROM match.support_requests
-            WHERE status != 'duplicated'
-            -- AND created_at >= '2024-04-18'
-            ORDER BY msr_id, support_type
-        ),
-        msrs AS (
-            SELECT 
-                msr_id,
-                ARRAY_TO_STRING(ARRAY_AGG(support_type::VARCHAR ORDER BY support_type::VARCHAR), '_') AS support_type
-            FROM supports
-            GROUP BY msr_id
-        )
         SELECT 
-            DISTINCT msr_id, support_type
-        FROM msrs
-        WHERE msr_id NOT IN (22858077211028, 23463276684564) -- casos de exceção
-        -- GROUP BY 1
-        -- HAVING COUNT(*) > 1
+            COUNT(DISTINCT msr_id)
+        FROM msr.msrs m
+        LEFT JOIN match.support_requests s USING(msr_id)
+        WHERE support_request_id IS NULL
+        AND m.created_at >= '2024-09-12' -- data de lançamento do novo cadastro de MSRs
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
-      resultVariableName: support_requests
+      resultVariableName: msrs_without_support_request
       useRichDisplay: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
@@ -1025,266 +975,13 @@ cells:
         pinIndexColumns: false
         showAggregations: false
         columnAggregations: null
-  - cellType: SQL
-    cellId: 450f3f6b-f523-4133-b6ae-580696fa0ec1 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: "SQL: MSRs que estão no bonde mas não possuem support_request "
-    config:
-      source: |
-        WITH filtered_solidarity_tickets AS (
-            SELECT 
-                t.requester_id, 
-                t.status_acolhimento,
-                CASE 
-                    WHEN LOWER(REPLACE(SPLIT_PART(t.subject, ']', 1), '[', '')) = 'jurídico' THEN 'legal'
-                    WHEN LOWER(REPLACE(SPLIT_PART(t.subject, ']', 1), '[', '')) = 'psicológico' THEN 'psychological'
-                END AS tipo_de_acolhimento
-            FROM solidarity_tickets t
-            LEFT JOIN solidarity_users u ON requester_id = user_id
-            WHERE 
-            t.external_id IS NOT NULL
-            AND t.status_acolhimento IS NOT NULL AND t.status_acolhimento NOT IN ('solicitação_repetida', 'X', '')
-            AND t.created_at >= '2024-01-25'
-            AND LOWER(REPLACE(SPLIT_PART(t.subject, ']', 1), '[', '')) IN ('jurídico', 'psicológico')
-            AND u.condition != 'desabilitada'
-            AND t.tags::VARCHAR NOT LIKE '%msr-fora-do-perfil%'
-            AND t.requester_id != 21869249597716 -- daniel da busara
-            ORDER BY LOWER(REPLACE(SPLIT_PART(t.subject, ']', 1), '[', ''))
-        )
-        SELECT 
-            requester_id AS user_id,
-            STRING_AGG(tipo_de_acolhimento, '_' ORDER BY tipo_de_acolhimento) AS tipo_de_acolhimento
-        FROM filtered_solidarity_tickets
-        GROUP BY requester_id
-      dataFrameCell: false
-      dataConnectionId: e088838c-2205-4ff2-870b-07d163c93079
-      resultVariableName: solidarity_tickets_filtered
-      useRichDisplay: true
-      sqlCellOutputType: PANDAS
-      useQueryMode: false
-      castDecimals: true
-      useNativeDates: true
-      outputFilteredResult: true
-      allowDuplicateColumns: false
-      tableDisplayConfig:
-        pageSize: 50
-        height: null
-        hideIcons: false
-        hideIndex: false
-        defaultSortColumn: null
-        defaultSortIndexColumn: null
-        defaultSortDirection: ASC
-        conditionalFormatting: null
-        calcs: null
-        filters: null
-        columnProperties:
-          - originalName: assignee_id
-            renameTo: null
-            size: 118
-            wrapText: null
-            displayFormat: null
-          - originalName: created_at
-            renameTo: null
-            size: 196
-            wrapText: null
-            displayFormat: null
-          - originalName: custom_fields
-            renameTo: null
-            size: 400
-            wrapText: null
-            displayFormat: null
-          - originalName: description
-            renameTo: null
-            size: 162
-            wrapText: null
-            displayFormat: null
-          - originalName: email
-            renameTo: null
-            size: 205
-            wrapText: null
-            displayFormat: null
-          - originalName: group_id
-            renameTo: null
-            size: 118
-            wrapText: null
-            displayFormat: null
-          - originalName: iana_time_zone
-            renameTo: null
-            size: 157
-            wrapText: null
-            displayFormat: null
-          - originalName: id
-            renameTo: null
-            size: 68
-            wrapText: null
-            displayFormat: null
-          - originalName: name
-            renameTo: null
-            size: 85
-            wrapText: null
-            displayFormat: null
-          - originalName: organization_id
-            renameTo: null
-            size: 138
-            wrapText: null
-            displayFormat: null
-          - originalName: phone
-            renameTo: null
-            size: 89
-            wrapText: null
-            displayFormat: null
-          - originalName: raw_subject
-            renameTo: null
-            size: 364
-            wrapText: null
-            displayFormat: null
-          - originalName: requester_id
-            renameTo: null
-            size: 123
-            wrapText: null
-            displayFormat: null
-          - originalName: row-index-0
-            renameTo: null
-            size: 24
-            wrapText: null
-            displayFormat: null
-          - originalName: shared_phone_number
-            renameTo: null
-            size: 181
-            wrapText: null
-            displayFormat: null
-          - originalName: split_part
-            renameTo: null
-            size: 107
-            wrapText: null
-            displayFormat: null
-          - originalName: status_acolhimento
-            renameTo: null
-            size: 202
-            wrapText: null
-            displayFormat: null
-          - originalName: string_agg
-            renameTo: null
-            size: 138
-            wrapText: null
-            displayFormat: null
-          - originalName: ticket_id
-            renameTo: null
-            size: 102
-            wrapText: null
-            displayFormat: null
-          - originalName: time_zone
-            renameTo: null
-            size: 111
-            wrapText: null
-            displayFormat: null
-          - originalName: tipo_de_acolhimento
-            renameTo: null
-            size: 167
-            wrapText: null
-            displayFormat: null
-          - originalName: updated_at
-            renameTo: null
-            size: 196
-            wrapText: null
-            displayFormat: null
-          - originalName: url
-            renameTo: null
-            size: 400
-            wrapText: null
-            displayFormat: null
-          - originalName: user_id
-            renameTo: null
-            size: 118
-            wrapText: null
-            displayFormat: null
-        columnOrdering: null
-        customColumnOrdering: null
-        pinnedColumns: null
-        hiddenColumns: null
-        pinIndexColumns: false
-        showAggregations: false
-        columnAggregations: null
-  - cellType: SQL
-    cellId: 4fcdef25-c2ee-4e50-8979-cd888bed3376 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: "SQL: MSRs que estão no bonde mas não possuem support_request "
-    config:
-      source: |-
-        SELECT COUNT(*) AS count
-        FROM solidarity_tickets_filtered
-        LEFT JOIN support_requests ON msr_id = user_id
-        WHERE msr_id IS NULL OR tipo_de_acolhimento != support_type
-        AND LENGTH(tipo_de_acolhimento) > LENGTH(support_type)
-      dataFrameCell: true
-      dataConnectionId: null
-      resultVariableName: msrs_bonde_support_request
-      useRichDisplay: true
-      sqlCellOutputType: PANDAS
-      useQueryMode: false
-      castDecimals: true
-      useNativeDates: true
-      outputFilteredResult: true
-      allowDuplicateColumns: false
-      tableDisplayConfig:
-        pageSize: 50
-        height: null
-        hideIcons: false
-        hideIndex: false
-        defaultSortColumn: null
-        defaultSortIndexColumn: null
-        defaultSortDirection: ASC
-        conditionalFormatting: null
-        calcs: null
-        filters: null
-        columnProperties:
-          - originalName: count
-            renameTo: null
-            size: 85
-            wrapText: null
-            displayFormat: null
-          - originalName: count_star()
-            renameTo: null
-            size: 121
-            wrapText: null
-            displayFormat: null
-          - originalName: msr_id
-            renameTo: null
-            size: 293
-            wrapText: null
-            displayFormat: null
-          - originalName: row-index-0
-            renameTo: null
-            size: 24
-            wrapText: null
-            displayFormat: null
-          - originalName: support_type
-            renameTo: null
-            size: 127
-            wrapText: null
-            displayFormat: null
-          - originalName: tipo_de_acolhimento
-            renameTo: null
-            size: 300
-            wrapText: null
-            displayFormat: null
-          - originalName: user_id
-            renameTo: null
-            size: 226
-            wrapText: null
-            displayFormat: null
-        columnOrdering: null
-        customColumnOrdering: null
-        pinnedColumns: null
-        hiddenColumns: null
-        pinIndexColumns: false
-        showAggregations: false
-        columnAggregations: null
   - cellType: CODE
     cellId: 4a1e2c16-8506-486d-b0df-f72fd2e21966 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "Python: MSRs que estão no bonde mas não possuem support_request "
     config:
       source: |-
-        if(msrs_bonde_support_request['count'][0] != 0):
-            errors.append("Existem MSRs que estão no Bonde mas não possuem support_request")
+        if(msrs_without_support_request['count'][0] != 0):
+            errors.append("Existem MSRs sem support_request")
   - cellType: MARKDOWN
     cellId: 3f5f54da-b51c-4731-8f1c-b06156d5b684 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -1295,11 +992,15 @@ cells:
     cellLabel: "SQL: Msrs desabilitadas"
     config:
       source: |-
-        SELECT user_id
-        FROM public.solidarity_users
-        WHERE condition = 'desabilitada'
+        SELECT COUNT(DISTINCT msr_id)
+        FROM msr.msrs m
+        LEFT JOIN match.support_requests s USING(msr_id)
+        WHERE m.status = 'unregistered'
+        AND s.status != 'closed'
+        AND support_request_id IS NOT NULL
+        AND m.created_at >= '2024-09-12' -- data de lançamento do novo cadastro de MSRs
       dataFrameCell: false
-      dataConnectionId: e088838c-2205-4ff2-870b-07d163c93079
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: msrs_desabilitadas
       useRichDisplay: true
       sqlCellOutputType: PANDAS
@@ -1338,6 +1039,11 @@ cells:
           - originalName: id
             renameTo: null
             size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: msr_id
+            renameTo: null
+            size: 133
             wrapText: null
             displayFormat: null
           - originalName: name
@@ -1387,440 +1093,13 @@ cells:
         pinIndexColumns: false
         showAggregations: false
         columnAggregations: null
-  - cellType: SQL
-    cellId: 731941c0-51cf-4273-9d38-c3bb245303ef # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: Msr id support requests
-    config:
-      source: |-
-        SELECT *
-        FROM match.support_requests
-        WHERE created_at >= '2024-06-19'
-      dataFrameCell: false
-      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
-      resultVariableName: msr_id_support_requests
-      useRichDisplay: true
-      sqlCellOutputType: PANDAS
-      useQueryMode: false
-      castDecimals: true
-      useNativeDates: true
-      outputFilteredResult: true
-      allowDuplicateColumns: false
-      tableDisplayConfig:
-        pageSize: 50
-        height: null
-        hideIcons: false
-        hideIndex: false
-        defaultSortColumn: null
-        defaultSortIndexColumn: null
-        defaultSortDirection: ASC
-        conditionalFormatting: null
-        calcs: null
-        filters: null
-        columnProperties:
-          - originalName: accepts_online_support
-            renameTo: null
-            size: 264
-            wrapText: null
-            displayFormat: null
-          - originalName: city
-            renameTo: null
-            size: 120
-            wrapText: null
-            displayFormat: null
-          - originalName: has_disability
-            renameTo: null
-            size: 168
-            wrapText: null
-            displayFormat: null
-          - originalName: lat
-            renameTo: null
-            size: 120
-            wrapText: null
-            displayFormat: null
-          - originalName: lng
-            renameTo: null
-            size: 120
-            wrapText: null
-            displayFormat: null
-          - originalName: msr_id
-            renameTo: null
-            size: 126
-            wrapText: null
-            displayFormat: null
-          - originalName: priority
-            renameTo: null
-            size: 120
-            wrapText: null
-            displayFormat: null
-          - originalName: requires_libras
-            renameTo: null
-            size: 180
-            wrapText: null
-            displayFormat: null
-          - originalName: row-index-0
-            renameTo: null
-            size: 46
-            wrapText: null
-            displayFormat: null
-          - originalName: support_expertise
-            renameTo: null
-            size: 204
-            wrapText: null
-            displayFormat: null
-          - originalName: support_request_id
-            renameTo: null
-            size: 159
-            wrapText: null
-            displayFormat: null
-          - originalName: support_type
-            renameTo: null
-            size: 144
-            wrapText: null
-            displayFormat: null
-          - originalName: zendesk_ticket_id
-            renameTo: null
-            size: 204
-            wrapText: null
-            displayFormat: null
-        columnOrdering: null
-        customColumnOrdering: null
-        pinnedColumns: null
-        hiddenColumns: null
-        pinIndexColumns: false
-        showAggregations: false
-        columnAggregations: null
-  - cellType: SQL
-    cellId: b01e79aa-1734-4992-9e3f-fdc513dadc80 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: "Msr "
-    config:
-      source: |-
-        SELECT COUNT(*) AS count
-        FROM msrs_desabilitadas
-        INNER JOIN msr_id_support_requests ON msr_id = user_id
-      dataFrameCell: true
-      dataConnectionId: null
-      resultVariableName: msrs_desabilitadas_com_support_request
-      useRichDisplay: true
-      sqlCellOutputType: PANDAS
-      useQueryMode: false
-      castDecimals: true
-      useNativeDates: true
-      outputFilteredResult: true
-      allowDuplicateColumns: false
-      tableDisplayConfig:
-        pageSize: 50
-        height: null
-        hideIcons: false
-        hideIndex: false
-        defaultSortColumn: null
-        defaultSortIndexColumn: null
-        defaultSortDirection: ASC
-        conditionalFormatting: null
-        calcs: null
-        filters: null
-        columnProperties:
-          - originalName: count
-            renameTo: null
-            size: 82
-            wrapText: null
-            displayFormat: null
-          - originalName: count_star()
-            renameTo: null
-            size: 144
-            wrapText: null
-            displayFormat: null
-          - originalName: msr_id
-            renameTo: null
-            size: 133
-            wrapText: null
-            displayFormat: null
-          - originalName: row-index-0
-            renameTo: null
-            size: 24
-            wrapText: null
-            displayFormat: null
-          - originalName: support_request_id
-            renameTo: null
-            size: 159
-            wrapText: null
-            displayFormat: null
-          - originalName: user_id
-            renameTo: null
-            size: 133
-            wrapText: null
-            displayFormat: null
-        columnOrdering: null
-        customColumnOrdering: null
-        pinnedColumns: null
-        hiddenColumns: null
-        pinIndexColumns: false
-        showAggregations: false
-        columnAggregations: null
   - cellType: CODE
     cellId: 732051ce-1888-4ed5-bff9-4b9b3deb5cab # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "Python: MSRs desabilitadas com support_request"
     config:
       source: |-
-        if(msrs_desabilitadas_com_support_request['count'][0] != 0):
+        if(msrs_desabilitadas['count'][0] != 0):
             errors.append("Existem MSRs desabilitadas com support_request")
-  - cellType: MARKDOWN
-    cellId: 7f17e65e-5279-4883-9272-69dd91db1fe2 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: null
-    config:
-      source: "#### Existem inconsistências na migração de dados das MSRs"
-  - cellType: SQL
-    cellId: 25d05dfe-fec8-4872-a8a4-cee5830b971f # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: Msrs bonde
-    config:
-      source: |-
-        WITH users_with_rn AS (
-            SELECT
-                user_id AS msr_id,
-                email,
-                'not_found' AS gender,
-                CASE 
-                WHEN cor = 'amarela'  THEN 'yellow'
-                WHEN cor = 'branca'  THEN 'white'
-                WHEN cor = 'indigena'  THEN 'indigenous'
-                WHEN cor = 'parda'  THEN 'brown'
-                WHEN cor = 'preta'  THEN 'black'
-                ELSE 'not_found'
-                END AS race_color,
-                NULL AS has_disability,
-                TRUE AS accepts_online_support, 
-                CASE WHEN cep IS NULL OR LENGTH(REGEXP_REPLACE(cep, '-', '', 'g')) != 8 THEN 'not_found' ELSE REGEXP_REPLACE(cep, '-', '', 'g') END AS zipcode,
-                CASE 
-                WHEN LENGTH(INITCAP(REGEXP_REPLACE(fields::TEXT, '\\u0000', '', 'g')::json->6->>'value'::TEXT)) > 100 THEN 'not_found'
-                ELSE COALESCE(INITCAP(REGEXP_REPLACE(fields::TEXT, '\\u0000', '', 'g')::json->6->>'value'::TEXT), 'not_found')
-            END AS neighborhood,
-            
-            BTRIM(REGEXP_REPLACE(REGEXP_REPLACE(REGEXP_REPLACE(REGEXP_REPLACE(REGEXP_REPLACE(REGEXP_REPLACE(UPPER(city), 'À|Á|Â|Ã|Ä|Å', 'A', 'g'), 'È|É|Ê|Ë', 'E', 'g'), 'Í|Ì|Î|Ĩ|Ï ', 'I', 'g'), 'Ò|Ó|Ô|Õ|Ö', 'O', 'g'),'Ù|Ú|Û|Ü', 'U', 'g'), 'Ç', 'C', 'g')) AS city,
-                BTRIM(UPPER(state)) AS state,
-                CASE
-                    WHEN condition = 'inscrita' THEN 'registered'
-                    ELSE 'unregistered'
-                END AS status,
-                COALESCE(u.created_at, NOW()) AS created_at,
-                COALESCE(u.updated_at, NOW()) AS updated_at,
-                ROW_NUMBER() OVER(PARTITION BY email ORDER BY u.updated_at DESC) AS rn
-            FROM solidarity_users u
-            LEFT JOIN form_entries f ON u.external_id = f.id
-            WHERE 
-            organization_id = 360273031591
-            AND email IS NOT NULL
-            AND email != ''
-            AND condition = 'inscrita'
-            AND email NOT IN ('igor@nossas.org', 'isabella@mapa.org.br', 'manuella@nossas.org', 'test878@mailinator.com', 'test892@mailinator.com', 'teste0206@mailinator.com', 'teste789@mailinator.com', 'teste@hotmail.com', 'testemsr123@mailinator.com', 'viviane123@gmail.com', 'viviane+novo+match+1@gmail.com', 'vivipirolad@gmail.com', 'daniel.mellow@busara.global', 'emiliano.diaz@busaracenter.org', 'ariane.donegati@playkids.com', 'sueli@tlv.ag') -- usuários que não estão no Zendesk
-        )
-        SELECT COUNT(*)
-        FROM users_with_rn
-        WHERE rn = 1
-      dataFrameCell: false
-      dataConnectionId: e088838c-2205-4ff2-870b-07d163c93079
-      resultVariableName: msrs_bonde
-      useRichDisplay: true
-      sqlCellOutputType: PANDAS
-      useQueryMode: false
-      castDecimals: true
-      useNativeDates: true
-      outputFilteredResult: true
-      allowDuplicateColumns: false
-      tableDisplayConfig:
-        pageSize: 50
-        height: null
-        hideIcons: false
-        hideIndex: false
-        defaultSortColumn: null
-        defaultSortIndexColumn: null
-        defaultSortDirection: ASC
-        conditionalFormatting: null
-        calcs: null
-        filters: null
-        columnProperties:
-          - originalName: accepts_online_support
-            renameTo: null
-            size: 264
-            wrapText: null
-            displayFormat: null
-          - originalName: city
-            renameTo: null
-            size: 120
-            wrapText: null
-            displayFormat: null
-          - originalName: count
-            renameTo: null
-            size: 82
-            wrapText: null
-            displayFormat: null
-          - originalName: created_at
-            renameTo: null
-            size: 120
-            wrapText: null
-            displayFormat: null
-          - originalName: email
-            renameTo: null
-            size: 120
-            wrapText: null
-            displayFormat: null
-          - originalName: gender
-            renameTo: null
-            size: 120
-            wrapText: null
-            displayFormat: null
-          - originalName: has_disability
-            renameTo: null
-            size: 168
-            wrapText: null
-            displayFormat: null
-          - originalName: msr_id
-            renameTo: null
-            size: 120
-            wrapText: null
-            displayFormat: null
-          - originalName: neighborhood
-            renameTo: null
-            size: 144
-            wrapText: null
-            displayFormat: null
-          - originalName: race_color
-            renameTo: null
-            size: 120
-            wrapText: null
-            displayFormat: null
-          - originalName: row-index-0
-            renameTo: null
-            size: 46
-            wrapText: null
-            displayFormat: null
-          - originalName: state
-            renameTo: null
-            size: 120
-            wrapText: null
-            displayFormat: null
-          - originalName: status
-            renameTo: null
-            size: 120
-            wrapText: null
-            displayFormat: null
-          - originalName: updated_at
-            renameTo: null
-            size: 120
-            wrapText: null
-            displayFormat: null
-          - originalName: zipcode
-            renameTo: null
-            size: 120
-            wrapText: null
-            displayFormat: null
-        columnOrdering: null
-        customColumnOrdering: null
-        pinnedColumns: null
-        hiddenColumns: null
-        pinIndexColumns: false
-        showAggregations: false
-        columnAggregations: null
-  - cellType: SQL
-    cellId: 89f7b79a-89a2-41df-9470-0908e2e29639 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: Msr msrs
-    config:
-      source: |-
-        SELECT COUNT(*)
-        FROM msr.msrs
-        WHERE status = 'registered'
-      dataFrameCell: false
-      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
-      resultVariableName: msr_msrs
-      useRichDisplay: true
-      sqlCellOutputType: PANDAS
-      useQueryMode: false
-      castDecimals: true
-      useNativeDates: true
-      outputFilteredResult: true
-      allowDuplicateColumns: false
-      tableDisplayConfig:
-        pageSize: 50
-        height: null
-        hideIcons: false
-        hideIndex: false
-        defaultSortColumn: null
-        defaultSortIndexColumn: null
-        defaultSortDirection: ASC
-        conditionalFormatting: null
-        calcs: null
-        filters: null
-        columnProperties:
-          - originalName: count
-            renameTo: null
-            size: 82
-            wrapText: null
-            displayFormat: null
-          - originalName: row-index-0
-            renameTo: null
-            size: 39
-            wrapText: null
-            displayFormat: null
-        columnOrdering: null
-        customColumnOrdering: null
-        pinnedColumns: null
-        hiddenColumns: null
-        pinIndexColumns: false
-        showAggregations: false
-        columnAggregations: null
-  - cellType: SQL
-    cellId: 103fae51-d2a9-4521-82d2-74f93c1f88d4 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: Msr pii
-    config:
-      source: |-
-        SELECT COUNT(*)
-        FROM pii_sec.msr_pii
-        LEFT JOIN msr.msrs USING(msr_id)
-        WHERE status = 'registered'
-      dataFrameCell: false
-      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
-      resultVariableName: msr_pii
-      useRichDisplay: true
-      sqlCellOutputType: PANDAS
-      useQueryMode: false
-      castDecimals: true
-      useNativeDates: true
-      outputFilteredResult: true
-      allowDuplicateColumns: false
-      tableDisplayConfig:
-        pageSize: 50
-        height: null
-        hideIcons: false
-        hideIndex: false
-        defaultSortColumn: null
-        defaultSortIndexColumn: null
-        defaultSortDirection: ASC
-        conditionalFormatting: null
-        calcs: null
-        filters: null
-        columnProperties:
-          - originalName: count
-            renameTo: null
-            size: 82
-            wrapText: null
-            displayFormat: null
-          - originalName: row-index-0
-            renameTo: null
-            size: 39
-            wrapText: null
-            displayFormat: null
-        columnOrdering: null
-        customColumnOrdering: null
-        pinnedColumns: null
-        hiddenColumns: null
-        pinIndexColumns: false
-        showAggregations: false
-        columnAggregations: null
-  - cellType: CODE
-    cellId: 3c98b06b-e4aa-4a87-8d65-7eab4635e741 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: null
-    config:
-      source: |-
-        if(msrs_bonde['count'][0] > msr_msrs['count'][0] or msrs_bonde['count'][0] > msr_pii['count'][0] or msr_msrs['count'][0] != msr_pii['count'][0]):
-            errors.append("Existem inconsistências na migração de dados das MSRs")
   - cellType: MARKDOWN
     cellId: 485699f0-bc94-457a-ad94-590cf1357162 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
