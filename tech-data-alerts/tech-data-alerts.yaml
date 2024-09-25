@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 9f1d76fa-42cd-4194-9be5-bc59e009ae98 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 4b7dd6b6-8786-45f3-9212-c434cb92770d # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse notebook contém os alertas de inconsistências no nosso banco de dados
   projectId: 180416ec-9554-406b-bd4d-c4b4a95399be # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[TECH] Data alerts"
@@ -63,6 +63,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -173,6 +174,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -326,6 +328,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -392,6 +395,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -516,6 +520,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -726,6 +731,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -828,6 +834,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -935,6 +942,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: support_type
         defaultSortIndexColumn: null
@@ -1013,6 +1021,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -1021,6 +1030,11 @@ cells:
         calcs: null
         filters: null
         columnProperties:
+          - originalName: count
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
           - originalName: created_at
             renameTo: null
             size: 120
@@ -1129,6 +1143,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -1189,6 +1204,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -1221,6 +1237,171 @@ cells:
       source: |-
         if(available_volunteer_without_phone['count'][0] != 0):
             errors.append("Existem voluntárias disponíveis sem telefone")
+  - cellType: MARKDOWN
+    cellId: a6138a90-de7a-475e-ab1a-a2571724df68 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Existem voluntárias sem moodle_id"
+  - cellType: SQL
+    cellId: a7db445b-e1ae-4616-b44b-82652f3e1a48 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Volunteer null moodle id
+    config:
+      source: |-
+        WITH volunteers_recadastro AS (
+            SELECT 
+                id as volunteer_id, 
+                first_name, 
+                last_name, 
+                email, 
+                occupation, 
+                city 
+            FROM volunteers
+            INNER JOIN volunteer_segments ON id = volunteer_id
+            WHERE 
+                segment_name = 'recadastro_2024'
+                AND years_of_experience != 'not_found'
+                AND moodle_id IS NULL 
+                AND condition != 'cadastrada'
+        ),
+        new_volunteers AS (
+            SELECT 
+                id as volunteer_id, 
+                first_name, 
+                last_name, 
+                email, 
+                occupation, 
+                city 
+            FROM volunteers
+            WHERE 
+                moodle_id IS NULL AND 
+                condition = 'cadastrada'
+        ),
+        all_volunteers AS (
+            SELECT *
+            FROM volunteers_recadastro
+            UNION ALL 
+            SELECT *
+            FROM new_volunteers
+        )
+        SELECT COUNT(*)
+        FROM all_volunteers
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: volunteer_null_moodle_id
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: city
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: condition
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: count
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: created_at
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: email
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: first_name
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: id
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: last_name
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: latitude
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: neighborhood
+            renameTo: null
+            size: 144
+            wrapText: null
+            displayFormat: null
+          - originalName: phone
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: register_number
+            renameTo: null
+            size: 180
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 24
+            wrapText: null
+            displayFormat: null
+          - originalName: state
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: updated_at
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: zipcode
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: CODE
+    cellId: 39eb8660-5c96-486c-a859-9931742d15ac # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        if(volunteer_null_moodle_id['count'][0] != 0):
+            errors.append("Existem voluntárias sem moodle_id")
   - cellType: CODE
     cellId: dfc0adcb-948b-44d4-a357-317f9fc425e5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: raise errors
