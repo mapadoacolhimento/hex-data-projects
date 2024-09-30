@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 7213d713-9151-4e16-9bda-1eac645063f0 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 3dc292e1-9ae4-4e75-bbbe-fd08fca8ed55 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse monitoramento apresenta os impactos da ação do Recadastro de Voluntárias realizado em Abril de 2024.
   projectId: 4e0af48b-3567-492c-9572-c35394e4010d # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] Recadastro de Voluntárias"
@@ -84,6 +84,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -151,6 +152,7 @@ cells:
             volunteer_id,
             'group_2' AS recadastro_group
         FROM all_group_2
+        WHERE volunteer_id = 16330
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: group_2
@@ -165,6 +167,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -180,7 +183,7 @@ cells:
             displayFormat: null
           - originalName: row-index-0
             renameTo: null
-            size: 46
+            size: 24
             wrapText: null
             displayFormat: null
           - originalName: volunteer_id
@@ -226,6 +229,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -287,6 +291,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -302,7 +307,7 @@ cells:
             displayFormat: null
           - originalName: row-index-0
             renameTo: null
-            size: 46
+            size: 24
             wrapText: null
             displayFormat: null
           - originalName: volunteer_id
@@ -347,6 +352,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -362,7 +368,7 @@ cells:
             displayFormat: null
           - originalName: row-index-0
             renameTo: null
-            size: 46
+            size: 24
             wrapText: null
             displayFormat: null
           - originalName: volunteer_id
@@ -407,6 +413,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -467,6 +474,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -527,6 +535,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -606,6 +615,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -831,6 +841,7 @@ cells:
         pageSize: 15
         height: 420
         hideIcons: true
+        defaultColumnWidth: null
         hideIndex: true
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -1027,6 +1038,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -1238,6 +1250,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1356,6 +1369,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1633,6 +1647,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1796,7 +1811,7 @@ cells:
                   volunteer_segment_group AS grupo,
                   COUNT(*)
               FROM voluntarias_engajadas
-              WHERE volunteer_segment_group IN ('group_1', 'group_2')
+              WHERE volunteer_segment_group IN ('group_1')
               GROUP BY 1, 2
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -1812,6 +1827,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1985,7 +2001,7 @@ cells:
                   volunteer_segment_group AS grupo,
                   COUNT(*)
               FROM voluntarias_engajadas
-              WHERE volunteer_segment_group IN ('group_3', 'group_8')
+              WHERE volunteer_segment_group IN ('group_3')
               GROUP BY 1, 2
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -2001,6 +2017,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -2264,6 +2281,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -2394,6 +2412,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -2529,6 +2548,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -2591,6 +2611,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -2675,6 +2696,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -2893,6 +2915,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3084,6 +3107,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3322,6 +3346,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3476,6 +3501,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3605,6 +3631,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -3745,6 +3772,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3931,6 +3959,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -4024,15 +4053,15 @@ cells:
             LEFT JOIN voluntarias_engajadas USING(volunteer_id)
         )
         SELECT
-            volunteer_id,
-            match_id,
-            status
-            -- CASE WHEN engajou = 'engajou' THEN TRUE ELSE FALSE END AS recadastro_engajou
+            email,
+            grupo AS recadastro_grupo,
+            -- match_id
+            -- status
+            CASE WHEN engajou = 'engajou' THEN TRUE ELSE FALSE END AS recadastro_engajou
         FROM total
-        LEFT JOIN match.matches USING(volunteer_id)
-        WHERE engajou = 'não engajou'
-        AND grupo = 'group_7'
-        AND status IN ('waiting_contact', 'in_contact')
+        -- LEFT JOIN match.matches USING(volunteer_id)
+        -- WHERE engajou = 'não engajou'
+        -- AND status IN ('waiting_contact', 'in_contact')
         -- AND grupo IN ('group_4', 'group_5', 'group_6', 'group_7')
 
         -- 4, 5, 6 e 7
@@ -4050,6 +4079,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -4078,9 +4108,14 @@ cells:
             size: 158
             wrapText: null
             displayFormat: null
+          - originalName: recadastro_grupo
+            renameTo: null
+            size: 147
+            wrapText: null
+            displayFormat: null
           - originalName: row-index-0
             renameTo: null
-            size: 46
+            size: 24
             wrapText: null
             displayFormat: null
           - originalName: status
@@ -4109,6 +4144,7 @@ cells:
             SELECT 
                 volunteer_id,
                 first_name,
+                occupation,
                 email,
                 volunteer_segment_group AS grupo
             FROM volunteer_segments
@@ -4116,14 +4152,14 @@ cells:
             WHERE segment_name = 'recadastro_2024'
         ),
         descadastradas AS (
-            SELECT volunteer_id, 'descadastrou' AS categoria
+            SELECT volunteer_id, 'descadastrou' AS categoria, updated_at
             FROM volunteer_segments s
             INNER JOIN volunteers v ON id = volunteer_id
             WHERE segment_name = 'recadastro_2024'
             AND condition = 'descadastrada'
         ),
         recadastradas AS (
-            SELECT volunteer_id, 'recadastrou' AS categoria
+            SELECT volunteer_id, 'recadastrou' AS categoria, updated_at
             FROM volunteer_segments s
             INNER JOIN volunteers v ON id = volunteer_id
             WHERE segment_name = 'recadastro_2024'
@@ -4143,20 +4179,27 @@ cells:
                 grupo,
                 email,
                 first_name,
-                CASE WHEN categoria IS NOT NULL THEN 'engajou' ELSE 'não engajou' END AS engajou
+                occupation,
+                categoria,
+                CASE WHEN categoria IS NOT NULL THEN 'engajou' ELSE 'não engajou' END AS engajou,
+                updated_at
             FROM voluntarias_acionadas
             LEFT JOIN voluntarias_engajadas USING(volunteer_id)
         )
         SELECT DISTINCT 
-            volunteer_id,
-            INITCAP(first_name) AS first_name,
-            email
+            -- volunteer_id,
+            -- INITCAP(first_name) AS first_name,
+            -- email,
+            -- engajou AS recadastro_engajou
+            *
         FROM total
-        LEFT JOIN match.matches USING(volunteer_id)
-        WHERE engajou = 'não engajou'
-        AND (status IS NULL OR status NOT IN ('waiting_contact', 'in_contact'))
-        AND grupo IN ('group_4', 'group_5', 'group_6', 'group_7')
-        AND email NOT IN ('keiteamaraladv@gmail.com', 'thaynayaredy@gmail.com', 'nascimento.c.mariana@gmail.com')
+        -- LEFT JOIN match.matches USING(volunteer_id)
+        WHERE engajou = 'engajou'
+        AND updated_at >= '2024-05-01'
+        -- AND (status IS NULL OR status NOT IN ('waiting_contact', 'in_contact'))
+        -- AND grupo IN ('group_2')
+        -- AND email NOT IN ('keiteamaraladv@gmail.com', 'thaynayaredy@gmail.com', 'nascimento.c.mariana@gmail.com')
+        -- AND occupation = 'psychologist'
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: dataframe_49
@@ -4171,6 +4214,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -4219,6 +4263,16 @@ cells:
             size: 177
             wrapText: null
             displayFormat: null
+          - originalName: occupation
+            renameTo: null
+            size: 111
+            wrapText: null
+            displayFormat: null
+          - originalName: recadastro_engajou
+            renameTo: null
+            size: 158
+            wrapText: null
+            displayFormat: null
           - originalName: row-index-0
             renameTo: null
             size: 24
@@ -4262,10 +4316,212 @@ cells:
         showAggregations: false
         columnAggregations: null
   - cellType: SQL
+    cellId: 3c800383-601a-4f78-b87d-5fcab69cdd2b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        WITH voluntarias_acionadas AS (
+            SELECT 
+                volunteer_id,
+                first_name,
+                occupation,
+                email,
+                volunteer_segment_group AS grupo
+            FROM volunteer_segments
+            LEFT JOIN volunteers ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+        ),
+        descadastradas AS (
+            SELECT volunteer_id, 'descadastrou' AS categoria, v.updated_at
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND condition = 'descadastrada'
+        ),
+        recadastradas AS (
+            SELECT volunteer_id, 'recadastrou' AS categoria, v.updated_at
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND fields_of_work != 'not_found'
+        ),
+        voluntarias_engajadas AS (
+            SELECT
+                *
+            FROM recadastradas
+            UNION ALL
+            SELECT *
+            FROM descadastradas
+        ),
+        total AS (
+            SELECT 
+                volunteer_id,
+                grupo,
+                email,
+                first_name,
+                occupation,
+                categoria,
+                CASE WHEN categoria IS NOT NULL THEN 'engajou' ELSE 'não engajou' END AS engajou,
+                updated_at
+            FROM voluntarias_acionadas
+            LEFT JOIN voluntarias_engajadas USING(volunteer_id)
+        )
+        SELECT 
+            -- volunteer_id,
+            -- INITCAP(first_name) AS first_name,
+            -- email,
+            -- engajou AS recadastro_engajou
+            *
+        FROM total
+        WHERE engajou = 'engajou'
+        AND categoria = 'recadastrou'
+        AND updated_at >= '2024-05-01'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_58
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: categoria
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: email
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: engajou
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: first_name
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: grupo
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: occupation
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: updated_at
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 144
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
     cellId: 2d66027a-6ed4-41ed-bc35-3b5d36e021d0 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
     config:
-      source: ('flaviarv2@yahoo.com.br', 'psicoterapiapimentel@gmail.com', 'elen.dc1@live.com', 'gabrielawilde.psicologia@gmail.com', 'psicologia.luanamachado@gmail.com', 'mmherdy@gmail.com', 'josi.rocha256@gmail.com', 'joannaxavier.adv@gmail.com', 'vdacoelho@hotmail.com', 'eugeniagee28@gmail.com', 'sorayademourafreire@gmail.com', 'psicologakassianemendes@gmail.com', 'idalvaf.adv@hotmail.com', 'eliaomadaleno@gmail.com', 'samanthasalla.psi@outlook.com', 'alessandra2012@yahoo.com.br', 'roblanco1@gmail.com', 'amandamhauck@gmail.com', 'kiihl33@gmail.com', 'binhaaaca@hotmail.com', 'keryribeiropsico@gmail.com', 'olgatalmeida7@gmail.com', 'victoria.cabrallima@gmail.com', 'fernandamribeiro@yahoo.com.br', 'adv.lsarzedas@gmail.com', 'mirbruper@gmail.com', 'advcrismec@gmail.com', 'flavia.perez.rino@gmail.com', 'ribeirovieiramariana@gmail.com', 'masilbat@gmail.com', 'claricerlr@gmail.com')
+      source: |
+        WITH voluntarias_acionadas AS (
+            SELECT 
+                volunteer_id,
+                first_name,
+                occupation,
+                email,
+                volunteer_segment_group AS grupo
+            FROM volunteer_segments
+            LEFT JOIN volunteers ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+        ),
+        descadastradas AS (
+            SELECT volunteer_id, 'descadastrou' AS categoria
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND condition = 'descadastrada'
+        ),
+        recadastradas AS (
+            SELECT volunteer_id, 'recadastrou' AS categoria
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND fields_of_work != 'not_found'
+        ),
+        voluntarias_engajadas AS (
+            SELECT
+                *
+            FROM recadastradas
+            UNION ALL
+            SELECT *
+            FROM descadastradas
+        ),
+        total AS (
+            SELECT 
+                volunteer_id,
+                grupo,
+                email,
+                first_name,
+                occupation,
+                CASE WHEN categoria IS NOT NULL THEN 'engajou' ELSE 'não engajou' END AS engajou
+            FROM voluntarias_acionadas
+            LEFT JOIN voluntarias_engajadas USING(volunteer_id)
+        ),
+        possuem_match AS (
+            SELECT 
+                DISTINCT volunteer_id,
+                TRUE AS possui_match
+            FROM total
+            LEFT JOIN match.matches USING(volunteer_id)
+            WHERE engajou = 'não engajou'
+            AND status IN ('waiting_contact', 'in_contact')
+            AND grupo IN ('group_8')
+
+        )
+        SELECT 
+            -- DISTINCT volunteer_id
+            STRING_AGG(volunteer_id::VARCHAR, ', ')
+            -- INITCAP(first_name) AS first_name,
+            -- email,
+            -- engajou AS recadastro_engajou
+        FROM total
+        LEFT JOIN possuem_match USING(volunteer_id)
+        WHERE engajou = 'não engajou'
+        AND grupo IN ('group_8')
+        AND possui_match IS NULL
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: dataframe_53
@@ -4280,6 +4536,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -4287,7 +4544,732 @@ cells:
         conditionalFormatting: null
         calcs: null
         filters: null
-        columnProperties: []
+        columnProperties:
+          - originalName: count
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+          - originalName: string_agg
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 119
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 29554398-2364-430d-b33e-e6995f20fc17 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT 
+            id AS volunteer_id,
+            email,
+            INITCAP(first_name) AS first_name
+        FROM volunteers
+        WHERE id IN (27559, 26461, 26016, 26686, 26678, 27784, 26310, 26963, 26014, 17123, 26774, 26722, 27524, 16602, 26335, 22415, 26534, 21125, 17219, 26685, 26538, 27525, 27402, 26241, 24196, 16197, 26604, 27285, 26777, 27348, 20649, 26767, 27773, 27005, 26756, 26693, 21623, 27429, 16571, 26653, 26337, 27779, 27576, 26559, 16702, 26998, 26327, 26813, 27339, 26608, 26841, 23110, 26599, 26541, 18622, 23247, 26681, 16276, 26977, 27609, 27570, 25832, 27476, 26784, 27582, 27418, 26958, 27617, 18502, 16759, 27709, 27110, 17493, 27641, 21305, 27267, 26208, 27489, 26857, 16765, 26949, 27065, 26134)
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_57
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: email
+            renameTo: null
+            size: 249
+            wrapText: null
+            displayFormat: null
+          - originalName: first_name
+            renameTo: null
+            size: 110
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 119
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: aba3ddf0-2eb4-4f97-860f-a2176a755c5d # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT DISTINCT volunteer_id
+        FROM match.matches
+        WHERE status IN ('waiting_contact', 'in_contact')
+        AND volunteer_id IN (25643, 25632, 16703, 25629, 25288, 18220, 25217, 26029, 25428, 27000, 26231, 22911, 25249, 16034, 25090, 24909, 18795, 20771, 26070, 23823, 21095, 24567, 18070, 18603, 25101, 25656, 25474, 24886, 24779, 27287, 20124, 22757, 26833, 26348, 25654, 25117, 19101, 26705, 24711, 21447, 21118, 26454, 26124, 16037, 26028, 27043, 15857, 27314, 27463, 15504, 20804, 22881, 27224, 25752, 23092, 26380, 25553, 24899, 24383, 25623, 27842, 26424, 25281, 27185, 21618, 24744, 19712, 27113, 25895, 16097, 25417, 20037, 25554, 16656, 26238, 25013, 24851, 23012, 16777, 25267, 23323, 24220, 27691, 25636, 15825, 24912, 21390, 25921, 26034, 25401, 24798, 24942, 24858, 15945, 17401, 16545, 26143, 23859, 24631, 23806, 25491, 24227, 26026, 27321, 15553, 24719, 24660, 26536, 26160, 26473, 15664, 22426, 15647, 18884, 22371, 22410, 25851, 25520, 25539, 22231, 25611, 27690, 26443, 27550, 26229, 25545, 26200, 24224, 25154, 26098, 25264, 14793, 17454, 24773, 27254, 24776, 25421, 21668, 15788, 22301, 15831, 25358, 26063, 15961, 24646, 22556, 15734, 15814, 27323, 15713, 26869, 24303, 26614, 26164, 27780, 26582, 19644, 24896, 27634, 17188, 16081, 27700, 25613, 25809, 25601, 23058, 23918, 24720, 25240, 24581, 25527, 25008, 27676, 26410, 21506, 22629, 25653, 26021, 19088, 26430, 25768, 25880, 25583, 24692, 26197, 21193, 25093, 25418, 24991, 26765, 26261, 21016, 21875, 25681, 21516, 26423, 24848, 25590, 25164, 17406, 15757, 25785, 27515, 25864, 26864, 15815, 26285, 23175, 25687, 23934, 27389, 25964, 26868, 23427, 23747, 25728, 26993, 15598, 27678, 24881, 27494, 24921, 25902, 25618, 27099, 16231, 27297, 25999, 27490, 24808, 24925, 25218, 23106, 26563, 24279, 24946, 23441, 23761, 25368, 27239, 19978, 24676, 16384, 26494, 22072, 27059, 24628, 23843, 25140, 27063, 24252, 25077, 26493, 22124, 22630, 24888, 27191, 17637, 27493, 26872, 25954, 15622, 26003, 25818, 25622, 15635, 21201, 26015, 25018, 25168, 25534, 27025, 22038, 25852, 25649, 25119, 25930, 20803, 26807, 24233, 25651, 25465, 23756, 26184, 24388, 15559, 24872, 17395, 27168, 26286, 25719, 25303, 25311, 25786, 23593, 26065, 17464, 25370, 16009, 15575, 16775, 26726, 25458, 24924, 27114, 27233, 25920, 25171, 25082, 16129, 26270, 15538, 15805, 26222, 27155, 24271, 27742, 25526, 24685, 21307, 16699, 14897, 15281, 25671, 17456, 25252, 25981, 18295, 27567, 20961, 15653, 21726, 15375, 27007, 25647, 26419, 27249, 23908, 22864, 24945, 24789, 24655, 25489, 27391, 25294, 25862, 26282, 26360, 27079, 25291, 25703, 25180, 24900, 25174, 25672, 15620, 26221, 15748, 21547, 16204, 26183, 27072, 20776, 25219, 25263, 16542, 27461, 24731, 27415, 17876, 26560, 25016, 25342, 24920, 26731, 26479, 25275, 26620, 15820, 25596, 25870, 18312, 15701, 20129, 22380, 23817, 22848, 17440, 21524, 25287, 25300, 22988, 26881, 27745, 25425, 26038, 17572, 27723, 25913, 25000, 25592, 25568, 18589, 16113, 24869, 24871, 24716, 25873, 25645, 23281, 25228, 26723, 15735, 25950, 27343, 21631, 27350, 22821, 24812, 15692, 15740, 22963, 25985, 25644, 26400, 25766, 25054, 25972, 23052, 25261, 25782, 25088, 27041, 25993, 24310, 22449, 27243, 25040, 17445, 24767, 25991, 24074, 15492, 24572, 26069, 15927, 23917, 27015, 20697, 26709, 15770, 26374, 18069, 15775, 25059, 26526, 15011, 21635, 25536, 15760, 25274, 25024, 24964, 22080, 25947, 19956, 26278, 24734, 22328, 25139, 25044, 24030, 25754, 15751, 22682, 24972, 24634, 22184, 26644, 22566, 27049, 24898, 26525, 24664, 27446, 27648, 20586, 26218, 24075, 25258, 15671, 25461, 26237, 25200, 27468, 18286, 26902, 24943, 16010, 24868, 25903, 25883, 26369, 25751, 25841, 27325, 25052, 25676, 15563, 15515, 16279, 21277, 23139, 24860, 25695, 22692, 15791, 27048, 25201, 25894, 23461, 15686, 23215, 24987, 25015, 19919, 25989, 24876, 24164, 18306, 24999, 27180, 25481, 27578, 27717, 26101, 15717, 24949, 23207, 15753, 27680, 20152, 25045, 24749, 25577, 21141, 17029, 27845, 25726, 17668, 27605, 26819, 25969, 27353, 25570, 26964, 25814, 24639, 25936, 21673, 19530, 25142, 25125, 27252, 25819, 25084, 25196, 25549, 26187, 25641, 24364, 20854, 25963, 15592, 25120, 25665, 24936, 15818, 24211, 22665, 24715, 26004, 27327, 24766, 25935, 24939, 24493, 15786, 25467, 22561, 25603, 27150, 20050, 24475, 27591, 25738, 25904, 25617, 26162, 27408, 24835, 23938, 24092, 25708, 20904, 15716, 25391, 27028, 25163, 21520, 15746, 24022, 15636, 25856, 23647, 18887, 21703, 24700, 27130, 17891, 21648, 25628, 24855, 15767, 26190, 24813, 27849, 26553, 27295, 16309, 26276, 25337, 25503, 26899, 26994, 26617, 25352, 25511, 20478, 26050, 17380, 25798, 15627, 24815, 25980, 15789, 23225, 26213, 24673, 22046, 15688, 26521, 23923, 24611, 26199, 17693, 25701, 25712, 25892, 25466, 23315, 17457, 25996, 26408, 15737, 21694, 24821, 26495, 25383, 25173, 25939, 26127, 26381, 25095, 17966, 25151, 24356, 18348, 25589, 25715, 27639, 24714, 15833, 23611, 25694, 27317, 26277, 15699, 24774, 24772, 16060, 24791, 27248, 26178, 16649, 15621, 27600, 23301, 19026, 17553, 25557, 25657, 21567, 18696, 26132, 21711, 25071, 24225, 24950, 27538, 25566, 25069, 25853, 24232, 26177, 22150, 24978, 27712, 24984, 26367, 26412, 25097, 17552, 25144, 25464, 19807, 26051, 22395, 21311, 25587, 24918, 15905, 21004, 15764, 20168, 25075, 21519, 15672, 15507, 25965, 26610, 24788)
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_54
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: created_at
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: match_id
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: match_stage
+            renameTo: null
+            size: 132
+            wrapText: null
+            displayFormat: null
+          - originalName: match_type
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: msr_id
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: msr_zendesk_ticket_id
+            renameTo: null
+            size: 252
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: status
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: support_request_id
+            renameTo: null
+            size: 216
+            wrapText: null
+            displayFormat: null
+          - originalName: support_type
+            renameTo: null
+            size: 144
+            wrapText: null
+            displayFormat: null
+          - originalName: updated_at
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 144
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_zendesk_ticket_id
+            renameTo: null
+            size: 324
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 83d4de4b-5bbe-4d9c-8bc6-e0ed03e9a295 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        WITH descadastradas AS (
+            SELECT volunteer_id, v.updated_at, 'descadastrada' AS categoria, volunteer_segment_group
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            WHERE segment_name = 'recadastro_2024'
+            AND condition = 'descadastrada'
+        ),
+        status_history_rn AS (
+            SELECT 
+                volunteer_id,
+                status,
+                created_at,
+                ROW_NUMBER() OVER(PARTITION BY volunteer_id ORDER BY created_at) AS rn
+            FROM volunteer_status_history
+            WHERE created_at >= '2024-04-02'
+            AND status IN ('cadastrada', 'disponivel', 'indisponivel_sem_vagas')
+        ),
+        volunteer_status AS (
+            SELECT *
+            FROM status_history_rn 
+            WHERE rn=1
+        ),
+        recadastradas AS (
+            SELECT volunteer_id, COALESCE(t.created_at, h.created_at, v.updated_at) AS updated_at, 'recadastrada' AS categoria, volunteer_segment_group
+            FROM volunteer_segments s
+            INNER JOIN volunteers v ON id = volunteer_id
+            LEFT JOIN volunteer_training_history h USING (volunteer_id)
+            LEFT JOIN volunteer_status t USING (volunteer_id)
+            WHERE segment_name = 'recadastro_2024'
+            AND fields_of_work != 'not_found'
+            AND (event IS NULL OR event = 'started_training')
+        ),
+        voluntarias_engajadas AS (
+            SELECT
+                *
+            FROM recadastradas
+            UNION ALL
+            SELECT *
+            FROM descadastradas
+        )
+        -- SELECT 
+        --     DATE_TRUNC('DAY', updated_at),
+        --     COUNT(*)
+        -- FROM voluntarias_engajadas
+        -- GROUP BY 1
+
+        SELECT *
+        FROM recadastradas
+        WHERE updated_at >= '2024-09-25'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_59
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: categoria
+            renameTo: null
+            size: 111
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: updated_at
+            renameTo: null
+            size: 242
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 119
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_segment_group
+            renameTo: null
+            size: 194
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: db2ffae9-8693-43db-8fa8-ca691f30d849 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        WITH status_history AS (
+            SELECT 
+                volunteer_id,
+                status,
+                created_at,
+                ROW_NUMBER() OVER(PARTITION BY volunteer_id ORDER BY created_at) AS rn
+            FROM volunteer_status_history
+            WHERE created_at >= '2024-04-02'
+            AND status IN ('cadastrada', 'disponivel', 'indisponivel_sem_vagas')
+        )
+        SELECT *
+        FROM volunteers v
+        INNER JOIN volunteer_segments s ON id = volunteer_id
+        INNER JOIN status_history h USING(volunteer_id)
+        WHERE 
+            h.created_at >= '2024-09-25'
+        AND fields_of_work != 'not_found'
+        AND condition != 'descadastrada'
+        AND condition IN ('cadastrada', 'capacitacao', 'aprovada', 'disponivel', 'indisponivel_sem_vagas')
+        AND volunteer_segment_group IN ('group_1', 'group_3')
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_60
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: city
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: condition
+            renameTo: null
+            size: 223
+            wrapText: null
+            displayFormat: null
+          - originalName: created_at
+            renameTo: null
+            size: 252
+            wrapText: null
+            displayFormat: null
+          - originalName: email
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: first_name
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: id
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: last_name
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: latitude
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: neighborhood
+            renameTo: null
+            size: 144
+            wrapText: null
+            displayFormat: null
+          - originalName: phone
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: register_number
+            renameTo: null
+            size: 180
+            wrapText: null
+            displayFormat: null
+          - originalName: rn
+            renameTo: null
+            size: 63
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: state
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: status
+            renameTo: null
+            size: 163
+            wrapText: null
+            displayFormat: null
+          - originalName: updated_at
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 119
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteers.created_at
+            renameTo: null
+            size: 252
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteers.updated_at
+            renameTo: null
+            size: 252
+            wrapText: null
+            displayFormat: null
+          - originalName: zipcode
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 434be349-f1f6-4a64-8484-0eef820a5256 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT *
+        FROM volunteer_status_history
+        WHERE volunteer_id = 22248
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_62
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: created_at
+            renameTo: null
+            size: 242
+            wrapText: null
+            displayFormat: null
+          - originalName: id
+            renameTo: null
+            size: 68
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+          - originalName: status
+            renameTo: null
+            size: 179
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 119
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 90847b3b-1dc9-432b-9540-f614552c7db3 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT *
+        FROM volunteers
+        WHERE id = 22248
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_63
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: city
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: condition
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: created_at
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: email
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: first_name
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: id
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: last_name
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: latitude
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: neighborhood
+            renameTo: null
+            size: 144
+            wrapText: null
+            displayFormat: null
+          - originalName: phone
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: register_number
+            renameTo: null
+            size: 180
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+          - originalName: state
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: updated_at
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: zipcode
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 38af4563-8dbd-4dd0-ac5a-9be2ebf07381 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |
+        SELECT 
+        -- volunteer_id, COALESCE(t.created_at, h.created_at, v.updated_at) AS updated_at, 'recadastrada' AS categoria, volunteer_segment_group
+        *
+        FROM volunteer_segments s
+        INNER JOIN volunteers v ON id = volunteer_id
+        -- LEFT JOIN volunteer_training_history h USING (volunteer_id)
+        -- LEFT JOIN volunteer_status t USING (volunteer_id)
+        WHERE segment_name = 'recadastro_2024'
+        AND fields_of_work != 'not_found'
+        -- AND (event IS NULL OR event = 'started_training') 
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_61
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: condition
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: id
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: segment_name
+            renameTo: null
+            size: 144
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 144
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_segment_group
+            renameTo: null
+            size: 276
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_segment_id
+            renameTo: null
+            size: 240
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_segments.created_at
+            renameTo: null
+            size: 348
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_segments.updated_at
+            renameTo: null
+            size: 348
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteers.created_at
+            renameTo: null
+            size: 252
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteers.updated_at
+            renameTo: null
+            size: 252
+            wrapText: null
+            displayFormat: null
         columnOrdering: null
         customColumnOrdering: null
         pinnedColumns: null
@@ -4386,7 +5368,7 @@ appLayout:
                   type: CELL
                   cellId: 7a18c77a-4be7-4e4e-8abe-48e4aa9dec64
                   sharedFilterId: null
-                  height: 500
+                  height: 300
                   showLabel: true
             - start: 60
               end: 120
@@ -4396,7 +5378,7 @@ appLayout:
                   type: CELL
                   cellId: 429619e0-922b-49fe-ad08-533ab3ba3d72
                   sharedFilterId: null
-                  height: 500
+                  height: 300
                   showLabel: true
         - columns:
             - start: 0
