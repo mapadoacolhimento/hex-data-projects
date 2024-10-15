@@ -1,7 +1,7 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 7442e78b-684a-4107-9797-34921ed75008 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
-  description: null
+  sourceVersionId: 1826e3c7-7ff8-4174-a7d3-277dc3f505c8 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  description: Esse monitoramento contém alguns dados sobre as MSRs e os pedidos de acolhimento.
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
   timezone: null
@@ -13,6 +13,11 @@ meta:
   logicQueryCacheTimeout: null
   publishedQueryCacheTimeout: null
   hexType: PROJECT
+  allowExecutionReordering: true
+  prerunApp: false
+  cachePublishedAppState: true
+  refreshStalePublishedApp: false
+  autoRerunApp: true
 projectAssets:
   dataConnections: []
   envVars: []
@@ -80,6 +85,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -104,9 +110,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: a6e89fa5-15ef-496f-b2f8-e1fac76eafb1
           cellLabel: total
@@ -169,6 +178,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 08ebd385-c8c5-4d65-ab8e-a464c753d194 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -214,6 +224,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -238,9 +249,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 3aa479a8-957f-428a-9e47-5b97ac7497de
           cellLabel: por ano
@@ -302,6 +316,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result_6
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 662b7274-353e-4a30-a2d6-f8c1d5210884 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -348,6 +363,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -357,9 +373,12 @@ cells:
               filters: null
               columnProperties: []
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 1889345f-016e-4b2c-80de-fb1636b8fa13
           cellLabel: por mês no último ano
@@ -419,6 +438,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: MARKDOWN
     cellId: 6d56b814-4936-41ae-9d34-5b4a215e133d # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -480,6 +500,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -514,9 +535,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: f53729ca-5e93-4b56-8a94-3ca0a23d2c30
           cellLabel: total
@@ -580,6 +604,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result_2
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 5d50e3e7-741e-43ea-8cd9-19a3475a8615 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -620,6 +645,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -644,9 +670,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 960089ca-c702-4bec-877b-e1ad907c1438
           cellLabel: por ano
@@ -709,6 +738,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result_7
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: cb616c07-c544-4e05-b161-6131d006a4d5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -750,6 +780,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -759,9 +790,12 @@ cells:
               filters: null
               columnProperties: []
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 74dc11fd-9684-43b9-a122-c19c9d57b221
           cellLabel: por mês no último ano
@@ -822,6 +856,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result_3
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: MARKDOWN
     cellId: 447de4f4-a368-4494-a61c-2745bdaaf06a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -877,6 +912,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -896,9 +932,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 5a8eb824-162c-4cb7-9088-71ed2303313f
           cellLabel: estados
@@ -956,6 +995,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: e5a0bf5e-a0ea-46f1-97a9-ad98914f9d80 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -1006,6 +1046,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1025,9 +1066,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 8677e808-6e42-4caf-a46a-26ca27ca5a4f
           cellLabel: regiões
@@ -1088,6 +1132,7 @@ cells:
               não capital: "#EECA3B"
             resultVariable: filter_result
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 8f68ba1f-5c19-41e6-b838-79c7ebd7aac6 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -1156,6 +1201,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1165,9 +1211,12 @@ cells:
               filters: null
               columnProperties: []
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 0f21fc9c-4e76-4eb2-9dc4-29c131f213e9
           cellLabel: capitais x não capitais
@@ -1234,6 +1283,7 @@ cells:
               não capital: "#F58518"
             resultVariable: filter_result
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: ce102719-ed51-4922-b9cf-6068d86f6629 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -1271,6 +1321,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1290,9 +1341,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 7784dcec-f50e-46c2-b95d-9a9c4f936dfd
           cellLabel: "Pedidos de acolhimento: lat lng"
@@ -1343,6 +1397,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: MAP
     cellId: 74c2d5b1-55cc-4007-a1d3-93a3414fdb4f # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -1356,7 +1411,6 @@ cells:
             data:
               coordinates:
                 system: latlng_separate
-                dataFrameColumn: lng
                 dataFrameLatColumn: lat
                 dataFrameLngColumn: lng
               dataFrameName: pedidos_de_acolhimento_lat_lng
@@ -1477,6 +1531,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1531,9 +1586,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 80fd91ad-9a7d-4593-83a9-ad6acd5e0c66
           cellLabel: norte
@@ -1610,6 +1668,7 @@ cells:
               não capital: "#EECA3B"
             resultVariable: filter_result_43
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: ce520cff-3e9c-4a37-8854-b5d9edec59ea # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -1690,6 +1749,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1729,9 +1789,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 94c42b02-da53-4686-a0da-dd44a1a80637
           cellLabel: nordeste
@@ -1808,6 +1871,7 @@ cells:
               não capital: "#EECA3B"
             resultVariable: filter_result_47
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 3348325d-1100-4dd9-a65c-632b76e1a571 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -1888,6 +1952,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1927,9 +1992,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: c4da9cc3-b2d1-4bde-b03e-abcdad70d861
           cellLabel: centro-oeste
@@ -2006,6 +2074,7 @@ cells:
               não capital: "#EECA3B"
             resultVariable: filter_result_58
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 65a5643a-f25e-4dd6-86b0-e6f6ace5175c # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -2086,6 +2155,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -2125,9 +2195,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 2ead6d43-4c4c-402e-b431-295d0d7dcbbf
           cellLabel: sudeste
@@ -2203,6 +2276,7 @@ cells:
               não capital: "#EECA3B"
             resultVariable: filter_result_59
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 95209a04-2efb-4b55-8260-e867f22eb592 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -2283,6 +2357,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -2322,9 +2397,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 805bca30-198f-4049-92d9-fc8805e411fa
           cellLabel: sul
@@ -2400,12 +2478,19 @@ cells:
               não capital: "#EECA3B"
             resultVariable: filter_result_60
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: MARKDOWN
     cellId: 740d6851-c864-46d9-bac9-907c36258f22 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: sep
     config:
       source: ----------------
+  - cellType: BLOCK
+    cellId: b0b2f6ed-8977-4ccb-9a12-48c0b7edd635 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig: null
+      cells: []
   - cellType: SQL
     cellId: 5e51efa3-95ed-406a-9afd-ef3ae43ab1a0 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -2477,6 +2562,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -2516,9 +2602,12 @@ cells:
             wrapText: null
             displayFormat: null
         columnOrdering: null
+        customColumnOrdering: null
         pinnedColumns: null
         hiddenColumns: null
         pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
   - cellType: CHARTV2
     cellId: a9b09729-4004-4133-95b8-4ba1e6b4c568 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -2591,6 +2680,7 @@ cells:
       colorMappings: {}
       resultVariable: filter_result_45
       outputResult: false
+      displayType: CHART
       displayTableConfig: null
   - cellType: MARKDOWN
     cellId: d7931a8e-450e-45a2-a775-4a29bfee6a5d # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -2656,6 +2746,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -2740,9 +2831,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 510ac6d2-9ab0-4fc1-9f02-84e85a2c6146
           cellLabel: total
@@ -2920,6 +3014,7 @@ cells:
               "1704078000000": "#4C78A8"
             resultVariable: filter_result_4
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 3282e6da-85c4-453f-8b5b-ddccc8b77dc2 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -2962,6 +3057,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3006,9 +3102,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: c73f170d-39e8-4f66-8786-133cff896288
           cellLabel: por ano
@@ -3160,6 +3259,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result_8
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: d87facf9-fe4c-40d8-8a54-82b720df504d # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -3204,6 +3304,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3213,9 +3314,12 @@ cells:
               filters: null
               columnProperties: []
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 43e4c512-af02-466b-b2b0-a390ba46c3b5
           cellLabel: por mês no último ano
@@ -3366,6 +3470,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result_5
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: MARKDOWN
     cellId: 76ed1a7e-4871-411b-adf4-1e1f9d5a2db5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -3429,6 +3534,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3463,9 +3569,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: fde3bb0e-07e5-4c61-9d2d-e74159e15825
           cellLabel: estados
@@ -3537,6 +3646,7 @@ cells:
               pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_44
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: f76f97e4-7b75-43f6-b81e-e6096e9183bb # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -3582,6 +3692,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3616,9 +3727,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: ef9d7b4a-3e82-4bbc-9007-ab4155a5bc30
           cellLabel: "% de matches"
@@ -3685,6 +3799,7 @@ cells:
               not_matched: "#CFD3DE"
             resultVariable: filter_result_18
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: ce6002ef-b214-4b19-9fcd-8ab8c9671934 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -3733,6 +3848,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3752,9 +3868,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 66fbbf42-dce7-41a0-84c1-f9daf8e15b4c
           cellLabel: regiões
@@ -3823,6 +3942,7 @@ cells:
               pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_20
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 3411c30a-b1cf-4f75-a5a6-4a83eced8196 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -3875,6 +3995,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3904,9 +4025,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 2f7b070f-9500-41e8-a1f7-3a56d5e8bfd1
           cellLabel: "% de matches"
@@ -3979,6 +4103,7 @@ cells:
               "0.46772358340286735": "#003f5c"
             resultVariable: filter_result_25
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 056b96fb-2d25-44c2-941a-c7f7bc99535e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -4051,6 +4176,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -4085,9 +4211,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 10883f9a-5dbf-424e-a33f-a102a6ecb245
           cellLabel: capital x não capital
@@ -4162,6 +4291,7 @@ cells:
               não capital - pedidos de acolhimento: "#CFD3DE"
             resultVariable: filter_result_22
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 156ec4e7-720b-421c-942f-172c818dea4a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -4236,6 +4366,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -4270,9 +4401,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: fbf21fd7-28e2-47ba-bb93-2b8115003e6e
           cellLabel: "% de matches"
@@ -4339,6 +4473,7 @@ cells:
               não capital: "#9cc3dc"
             resultVariable: filter_result_23
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: MARKDOWN
     cellId: 69f483f0-8c46-4ba1-8fd0-900d121b4d7a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -4424,6 +4559,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -4463,9 +4599,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: ffe272c3-1dcf-4bd1-a352-5e230baad5ba
           cellLabel: norte
@@ -4538,6 +4677,7 @@ cells:
               pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_46
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 08494ac5-5069-432f-a910-9047ab35eac5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -4618,6 +4758,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -4657,9 +4798,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: ec48efb5-7d20-4d0b-add2-1b7521693bee
           cellLabel: nordeste
@@ -4732,6 +4876,7 @@ cells:
               pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_61
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: e26f7bab-04fc-480b-ad9b-eef84130c2ac # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -4812,6 +4957,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -4851,9 +4997,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: b8c30d0e-f05f-424b-9022-b43c4e0d8495
           cellLabel: centro-oeste
@@ -4926,6 +5075,7 @@ cells:
               pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_62
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 1445c489-86d7-4460-b885-c7fed79c37c8 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -5006,6 +5156,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -5045,9 +5196,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 1ca1f789-b7d7-48bc-9ba1-a17d52cb4bb4
           cellLabel: sudeste
@@ -5119,6 +5273,7 @@ cells:
               pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_63
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: ecbd2bc3-e821-4f3e-b56d-d9f8ade12919 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -5199,6 +5354,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -5238,9 +5394,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 3d0f69a2-b02f-4d80-aa25-6fcd0f2dacc9
           cellLabel: sul
@@ -5313,6 +5472,7 @@ cells:
               pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_64
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: MARKDOWN
     cellId: e906ff5c-7803-4678-9678-75b3d705167c # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -5385,7 +5545,6 @@ cells:
                   *,
                   matches_per_year/support_request_per_year::NUMERIC(10,4) AS percentage
               FROM capitals
-              WHERE "região"= 'norte'
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: pedidos_de_acolhimento_total_24
@@ -5400,6 +5559,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -5459,9 +5619,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 95dfdc8f-68ce-4a5a-9dd5-22fafe37f1a7
           cellLabel: norte - % de matches
@@ -5536,6 +5699,7 @@ cells:
               pedidos de acolhimento: "#CFD3DE"
             resultVariable: filter_result_65
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: f6462c03-948c-425f-a9d8-d47593b286b7 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -5618,6 +5782,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -5677,9 +5842,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 9dd2c751-cfd3-4eef-81aa-5d04ff2f692b
           cellLabel: nordeste - % de matches
@@ -5754,6 +5922,7 @@ cells:
               pedidos de acolhimento: "#CFD3DE"
             resultVariable: filter_result_49
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 9b218234-f29c-46b0-a73d-ddc4ad4212f3 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -5836,6 +6005,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -5895,9 +6065,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: fc7f0c3c-05a0-4be8-98ee-3b61bfa2fae8
           cellLabel: centro-oeste - % de matches
@@ -5972,6 +6145,7 @@ cells:
               pedidos de acolhimento: "#CFD3DE"
             resultVariable: filter_result_66
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: b125c9f8-b826-498e-b998-7d6b0192e8ee # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -6054,6 +6228,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -6113,9 +6288,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 604cac44-b785-48fb-8bdc-9b9b53830cc7
           cellLabel: sudeste - % de matches
@@ -6190,6 +6368,7 @@ cells:
               pedidos de acolhimento: "#CFD3DE"
             resultVariable: filter_result_67
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 4219d022-fa92-4cb1-a08f-9dfa9dac0dc5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -6272,6 +6451,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -6331,9 +6511,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 650efe8a-7807-4c6a-a365-2892373ba526
           cellLabel: sul - % de matches
@@ -6408,6 +6591,7 @@ cells:
               pedidos de acolhimento: "#CFD3DE"
             resultVariable: filter_result_68
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: MARKDOWN
     cellId: c7e4ae29-6664-4ed2-b927-187ecd18e2ae # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -6472,6 +6656,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -6526,9 +6711,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: e29c9628-b84d-4471-a342-6db06e9835ee
           cellLabel: cumulativo
@@ -6785,6 +6973,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result_33
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 690dab5d-2c65-4cfe-982d-da7053f07c49 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -6829,6 +7018,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -6883,9 +7073,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 2b5f4331-e10b-410c-915f-dfeb63c52f13
           cellLabel: por ano
@@ -7095,6 +7288,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result_34
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: f0527799-be13-4791-bcce-fccd1a56be18 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -7141,6 +7335,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -7150,9 +7345,12 @@ cells:
               filters: null
               columnProperties: []
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: eeb1f7c9-6a52-45cc-bb7a-7b0f78dd1ec3
           cellLabel: por mês no último ano
@@ -7337,6 +7535,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result_35
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: MARKDOWN
     cellId: f779663e-8844-4d0a-840f-96a33e168128 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -7403,6 +7602,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -7437,9 +7637,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 64ed76a6-d14a-4bf4-9ae0-dd72c2a95074
           cellLabel: estados
@@ -7520,6 +7723,7 @@ cells:
               pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_36
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 8b1da2fd-0e2c-4f99-a84e-d3938717e664 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -7566,6 +7770,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -7600,9 +7805,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: b6427add-eed8-4abd-9dec-a648d1dd9a05
           cellLabel: "% de atendimentos"
@@ -7666,6 +7874,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result_37
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 7fd883fd-cb79-434d-8d18-460c960f9118 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -7717,6 +7926,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -7736,9 +7946,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 8c78f3fd-b2f6-4119-a8da-63004da54fbe
           cellLabel: regiões
@@ -7807,6 +8020,7 @@ cells:
               pedidos de acolhimento: "#CFD3DE"
             resultVariable: filter_result_38
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 2b7a3790-8a47-4eba-bfde-189013651694 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -7861,6 +8075,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -7880,9 +8095,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 0f239949-07f2-4aed-b692-78780a3e06a7
           cellLabel: "% de atendimentos"
@@ -7947,6 +8165,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result_39
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 8aa14a8b-7ea5-4771-8e79-d48f5dadf055 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -8019,6 +8238,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -8043,9 +8263,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 48cd3a8d-c9ab-4fc5-844a-246b3d4fd899
           cellLabel: capital x não capital
@@ -8121,6 +8344,7 @@ cells:
               pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_40
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 4c1ad72c-2b58-4c0f-8539-d08527159367 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -8195,6 +8419,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -8219,9 +8444,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: bb9d17de-cd2b-437e-9732-eeb9875c09bd
           cellLabel: "% de atendimentos"
@@ -8289,6 +8517,7 @@ cells:
               não capital: "#9cc3dc"
             resultVariable: filter_result_41
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: MARKDOWN
     cellId: 2da72370-3165-40dc-9070-97db4d122c1d # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -8377,6 +8606,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -8416,9 +8646,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 5d77a5a3-d15f-4990-aa1b-0a042dbc11d7
           cellLabel: norte
@@ -8491,6 +8724,7 @@ cells:
               pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_69
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: c4d08a4a-0ae4-4c88-9a59-44aec9228c98 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -8574,6 +8808,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -8613,9 +8848,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: ec573a39-57d0-4b24-bcc0-81270d006b7c
           cellLabel: nordeste
@@ -8688,6 +8926,7 @@ cells:
               pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_70
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: c18320bb-30b9-4a67-8efc-6b61743481d0 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -8771,6 +9010,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -8810,9 +9050,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 41803288-231b-4b0a-b91f-0178d57ae774
           cellLabel: centro-oeste
@@ -8885,6 +9128,7 @@ cells:
               pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_71
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 3c6a61db-98a2-4071-952c-ae907be90c01 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -8968,6 +9212,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -9007,9 +9252,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: df5524dd-a192-4585-a29d-930478160e48
           cellLabel: sudeste
@@ -9081,6 +9329,7 @@ cells:
               pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_72
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 79d39e9c-6274-422f-b836-71a333152899 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -9164,6 +9413,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -9203,9 +9453,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: fbbcc980-0078-4b69-b9c8-3e27d1d5b504
           cellLabel: sul
@@ -9278,6 +9531,7 @@ cells:
               pedidos de acolhimento sem match: "#CFD3DE"
             resultVariable: filter_result_73
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: MARKDOWN
     cellId: 5ca7155c-7cd6-4419-9963-72d9295748aa # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -9366,6 +9620,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -9425,9 +9680,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: afaf4d03-4a5b-4f3d-8235-c30c59ebab41
           cellLabel: norte - % de atendimentos
@@ -9502,6 +9760,7 @@ cells:
               pedidos de acolhimento: "#CFD3DE"
             resultVariable: filter_result_74
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 8acfd180-53d5-46ce-a144-45d6027bf9ed # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -9585,6 +9844,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -9644,9 +9904,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 430f6cba-8e74-458e-9464-25d143d6d37f
           cellLabel: nordeste - % de atendimentos
@@ -9721,6 +9984,7 @@ cells:
               pedidos de acolhimento: "#CFD3DE"
             resultVariable: filter_result_75
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 0dafadc1-3ef4-4411-9c3c-b66ba73f5b44 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -9804,6 +10068,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -9863,9 +10128,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 64a88ef6-6bfb-4c6a-84f6-57833d4d5796
           cellLabel: centro-oeste - % de atendimentos
@@ -9940,6 +10208,7 @@ cells:
               pedidos de acolhimento: "#CFD3DE"
             resultVariable: filter_result_76
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 2940a8f9-3eed-47b1-a22f-74d4ef727ab1 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -10023,6 +10292,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -10082,9 +10352,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: a77c5490-f5fe-4f9a-9d2b-5953cbf80a4f
           cellLabel: sudeste - % de atendimentos
@@ -10159,6 +10432,7 @@ cells:
               pedidos de acolhimento: "#CFD3DE"
             resultVariable: filter_result_77
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: f18f492c-303b-457f-b724-b2a3cd4169e8 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -10242,6 +10516,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -10301,9 +10576,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 2f7cfd53-3b3f-49fc-bf98-08755ed8784e
           cellLabel: sul - % de atendimentos
@@ -10378,6 +10656,7 @@ cells:
               pedidos de acolhimento: "#CFD3DE"
             resultVariable: filter_result_78
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: MARKDOWN
     cellId: 78531e1e-8de0-45ea-95a3-5aa1028a4ccb # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -10506,7 +10785,9 @@ cells:
         )
         SELECT *
         FROM sankey
-        WHERE CONCAT(source, '+', target) NOT IN ('manual_match+manual_match')
+        WHERE 
+            CONCAT(source, '+', target) NOT IN ('manual_match+manual_match', 'open+waiting_for_match')
+            AND value >= 5
         ORDER BY source
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -10522,6 +10803,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -10537,7 +10819,7 @@ cells:
             displayFormat: null
           - originalName: array_agg
             renameTo: null
-            size: 290
+            size: 703
             wrapText: null
             displayFormat: null
           - originalName: count
@@ -10585,6 +10867,11 @@ cells:
             size: 136
             wrapText: null
             displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
           - originalName: source
             renameTo: null
             size: 126
@@ -10626,9 +10913,130 @@ cells:
             wrapText: null
             displayFormat: null
         columnOrdering: null
+        customColumnOrdering: null
         pinnedColumns: null
         hiddenColumns: null
         pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 3d663924-f4fc-49fc-aa2e-ee3e79cab925 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT *
+        FROM match.support_requests
+        WHERE support_request_id = 58017
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_2
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: accepts_online_support
+            renameTo: null
+            size: 264
+            wrapText: null
+            displayFormat: null
+          - originalName: city
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: created_at
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: has_disability
+            renameTo: null
+            size: 168
+            wrapText: null
+            displayFormat: null
+          - originalName: lat
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: lng
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: msr_id
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: priority
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: requires_libras
+            renameTo: null
+            size: 180
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+          - originalName: state
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: status
+            renameTo: null
+            size: 120
+            wrapText: null
+            displayFormat: null
+          - originalName: support_expertise
+            renameTo: null
+            size: 204
+            wrapText: null
+            displayFormat: null
+          - originalName: support_request_id
+            renameTo: null
+            size: 216
+            wrapText: null
+            displayFormat: null
+          - originalName: support_type
+            renameTo: null
+            size: 144
+            wrapText: null
+            displayFormat: null
+          - originalName: zendesk_ticket_id
+            renameTo: null
+            size: 204
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
   - cellType: CODE
     cellId: 0d010a51-10b3-4b2e-a02e-5bec6c34ebaa # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "Jornada da MSR: Sankey"
@@ -10665,7 +11073,10 @@ cells:
           'interrupted': '<b>match interrompido </b> ' + get_label_count('interrupted'),
           'completed': '<b>match concluído </b>' + get_label_count('completed'),
           'social_worker': '<b>assistente social </b>' + get_label_count('social_worker'),
-          'manual_match': '<b>match manual</b> ' + get_label_count('manual_match')
+          'scheduled_social_worker': '<b>agendado assistente social </b>' + get_label_count('scheduled_social_worker'),
+          'expired_social_worker': '<b>expirado assistente social </b>' + get_label_count('expired_social_worker'),
+          'manual_match': '<b>match manual</b> ' + get_label_count('manual_match'),
+          'waiting_for_match_with_priority': '<b>match manual</b> ' + get_label_count('manual_match'),
           }
 
         position_dict = {
@@ -10681,7 +11092,10 @@ cells:
             'interrupted': [0.25, 0.7],
             'completed': [0.75, 0.2],
             'social_worker': [0.15,0.001],
-            'manual_match': [0.5,0.5]
+            'scheduled_social_worker': [0.15,0.02],
+            'expired_social_worker': [0.15,0.03],
+            'manual_match': [0.5,0.5],
+            'waiting_for_match_with_priority': [0.5,0.5]
 
         }
 
@@ -10698,7 +11112,10 @@ cells:
           'interrupted': 'rgba(249, 93, 106, 1)',
           'completed': 'rgb(69, 25, 82)',
           'social_worker': 'rgb(69, 25, 82)',
-          'manual_match': 'rgba(255, 124, 67, 0.8)'
+          'manual_match': 'rgba(255, 124, 67, 0.8)',
+          'scheduled_social_worker': 'rgba(255, 124, 67, 0.8)',
+          'expired_social_worker': 'rgba(255, 124, 67, 0.8)',
+          'waiting_for_match_with_priority': 'rgba(255, 124, 67, 0.8)',
         }
 
         fig = go.Figure(data=[go.Sankey(
@@ -10790,6 +11207,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -10799,9 +11217,12 @@ cells:
               filters: null
               columnProperties: []
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 497fc6da-c08e-4ef1-a4d5-d25373e5cc41
           cellLabel: total
@@ -10864,6 +11285,7 @@ cells:
               "50000": "#f95d6a"
             resultVariable: filter_result_11
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 8502d2d5-3c8a-4e5d-896b-2569e2cfc3c5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -10905,6 +11327,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -10929,9 +11352,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 001c8456-6f75-41c0-97c3-cffa836dee7a
           cellLabel: por ano
@@ -10994,6 +11420,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result_12
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: BLOCK
     cellId: 6a24c619-0bd5-4ffd-8ab9-5287b182c2a7 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -11035,6 +11462,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -11044,9 +11472,12 @@ cells:
               filters: null
               columnProperties: []
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: a5d03e48-1074-472e-bf92-8304130c0dec
           cellLabel: por mês no último ano
@@ -11106,6 +11537,7 @@ cells:
             colorMappings: {}
             resultVariable: filter_result_13
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
   - cellType: MARKDOWN
     cellId: a038014e-aa3a-4fb7-a351-40fee65f66fd # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -11198,8 +11630,13 @@ cells:
         abbreviateLargeNumbers: false
       valueColumn: count
       valueRowIndex: 0
+      valueAggregate: null
       comparisonColumn: null
       comparisonRowIndex: null
+      comparisonAggregate: null
+      valueResultVariable: null
+      comparisonResultVariable: null
+      outputResult: false
   - cellType: METRIC
     cellId: 8ea4f13d-84ac-4a2b-bfcb-0b2cc1a18d1c # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -11219,8 +11656,13 @@ cells:
         abbreviateLargeNumbers: false
       valueColumn: count
       valueRowIndex: 0
+      valueAggregate: null
       comparisonColumn: null
       comparisonRowIndex: null
+      comparisonAggregate: null
+      valueResultVariable: null
+      comparisonResultVariable: null
+      outputResult: false
   - cellType: METRIC
     cellId: 18b6973a-b864-4bdd-89eb-065048da99d3 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -11240,8 +11682,13 @@ cells:
         abbreviateLargeNumbers: false
       valueColumn: count
       valueRowIndex: 0
+      valueAggregate: null
       comparisonColumn: null
       comparisonRowIndex: null
+      comparisonAggregate: null
+      valueResultVariable: null
+      comparisonResultVariable: null
+      outputResult: false
   - cellType: MARKDOWN
     cellId: ad753005-6ee6-416f-95ed-df3bf1b79d1b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -11328,6 +11775,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -11347,9 +11795,12 @@ cells:
                   wrapText: null
                   displayFormat: null
               columnOrdering: null
+              customColumnOrdering: null
               pinnedColumns: null
               hiddenColumns: null
               pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
         - cellType: CHARTV2
           cellId: 38ffd59b-1c46-466d-86d7-3a88873b74f7
           cellLabel: evolução mensal das MSRs aguardando match
@@ -11411,7 +11862,43 @@ cells:
             colorMappings: {}
             resultVariable: filter_result
             outputResult: false
+            displayType: CHART
             displayTableConfig: null
+  - cellType: SQL
+    cellId: c4e3f4ba-c557-411a-b186-823c2b263dc7 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: ""
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe_3
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties: []
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
 appLayout:
   visibleMetadataFields:
     - NAME
