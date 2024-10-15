@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 3dc292e1-9ae4-4e75-bbbe-fd08fca8ed55 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 9cc0020b-1c74-4fa7-b576-b2199dab1de7 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse monitoramento apresenta os impactos da ação do Recadastro de Voluntárias realizado em Abril de 2024.
   projectId: 4e0af48b-3567-492c-9572-c35394e4010d # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] Recadastro de Voluntárias"
@@ -4152,14 +4152,14 @@ cells:
             WHERE segment_name = 'recadastro_2024'
         ),
         descadastradas AS (
-            SELECT volunteer_id, 'descadastrou' AS categoria, updated_at
+            SELECT volunteer_id, 'descadastrou' AS categoria
             FROM volunteer_segments s
             INNER JOIN volunteers v ON id = volunteer_id
             WHERE segment_name = 'recadastro_2024'
             AND condition = 'descadastrada'
         ),
         recadastradas AS (
-            SELECT volunteer_id, 'recadastrou' AS categoria, updated_at
+            SELECT volunteer_id, 'recadastrou' AS categoria
             FROM volunteer_segments s
             INNER JOIN volunteers v ON id = volunteer_id
             WHERE segment_name = 'recadastro_2024'
@@ -4181,21 +4181,14 @@ cells:
                 first_name,
                 occupation,
                 categoria,
-                CASE WHEN categoria IS NOT NULL THEN 'engajou' ELSE 'não engajou' END AS engajou,
-                updated_at
+                CASE WHEN categoria IS NOT NULL THEN 'engajou' ELSE 'não engajou' END AS engajou
             FROM voluntarias_acionadas
             LEFT JOIN voluntarias_engajadas USING(volunteer_id)
         )
         SELECT DISTINCT 
-            -- volunteer_id,
-            -- INITCAP(first_name) AS first_name,
-            -- email,
-            -- engajou AS recadastro_engajou
-            *
+            volunteer_id
         FROM total
-        -- LEFT JOIN match.matches USING(volunteer_id)
-        WHERE engajou = 'engajou'
-        AND updated_at >= '2024-05-01'
+        WHERE engajou = 'não engajou'
         -- AND (status IS NULL OR status NOT IN ('waiting_contact', 'in_contact'))
         -- AND grupo IN ('group_2')
         -- AND email NOT IN ('keiteamaraladv@gmail.com', 'thaynayaredy@gmail.com', 'nascimento.c.mariana@gmail.com')
@@ -4223,6 +4216,11 @@ cells:
         calcs: null
         filters: null
         columnProperties:
+          - originalName: categoria
+            renameTo: null
+            size: 105
+            wrapText: null
+            displayFormat: null
           - originalName: created_at
             renameTo: null
             size: 196
@@ -4233,9 +4231,19 @@ cells:
             size: 213
             wrapText: null
             displayFormat: null
+          - originalName: engajou
+            renameTo: null
+            size: 94
+            wrapText: null
+            displayFormat: null
           - originalName: first_name
             renameTo: null
             size: 110
+            wrapText: null
+            displayFormat: null
+          - originalName: grupo
+            renameTo: null
+            size: 83
             wrapText: null
             displayFormat: null
           - originalName: match_id
@@ -4373,7 +4381,7 @@ cells:
             -- engajou AS recadastro_engajou
             *
         FROM total
-        WHERE engajou = 'engajou'
+        WHERE engajou = 'não engajou'
         AND categoria = 'recadastrou'
         AND updated_at >= '2024-05-01'
       dataFrameCell: false
@@ -5347,38 +5355,6 @@ appLayout:
                   cellId: 38bf0466-ff3f-496b-95fb-153751164d73
                   sharedFilterId: null
                   height: 450
-                  showLabel: true
-        - columns:
-            - start: 0
-              end: 30
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: 90a7b7be-37c1-4397-a9b8-7fe25fc67b01
-                  sharedFilterId: null
-                  height: null
-                  showLabel: true
-        - columns:
-            - start: 0
-              end: 60
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: 7a18c77a-4be7-4e4e-8abe-48e4aa9dec64
-                  sharedFilterId: null
-                  height: 300
-                  showLabel: true
-            - start: 60
-              end: 120
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: 429619e0-922b-49fe-ad08-533ab3ba3d72
-                  sharedFilterId: null
-                  height: 300
                   showLabel: true
         - columns:
             - start: 0
