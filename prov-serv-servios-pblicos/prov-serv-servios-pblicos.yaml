@@ -1,7 +1,7 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 04b47322-6932-4ee6-8fb3-1acdcd0e4c1c # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
-  description: null
+  sourceVersionId: 8d4df7ab-77af-4287-9103-f628be49e0c4 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  description: Esse notebook é utilizado para encontrar os Serviços Públicos mais próximos de uma MSR.
   projectId: 9ac76a7d-92d7-44c5-8b37-f959af2fb5de # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] Serviços Públicos"
   timezone: Brazil/East
@@ -62,7 +62,7 @@ cells:
               
             Esse ID também pode ser encontrado no título do ticket conforme mostra a imagem a seguir: 
                 
-            <img src="/api/v1/file/bd0cb080-a3ba-4405-85c0-0f2b2df794fb" width="250" />
+            <img src="/api/v1/file/28700cce-fcec-4ae7-9bbe-02a25c387335" width="250" />
 
         2. **Insira esse ID no campo a seguir;**
 
@@ -93,6 +93,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -239,6 +240,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -377,6 +379,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -496,6 +499,7 @@ cells:
               pageSize: 15
               height: 421
               hideIcons: true
+              defaultColumnWidth: null
               hideIndex: true
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -838,6 +842,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -1010,6 +1015,7 @@ cells:
         pageSize: 15
         height: 421
         hideIcons: true
+        defaultColumnWidth: null
         hideIndex: true
         defaultSortColumn: null
         defaultSortIndexColumn: null
