@@ -1,0 +1,3400 @@
+schemaVersion: 3
+meta:
+  sourceVersionId: 8ba8251f-3db0-4942-ae4e-15c85dd5ded6 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  description: Esse notebook contém os resultados da pesquisa sobre os Instrumentais.
+  projectId: 534bd2d0-28d7-4355-86d4-359391920db6 # DO NOT CHANGE - Unique ID of the project from which this file was generated
+  title: "[PROV SERV] Pesquisa Instrumentais"
+  timezone: null
+  appTheme: SYS_PREF
+  codeLanguage: PYTHON
+  status: null
+  categories: []
+  castDecimalsDefault: true
+  logicQueryCacheTimeout: null
+  publishedQueryCacheTimeout: null
+  hexType: PROJECT
+  allowExecutionReordering: true
+  prerunApp: false
+  cachePublishedAppState: true
+  refreshStalePublishedApp: false
+  autoRerunApp: true
+projectAssets:
+  dataConnections: []
+  envVars: []
+  secrets: []
+sharedAssets:
+  secrets: []
+  vcsPackages: []
+  dataConnections:
+    - dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030 # prod-mapa-org (postgres)
+    - dataConnectionId: e088838c-2205-4ff2-870b-07d163c93079 # prod-bonde (postgres)
+  externalFileIntegrations: []
+cells:
+  - cellType: MARKDOWN
+    cellId: b58ba387-d99f-4ee9-ad35-f86c1f51858f # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: Este dashboard apresenta as principais conclusões obtidas através da [pesquisa sobre os nossos Instrumentais de Atendimento](https://tally.so/r/mOzgrM)
+  - cellType: SQL
+    cellId: 9a404424-f5cd-4da7-b0f1-aa68d546e47a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT DISTINCT 
+            INITCAP(first_name) AS first_name,
+            email,
+            'pesquisa_instrumentais' AS user_tag
+        FROM match.matches m
+        LEFT JOIN volunteers v ON id = volunteer_id
+        WHERE m.created_at >= '2022-09-01'
+        AND volunteer_id IS NOT NULL
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: dataframe
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: email
+            renameTo: null
+            size: 234
+            wrapText: null
+            displayFormat: null
+          - originalName: first_name
+            renameTo: null
+            size: 113
+            wrapText: null
+            displayFormat: null
+          - originalName: pesquisa_instrumentais
+            renameTo: null
+            size: 185
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: user_tag
+            renameTo: null
+            size: 171
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 122
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 6ca19ad6-9d29-47fd-b15a-997d063c2f10 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Voluntarias acionadas
+    config:
+      source: |-
+        SELECT 
+            COUNT(DISTINCT volunteer_id) AS total_acionadas
+        FROM match.matches m
+        LEFT JOIN volunteers v ON id = volunteer_id
+        WHERE m.created_at >= '2022-09-01'
+        AND volunteer_id IS NOT NULL
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: voluntarias_acionadas
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: count
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: email
+            renameTo: null
+            size: 234
+            wrapText: null
+            displayFormat: null
+          - originalName: first_name
+            renameTo: null
+            size: 113
+            wrapText: null
+            displayFormat: null
+          - originalName: pesquisa_instrumentais
+            renameTo: null
+            size: 185
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: total_acionadas
+            renameTo: null
+            size: 138
+            wrapText: null
+            displayFormat: null
+          - originalName: user_tag
+            renameTo: null
+            size: 171
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 122
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 380b2e94-2c5d-41ba-98b7-b78e9f5d105b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Voluntarias engajadas
+    config:
+      source: |-
+        SELECT COUNT(*) AS total_engajadas
+        FROM "Instrumentais de Atendimento - Sheet1.csv";
+      dataFrameCell: true
+      dataConnectionId: null
+      resultVariableName: voluntarias_engajadas
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: SQL
+    cellId: 579bc2b5-3f64-47d8-b67e-6641884d8478 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Engajamento
+    config:
+      source: |-
+        SELECT (total_engajadas / total_acionadas) AS percentual_engajamento
+        FROM voluntarias_acionadas
+        CROSS JOIN voluntarias_engajadas
+      dataFrameCell: true
+      dataConnectionId: null
+      resultVariableName: engajamento
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: MARKDOWN
+    cellId: 788c0b49-e8ac-49e4-9809-0f1afd4a75fd # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ------
+        # Total de respostas 📋️
+        Foram acionadas para participar da pesquisa todas as voluntárias que receberam match após Setembro de 2022
+  - cellType: MARKDOWN
+    cellId: fef3a209-dffd-40f1-8c4c-cfab0127a3fc # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### total"
+  - cellType: METRIC
+    cellId: 6eec9809-b1da-410a-9ff3-5207671162f3 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      title: total de voluntárias acionadas
+      valueVariableName: voluntarias_acionadas
+      showComparison: false
+      comparisonType: null
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: null
+      displayFormat: null
+      valueColumn: total_acionadas
+      valueRowIndex: 0
+      valueAggregate: null
+      comparisonColumn: null
+      comparisonRowIndex: null
+      comparisonAggregate: null
+      valueResultVariable: null
+      comparisonResultVariable: null
+      outputResult: false
+  - cellType: METRIC
+    cellId: 6ab4ece9-ede8-43b2-ad5e-dd408ec8293b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      title: responderam a pesquisa
+      valueVariableName: voluntarias_engajadas
+      showComparison: false
+      comparisonType: VALUE
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: ""
+      displayFormat:
+        format: PLAIN
+        currency: USD
+        columnType: NUMBER
+        numDecimalDigits: 2
+        abbreviateLargeNumbers: false
+      valueColumn: total_engajadas
+      valueRowIndex: 0
+      valueAggregate: null
+      comparisonColumn: null
+      comparisonRowIndex: null
+      comparisonAggregate: null
+      valueResultVariable: null
+      comparisonResultVariable: null
+      outputResult: false
+  - cellType: METRIC
+    cellId: b2f3a118-46fe-430c-89db-828a554d5af4 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      title: taxa de engajamento
+      valueVariableName: engajamento
+      showComparison: false
+      comparisonType: VALUE
+      comparisonVariableName: null
+      comparisonFormat: null
+      comparisonLabel: ""
+      displayFormat:
+        format: PERCENT
+        currency: USD
+        columnType: NUMBER
+        numDecimalDigits: 2
+        abbreviateLargeNumbers: false
+      valueColumn: percentual_engajamento
+      valueRowIndex: 0
+      valueAggregate: null
+      comparisonColumn: null
+      comparisonRowIndex: null
+      comparisonAggregate: null
+      valueResultVariable: null
+      comparisonResultVariable: null
+      outputResult: false
+  - cellType: SQL
+    cellId: 24b74585-03eb-432c-bae8-c0ee5515484c # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Volunteer occupation
+    config:
+      source: |-
+        SELECT email, occupation, phone, first_name
+        FROM volunteers
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: volunteer_occupation
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: email
+            renameTo: null
+            size: 237
+            wrapText: null
+            displayFormat: null
+          - originalName: first_name
+            renameTo: null
+            size: 110
+            wrapText: null
+            displayFormat: null
+          - originalName: occupation
+            renameTo: null
+            size: 111
+            wrapText: null
+            displayFormat: null
+          - originalName: phone
+            renameTo: null
+            size: 118
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: MARKDOWN
+    cellId: 7b27a3a8-56bb-451b-a360-10b70315d3da # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### responderam a pesquisa"
+  - cellType: BLOCK
+    cellId: 6db185fa-9f63-4411-bd79-05a0f62288e9 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: a257c445-49e4-49a6-a4ec-b7915fd3d00c
+        chartCellId: 3b9ae263-8fd0-4195-9009-4412c77064b4
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: a257c445-49e4-49a6-a4ec-b7915fd3d00c
+          cellLabel: null
+          config:
+            source: |+
+              WITH volunteer_email AS (
+                  SELECT 
+                      CASE 
+                          WHEN email = '(merge value not available in preview)' THEN "E-mail"
+                          ELSE email
+                      END AS email
+                      -- CASE 
+                      --     WHEN occupation = 'psychologist' THEN 'psicóloga'
+                      --     WHEN occupation = 'lawyer' THEN 'advogada'
+                      --     ELSE 'não sabemos ):'
+                      -- END AS occupation
+                  FROM "Instrumentais de Atendimento - Sheet1.csv"
+                  -- LEFT JOIN volunteer_occupation USING(email)
+              ),
+              volunteer_pt_occupation AS (
+                  SELECT 
+                      email,
+                      CASE 
+                          WHEN occupation = 'psychologist' THEN 'psicóloga'
+                          WHEN occupation = 'lawyer' THEN 'advogada'
+                          ELSE 'não sabemos ):'
+                      END AS occupation
+                  FROM volunteer_email
+                  LEFT JOIN volunteer_occupation USING(email)
+              )
+              SELECT
+                  occupation,
+                  COUNT(*) AS total
+              FROM volunteer_pt_occupation
+              GROUP BY occupation
+
+            dataFrameCell: true
+            dataConnectionId: null
+            resultVariableName: dataframe_3
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              defaultColumnWidth: null
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: email
+                  renameTo: null
+                  size: 240
+                  wrapText: null
+                  displayFormat: null
+                - originalName: occupation
+                  renameTo: null
+                  size: 111
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 46
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 3b9ae263-8fd0-4195-9009-4412c77064b4
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: cbad145a-ff32-45d1-a30d-31ff46e60170
+                  xAxis:
+                    sort: x
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "   "
+                    dataFrameColumn: occupation
+                  series:
+                    - id: bcc51467-7917-440a-a70b-41a57f9b3f2f
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "   "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - total
+                      colorDataFrameColumn: occupation
+                      colorOrder: ascending
+                      color:
+                        type: series
+                        colorsBySeriesValues:
+                          advogada: "#7157D9"
+                          psicóloga: "#EECA3B"
+                          "não sabemos ):": "#CFD3DE"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#01011b"
+                        fontSize: 12
+                        position: outside-end
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: dataframe_3
+              settings:
+                legend:
+                  position: none
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              advogada: "#4C78A8"
+              psicóloga: "#E45756"
+              "não sabemos ):": "#F58518"
+            resultVariable: filter_result
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: 36c3743d-fe87-4e4e-b213-2cc5effeb09b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ➡️ Não conseguimos obter o e-mail de 24 voluntárias que responderam a pesquisa, por isso não é possível saber se elas são psicólogas ou advogadas ):
+        </br>
+        </br>
+
+        ➡️  Devido a essa baixa representatividade, escolhemos não dividir as análises entre advogadas x psicólogas
+  - cellType: MARKDOWN
+    cellId: 6b6e8a41-6c9e-432a-b516-ac1d7e435248 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |
+        -------
+        # Conclusões 💡
+  - cellType: MARKDOWN
+    cellId: aa23bd8f-372f-4299-9761-3e2d50a30d09 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Você já recebeu algum Instrumental para preencher em seu(s) atendimento(s)?"
+  - cellType: BLOCK
+    cellId: 90777299-a32d-4f24-8223-99bbd59b395e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 1ef5cb24-16eb-466f-9a37-9f2ebd1081c4
+        chartCellId: 1453b1bf-402b-41aa-9c4a-9352fa771dd0
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 1ef5cb24-16eb-466f-9a37-9f2ebd1081c4
+          cellLabel: null
+          config:
+            source: |-
+              SELECT 
+                  "Você já recebeu algum Instrumental para preencher em seu(s) atendimento(s)?",
+                  COUNT(*)
+              FROM "Instrumentais de Atendimento - Sheet1.csv"
+              GROUP BY 1
+            dataFrameCell: true
+            dataConnectionId: null
+            resultVariableName: dataframe_5
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              defaultColumnWidth: null
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties: []
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 1453b1bf-402b-41aa-9c4a-9352fa771dd0
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: c72354e3-9dad-4139-9506-72db2a9101c8
+                  xAxis:
+                    type: string
+                    style:
+                      grid:
+                        style: solid
+                      ticks: {}
+                      labels: {}
+                    dataFrameColumn: Você já recebeu algum Instrumental para preencher em seu(s) atendimento(s)?
+                  series:
+                    - id: 7882ffbe-a2d3-490e-8df4-cb837b07701e
+                      type: pie
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: solid
+                          ticks: {}
+                          labels: {}
+                        aggregate: sum
+                      dataFrameColumns:
+                        - count_star()
+                      colorDataFrameColumn: Você já recebeu algum Instrumental para preencher em seu(s) atendimento(s)?
+                      colorOrder: ascending
+                      color:
+                        type: series
+                        colorsBySeriesValues:
+                          Sim, já recebi: "#00B3A4"
+                          Não, nunca recebi: "#CFD3DE"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#01011b"
+                        fontSize: 12
+                        position: outside-end
+                      legendTitle: "   "
+                      radius: 50
+                      showAsPct: true
+                  dataFrame: dataframe_5
+              settings:
+                legend:
+                  position: top
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              Sim, já recebi: "#F58518"
+              Não, nunca recebi: "#4C78A8"
+            resultVariable: filter_result_2
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: BLOCK
+    cellId: 97ed3318-3c3c-4276-bf00-1406cb54215d # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 09d3f55a-7d1f-435f-9343-06c6c43a4a9e
+        chartCellId: 1d39a013-1a85-40a6-9541-6c84f8315d8d
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 09d3f55a-7d1f-435f-9343-06c6c43a4a9e
+          cellLabel: null
+          config:
+            source: |-
+              SELECT 
+                  "Você já recebeu algum Instrumental para preencher em seu(s) atendimento(s)?",
+                  COUNT(*)
+              FROM "Instrumentais de Atendimento - Sheet1.csv"
+              GROUP BY 1
+            dataFrameCell: true
+            dataConnectionId: null
+            resultVariableName: dataframe_6
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              defaultColumnWidth: null
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties: []
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 1d39a013-1a85-40a6-9541-6c84f8315d8d
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: c72354e3-9dad-4139-9506-72db2a9101c8
+                  xAxis:
+                    sort: descending
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "   "
+                    dataFrameColumn: Você já recebeu algum Instrumental para preencher em seu(s) atendimento(s)?
+                  series:
+                    - id: 7882ffbe-a2d3-490e-8df4-cb837b07701e
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          max: 30
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - count_star()
+                      colorDataFrameColumn: Você já recebeu algum Instrumental para preencher em seu(s) atendimento(s)?
+                      colorOrder: ascending
+                      color:
+                        type: series
+                        colorsBySeriesValues:
+                          Sim, já recebi: "#00B3A4"
+                          Não, nunca recebi: "#CFD3DE"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#01011b"
+                        fontSize: 12
+                        position: outside-end
+                      legendTitle: "   "
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: dataframe_6
+              settings:
+                legend:
+                  position: none
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              Sim, já recebi: "#F58518"
+              Não, nunca recebi: "#4C78A8"
+            resultVariable: filter_result_3
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: 3b9bbd12-497e-4ce0-a4c0-52b1689ca1fc # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ➡️ Quase metade das voluntárias diz não ter recebido os Instrumentais, mas sabemos que enviamos essa comunicação para todas elas
+        </br>
+        </br>
+
+        💡 **Precisamos melhorar a forma como comunicamos sobre os Instrumentais**
+  - cellType: MARKDOWN
+    cellId: f8c4db73-2d17-4a6a-ba15-cd612d6854b6 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ---------
+        #### Qual Instrumental você recebeu?
+  - cellType: BLOCK
+    cellId: e477baaa-11a3-4d06-bd2e-9b946bd29451 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: c55deb99-3159-457e-85fd-b0a73582215e
+        chartCellId: a2dea9d6-79e1-4b88-9375-ae2620b4e4ac
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: c55deb99-3159-457e-85fd-b0a73582215e
+          cellLabel: null
+          config:
+            source: |-
+              WITH instrumentais AS (
+                  SELECT 
+                     UNNEST(STRING_TO_ARRAY(STRING_AGG("Qual Instrumental você recebeu?", ', '), ', ')) AS instrumental
+                  FROM "Instrumentais de Atendimento - Sheet1.csv"
+                  WHERE "Qual Instrumental você recebeu?" != 'NaN'
+              )
+              SELECT
+                  instrumental,
+                  COUNT(*)
+              FROM instrumentais
+              GROUP BY instrumental
+              -- " Instrumental de Triagem I"
+              -- "Instrumental de Triagem I"
+            dataFrameCell: true
+            dataConnectionId: null
+            resultVariableName: dataframe_7
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              defaultColumnWidth: null
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: Qual Instrumental você recebeu?
+                  renameTo: null
+                  size: 389
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count_star()
+                  renameTo: null
+                  size: 118
+                  wrapText: null
+                  displayFormat: null
+                - originalName: instrumental
+                  renameTo: null
+                  size: 817
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 46
+                  wrapText: null
+                  displayFormat: null
+                - originalName: string_agg("Qual Instrumental você recebeu?")
+                  renameTo: null
+                  size: 723
+                  wrapText: null
+                  displayFormat: null
+                - originalName: string_to_array("Qual Instrumental você recebeu?", ',')
+                  renameTo: null
+                  size: 496
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: a2dea9d6-79e1-4b88-9375-ae2620b4e4ac
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 405e478b-c4de-4380-91da-b64009786a7c
+                  xAxis:
+                    sort: -x
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels:
+                        angle: 0
+                    title: "   "
+                    dataFrameColumn: instrumental
+                  series:
+                    - id: adabdaa9-9dbc-4bf3-95ca-4448975ec60b
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - count_star()
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#00B3A4"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        angle: 0
+                        color: "#01011b"
+                        fontSize: 12
+                        position: outside-end
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: dataframe_7
+              settings:
+                legend:
+                  position: right
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: filter_result
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: 35c84cd2-9e25-460b-bb5e-a256cc18cf12 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ------
+        #### Você preencheu o(s) Instrumental(is) enviado(s)?
+  - cellType: BLOCK
+    cellId: 400642f2-b9f4-4d99-abd4-d42cb6bec219 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 011d9556-291e-4c0c-9568-02e28143c29e
+        chartCellId: 43bad52f-80c4-4898-945f-97814808f4d9
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 011d9556-291e-4c0c-9568-02e28143c29e
+          cellLabel: null
+          config:
+            source: |
+              SELECT 
+                  CASE 
+                      WHEN "Você preencheu o(s) Instrumental(is) enviado(s)?" = 'Sim, preenchi alguns Instrumentais enviados, mas não todos' THEN 'Preenchi alguns, mas não todos'
+                      ELSE "Você preencheu o(s) Instrumental(is) enviado(s)?"
+                  END AS preencheu,
+                  COUNT(*)
+              FROM "Instrumentais de Atendimento - Sheet1.csv"
+              WHERE "Você preencheu o(s) Instrumental(is) enviado(s)?" != 'NaN'
+              GROUP BY 1
+            dataFrameCell: true
+            dataConnectionId: null
+            resultVariableName: dataframe_9
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              defaultColumnWidth: null
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: count_star()
+                  renameTo: null
+                  size: 118
+                  wrapText: null
+                  displayFormat: null
+                - originalName: preencheu
+                  renameTo: null
+                  size: 359
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 39
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 43bad52f-80c4-4898-945f-97814808f4d9
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 983e1227-d1e1-4e00-ac1b-3a2ff8956d8f
+                  xAxis:
+                    sort: -x
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "    "
+                    dataFrameColumn: preencheu
+                  series:
+                    - id: 58b06c48-e0c7-432d-9126-4fa2cac3fe35
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          max: 30
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - count_star()
+                      colorDataFrameColumn: preencheu
+                      colorOrder: ascending
+                      color:
+                        type: series
+                        colorsBySeriesValues:
+                          Sim, preenchi todos: "#00B3A4"
+                          Não, não preenchi nenhum: "#DB2C6F"
+                          Preenchi alguns, mas não todos: "#CFD3DE"
+                          Sim, preenchi alguns Instrumentais enviados, mas não todos: "#EECA3B"
+                      opacity:
+                        type: series
+                        opacitiesBySeriesValues:
+                          Sim, preenchi todos: 1
+                          Sim, preenchi alguns Instrumentais enviados, mas não todos: 0.8
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#01011b"
+                        fontSize: 12
+                        position: outside-end
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: dataframe_9
+              settings:
+                legend:
+                  position: none
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              Sim, preenchi todos: "#E45756"
+              Não, não preenchi nenhum: "#4C78A8"
+              Preenchi alguns, mas não todos: "#F58518"
+              preenchi alguns, mas não todos: "#F58518"
+              Sim, preenchi alguns Instrumentais enviados, mas não todos: "#F58518"
+            resultVariable: filter_result
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: BLOCK
+    cellId: 0b6ccbfb-7cc6-41ca-9b15-f3fdfd903cb2 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 28db351c-4256-45ec-916e-0ced4767a83a
+        chartCellId: f0fea4c7-2248-4455-98bc-69bd41714dae
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 28db351c-4256-45ec-916e-0ced4767a83a
+          cellLabel: null
+          config:
+            source: |
+              SELECT 
+                  CASE 
+                      WHEN "Você preencheu o(s) Instrumental(is) enviado(s)?" = 'Sim, preenchi alguns Instrumentais enviados, mas não todos' THEN 'Preenchi alguns, mas não todos'
+                      ELSE "Você preencheu o(s) Instrumental(is) enviado(s)?"
+                  END AS preencheu,
+                  COUNT(*)
+              FROM "Instrumentais de Atendimento - Sheet1.csv"
+              WHERE "Você preencheu o(s) Instrumental(is) enviado(s)?" != 'NaN'
+              GROUP BY 1
+            dataFrameCell: true
+            dataConnectionId: null
+            resultVariableName: dataframe_10
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              defaultColumnWidth: null
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: count_star()
+                  renameTo: null
+                  size: 118
+                  wrapText: null
+                  displayFormat: null
+                - originalName: preencheu
+                  renameTo: null
+                  size: 359
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 39
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: f0fea4c7-2248-4455-98bc-69bd41714dae
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 983e1227-d1e1-4e00-ac1b-3a2ff8956d8f
+                  xAxis:
+                    sort: -y
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "    "
+                    dataFrameColumn: preencheu
+                  series:
+                    - id: 58b06c48-e0c7-432d-9126-4fa2cac3fe35
+                      type: pie
+                      axis:
+                        type: number
+                        style:
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "    "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - count_star()
+                      colorDataFrameColumn: preencheu
+                      colorOrder: ascending
+                      color:
+                        type: series
+                        colorsBySeriesValues:
+                          Sim, preenchi todos: "#00B3A4"
+                          Não, não preenchi nenhum: "#DB2C6F"
+                          Preenchi alguns, mas não todos: "#CFD3DE"
+                          Sim, preenchi alguns Instrumentais enviados, mas não todos: "#EECA3B"
+                      opacity:
+                        type: series
+                        opacitiesBySeriesValues:
+                          Sim, preenchi todos: 1
+                          Sim, preenchi alguns Instrumentais enviados, mas não todos: 0.8
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#01011b"
+                        fontSize: 12
+                        position: outside-end
+                      legendTitle: "   "
+                      radius: 50
+                      showAsPct: true
+                  dataFrame: dataframe_10
+              settings:
+                legend:
+                  position: top
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              Sim, preenchi todos: "#E45756"
+              Não, não preenchi nenhum: "#4C78A8"
+              Preenchi alguns, mas não todos: "#F58518"
+              preenchi alguns, mas não todos: "#F58518"
+              Sim, preenchi alguns Instrumentais enviados, mas não todos: "#F58518"
+            resultVariable: filter_result_5
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: 5893871b-f9c2-4ed9-9492-4a8cd597e234 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ➡️ A maior parte das voluntárias **preencheram todos os Instrumentais que receberam**
+        </br>
+        </br>
+
+        💡 O motivo para as baixas taxas de preenchimento está mais relacionado ao não recebimento do que à falta de participação das voluntárias?
+  - cellType: MARKDOWN
+    cellId: bc5e6903-787b-4ab1-a3f0-b7db2276d07b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        -------
+        ### Para as que preencheram algum instrumental:
+  - cellType: MARKDOWN
+    cellId: 4dc769e1-e1ee-4540-98fe-b87a7e72921a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### a) Os Instrumentais foram práticos de preencher"
+  - cellType: BLOCK
+    cellId: 46dca76a-c716-42f2-b01c-b9a141809c45 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: a8321800-4895-4631-8e43-a4e6aee2bb69
+        chartCellId: a99ca643-b174-4643-82f9-a43c850262a9
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: a8321800-4895-4631-8e43-a4e6aee2bb69
+          cellLabel: null
+          config:
+            source: |-
+              SELECT 
+                  '',
+                  "a) Os Instrumentais foram práticos de preencher" AS question,
+                  COUNT(*)
+              FROM  "Instrumentais de Atendimento - Sheet1.csv"
+              WHERE "a) Os Instrumentais foram práticos de preencher" != 'NaN'
+              GROUP BY 1, 2
+            dataFrameCell: true
+            dataConnectionId: null
+            resultVariableName: dataframe_11
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              defaultColumnWidth: null
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: "'oi'"
+                  renameTo: null
+                  size: 67
+                  wrapText: null
+                  displayFormat: null
+                - originalName: a) Os Instrumentais foram práticos de preencher
+                  renameTo: null
+                  size: 314
+                  wrapText: null
+                  displayFormat: null
+                - originalName: concordo
+                  renameTo: null
+                  size: 102
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count_star()
+                  renameTo: null
+                  size: 118
+                  wrapText: null
+                  displayFormat: null
+                - originalName: discordo
+                  renameTo: null
+                  size: 98
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 39
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: a99ca643-b174-4643-82f9-a43c850262a9
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 5a1e8247-608b-4a6d-9d16-3f5236f9a0bb
+                  xAxis:
+                    type: string
+                    style:
+                      ticks: {}
+                      labels: {}
+                    title: "    "
+                    dataFrameColumn: "''"
+                  series:
+                    - id: 92a0de77-29a3-48bd-a657-d9c937a6b49b
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          ticks:
+                            count: 2
+                          labels: {}
+                        title: "     "
+                      dataFrameColumns:
+                        - count_star()
+                      colorDataFrameColumn: question
+                      colorOrder:
+                        - Discordo
+                        - Neutro
+                        - Concordo
+                      color:
+                        type: series
+                        dataType: number
+                        dataFrameColumn: count_star()
+                        colorsBySeriesValues:
+                          Neutro: "#CFD3DE"
+                          Concordo: "#00B3A4"
+                          Discordo: "#DB2C6F"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        fontSize: 12
+                        position: inside-center
+                      legendTitle: "     "
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: stacked100
+                  dataFrame: dataframe_11
+              settings:
+                legend:
+                  position: bottom
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              Neutro: "#E45756"
+              Concordo: "#4C78A8"
+              Discordo: "#F58518"
+            resultVariable: filter_result
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: e581771b-9b59-42df-b450-6fae2ce14e69 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### b) O prazo estabelecido para cada preenchimento foi adequado"
+  - cellType: BLOCK
+    cellId: f7584dcf-c9c9-406b-942c-bed348fae6f5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 0e7b4ec0-5532-4737-93c7-1e289c06b772
+        chartCellId: 11b1a1ae-3398-4fa6-ad57-969c140508cb
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 0e7b4ec0-5532-4737-93c7-1e289c06b772
+          cellLabel: null
+          config:
+            source: |-
+              SELECT 
+                  '',
+                  "b) O prazo estabelecido para cada preenchimento foi adequado:" AS question,
+                  COUNT(*)
+              FROM  "Instrumentais de Atendimento - Sheet1.csv"
+              WHERE "a) Os Instrumentais foram práticos de preencher" != 'NaN'
+              GROUP BY 1, 2
+            dataFrameCell: true
+            dataConnectionId: null
+            resultVariableName: dataframe_12
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              defaultColumnWidth: null
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: "'oi'"
+                  renameTo: null
+                  size: 67
+                  wrapText: null
+                  displayFormat: null
+                - originalName: a) Os Instrumentais foram práticos de preencher
+                  renameTo: null
+                  size: 314
+                  wrapText: null
+                  displayFormat: null
+                - originalName: concordo
+                  renameTo: null
+                  size: 102
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count_star()
+                  renameTo: null
+                  size: 118
+                  wrapText: null
+                  displayFormat: null
+                - originalName: discordo
+                  renameTo: null
+                  size: 98
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 39
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 11b1a1ae-3398-4fa6-ad57-969c140508cb
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 5a1e8247-608b-4a6d-9d16-3f5236f9a0bb
+                  xAxis:
+                    type: string
+                    style:
+                      ticks: {}
+                      labels: {}
+                    title: "    "
+                    dataFrameColumn: "''"
+                  series:
+                    - id: 92a0de77-29a3-48bd-a657-d9c937a6b49b
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          ticks:
+                            count: 2
+                          labels: {}
+                        title: "     "
+                      dataFrameColumns:
+                        - count_star()
+                      colorDataFrameColumn: question
+                      colorOrder:
+                        - Discordo
+                        - Neutro
+                        - Concordo
+                      color:
+                        type: series
+                        dataType: number
+                        dataFrameColumn: count_star()
+                        colorsBySeriesValues:
+                          Neutro: "#CFD3DE"
+                          Concordo: "#00B3A4"
+                          Discordo: "#DB2C6F"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        fontSize: 12
+                        position: inside-center
+                      legendTitle: "     "
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: stacked100
+                  dataFrame: dataframe_12
+              settings:
+                legend:
+                  position: bottom
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              Neutro: "#E45756"
+              Concordo: "#4C78A8"
+              Discordo: "#F58518"
+            resultVariable: filter_result_6
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: ef3bdff7-b182-4b89-b375-e4ed8c868772 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        <p></p>
+
+        #### c) As perguntas dos Instrumentais me auxiliaram na condução dos atendimentos com a mulher acolhida
+  - cellType: BLOCK
+    cellId: 521c461e-6490-45b1-8577-45f1f837e588 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: f17d18df-c5d9-4214-85c7-2c2876f6d1de
+        chartCellId: 7586984b-62ff-4574-988e-e67b6df7bf0d
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: f17d18df-c5d9-4214-85c7-2c2876f6d1de
+          cellLabel: null
+          config:
+            source: |-
+              SELECT 
+                  '',
+                  "c) As perguntas dos Instrumentais me auxiliaram na condução dos atendimentos com a mulher acolhida:" AS question,
+                  COUNT(*)
+              FROM  "Instrumentais de Atendimento - Sheet1.csv"
+              WHERE "a) Os Instrumentais foram práticos de preencher" != 'NaN'
+              GROUP BY 1, 2
+            dataFrameCell: true
+            dataConnectionId: null
+            resultVariableName: dataframe_13
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              defaultColumnWidth: null
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: "'oi'"
+                  renameTo: null
+                  size: 67
+                  wrapText: null
+                  displayFormat: null
+                - originalName: a) Os Instrumentais foram práticos de preencher
+                  renameTo: null
+                  size: 314
+                  wrapText: null
+                  displayFormat: null
+                - originalName: concordo
+                  renameTo: null
+                  size: 102
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count_star()
+                  renameTo: null
+                  size: 118
+                  wrapText: null
+                  displayFormat: null
+                - originalName: discordo
+                  renameTo: null
+                  size: 98
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 39
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 7586984b-62ff-4574-988e-e67b6df7bf0d
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 5a1e8247-608b-4a6d-9d16-3f5236f9a0bb
+                  xAxis:
+                    type: string
+                    style:
+                      ticks: {}
+                      labels: {}
+                    title: "    "
+                    dataFrameColumn: "''"
+                  series:
+                    - id: 92a0de77-29a3-48bd-a657-d9c937a6b49b
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          ticks:
+                            count: 2
+                          labels: {}
+                        title: "     "
+                      dataFrameColumns:
+                        - count_star()
+                      colorDataFrameColumn: question
+                      colorOrder:
+                        - Discordo
+                        - Neutro
+                        - Concordo
+                      color:
+                        type: series
+                        dataType: number
+                        dataFrameColumn: count_star()
+                        colorsBySeriesValues:
+                          Neutro: "#CFD3DE"
+                          Concordo: "#00B3A4"
+                          Discordo: "#DB2C6F"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        fontSize: 12
+                        position: inside-center
+                      legendTitle: "     "
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: stacked100
+                  dataFrame: dataframe_13
+              settings:
+                legend:
+                  position: bottom
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              Neutro: "#E45756"
+              Concordo: "#4C78A8"
+              Discordo: "#F58518"
+            resultVariable: filter_result_7
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: c7c82f07-a53f-401e-a426-26f4d97d9d8b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### d) A quantidade de perguntas e de Instrumentais enviados é adequada para avaliar o perfil das acolhidas e repassar as informações de demanda e acompanhamento à equipe de gestão"
+  - cellType: BLOCK
+    cellId: 3f178de4-5938-4d09-9c2c-8be82b12a4d7 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 116a261b-25a4-44e5-8f41-acdd1e2cf134
+        chartCellId: 071b9be8-ae89-49ef-954a-a7203efda7ab
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 116a261b-25a4-44e5-8f41-acdd1e2cf134
+          cellLabel: null
+          config:
+            source: |-
+              SELECT 
+                  '',
+                  "d) A quantidade de perguntas e de Instrumentais enviados é adequada para avaliar o perfil das acolhidas e repassar as informações de demanda e acompanhamento à equipe de gestão:" AS question,
+                  COUNT(*)
+              FROM  "Instrumentais de Atendimento - Sheet1.csv"
+              WHERE "a) Os Instrumentais foram práticos de preencher" != 'NaN'
+              GROUP BY 1, 2
+            dataFrameCell: true
+            dataConnectionId: null
+            resultVariableName: dataframe_14
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              defaultColumnWidth: null
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: "'oi'"
+                  renameTo: null
+                  size: 67
+                  wrapText: null
+                  displayFormat: null
+                - originalName: a) Os Instrumentais foram práticos de preencher
+                  renameTo: null
+                  size: 314
+                  wrapText: null
+                  displayFormat: null
+                - originalName: concordo
+                  renameTo: null
+                  size: 102
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count_star()
+                  renameTo: null
+                  size: 118
+                  wrapText: null
+                  displayFormat: null
+                - originalName: discordo
+                  renameTo: null
+                  size: 98
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 39
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 071b9be8-ae89-49ef-954a-a7203efda7ab
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 5a1e8247-608b-4a6d-9d16-3f5236f9a0bb
+                  xAxis:
+                    type: string
+                    style:
+                      ticks: {}
+                      labels: {}
+                    title: "    "
+                    dataFrameColumn: "''"
+                  series:
+                    - id: 92a0de77-29a3-48bd-a657-d9c937a6b49b
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          ticks:
+                            count: 2
+                          labels: {}
+                        title: "     "
+                      dataFrameColumns:
+                        - count_star()
+                      colorDataFrameColumn: question
+                      colorOrder:
+                        - Discordo
+                        - Neutro
+                        - Concordo
+                      color:
+                        type: series
+                        dataType: number
+                        dataFrameColumn: count_star()
+                        colorsBySeriesValues:
+                          Neutro: "#CFD3DE"
+                          Concordo: "#00B3A4"
+                          Discordo: "#DB2C6F"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        fontSize: 12
+                        position: inside-center
+                      legendTitle: "     "
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: stacked100
+                  dataFrame: dataframe_14
+              settings:
+                legend:
+                  position: bottom
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              Neutro: "#E45756"
+              Concordo: "#4C78A8"
+              Discordo: "#F58518"
+            resultVariable: filter_result_8
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: 29cf93ae-7977-4f35-a9d1-232b0f88746e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### e) Os instrumentais possuem muitas perguntas, o que gerou mais trabalho durante os atendimentos"
+  - cellType: BLOCK
+    cellId: 88057966-2fe4-46c2-9026-d7a8ee560c4e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: a8c7e9b1-b293-438f-b4cb-5cadece2c443
+        chartCellId: 84f56d45-7f41-4594-b4fa-1e95ac48f0fa
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: a8c7e9b1-b293-438f-b4cb-5cadece2c443
+          cellLabel: null
+          config:
+            source: |-
+              SELECT 
+                  '',
+                  "e) Os instrumentais possuem muitas perguntas, o que gerou mais trabalho durante os atendimentos:" AS question,
+                  COUNT(*)
+              FROM  "Instrumentais de Atendimento - Sheet1.csv"
+              WHERE "a) Os Instrumentais foram práticos de preencher" != 'NaN'
+              GROUP BY 1, 2
+            dataFrameCell: true
+            dataConnectionId: null
+            resultVariableName: dataframe_15
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              defaultColumnWidth: null
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: "'oi'"
+                  renameTo: null
+                  size: 67
+                  wrapText: null
+                  displayFormat: null
+                - originalName: a) Os Instrumentais foram práticos de preencher
+                  renameTo: null
+                  size: 314
+                  wrapText: null
+                  displayFormat: null
+                - originalName: concordo
+                  renameTo: null
+                  size: 102
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count_star()
+                  renameTo: null
+                  size: 118
+                  wrapText: null
+                  displayFormat: null
+                - originalName: discordo
+                  renameTo: null
+                  size: 98
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 39
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 84f56d45-7f41-4594-b4fa-1e95ac48f0fa
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 5a1e8247-608b-4a6d-9d16-3f5236f9a0bb
+                  xAxis:
+                    type: string
+                    style:
+                      ticks: {}
+                      labels: {}
+                    title: "    "
+                    dataFrameColumn: "''"
+                  series:
+                    - id: 92a0de77-29a3-48bd-a657-d9c937a6b49b
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          ticks:
+                            count: 2
+                          labels: {}
+                        title: "     "
+                      dataFrameColumns:
+                        - count_star()
+                      colorDataFrameColumn: question
+                      colorOrder:
+                        - Discordo
+                        - Neutro
+                        - Concordo
+                      color:
+                        type: series
+                        dataType: number
+                        dataFrameColumn: count_star()
+                        colorsBySeriesValues:
+                          Neutro: "#CFD3DE"
+                          Concordo: "#00B3A4"
+                          Discordo: "#DB2C6F"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        fontSize: 12
+                        position: inside-center
+                      legendTitle: "     "
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: stacked100
+                  dataFrame: dataframe_15
+              settings:
+                legend:
+                  position: bottom
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              Neutro: "#E45756"
+              Concordo: "#4C78A8"
+              Discordo: "#F58518"
+            resultVariable: filter_result_9
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: d8aa638e-e7ed-4ac5-a82a-f417889f0118 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### f) Recebi as orientações necessárias da equipe de gestão para o preenchimento dos Instrumentais"
+  - cellType: BLOCK
+    cellId: 21a137dc-645b-48ae-9e33-4979ff77fc8d # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 876beb11-b3f4-40bc-ab1e-df0446e35f10
+        chartCellId: 3bd347ba-7d28-4f7b-899d-e91796081287
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 876beb11-b3f4-40bc-ab1e-df0446e35f10
+          cellLabel: null
+          config:
+            source: |-
+              SELECT 
+                  '',
+                  "f) Recebi as orientações necessárias da equipe de gestão para o preenchimento dos Instrumentais:" AS question,
+                  COUNT(*)
+              FROM  "Instrumentais de Atendimento - Sheet1.csv"
+              WHERE "a) Os Instrumentais foram práticos de preencher" != 'NaN'
+              GROUP BY 1, 2
+            dataFrameCell: true
+            dataConnectionId: null
+            resultVariableName: dataframe_16
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              defaultColumnWidth: null
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: "'oi'"
+                  renameTo: null
+                  size: 67
+                  wrapText: null
+                  displayFormat: null
+                - originalName: a) Os Instrumentais foram práticos de preencher
+                  renameTo: null
+                  size: 314
+                  wrapText: null
+                  displayFormat: null
+                - originalName: concordo
+                  renameTo: null
+                  size: 102
+                  wrapText: null
+                  displayFormat: null
+                - originalName: count_star()
+                  renameTo: null
+                  size: 118
+                  wrapText: null
+                  displayFormat: null
+                - originalName: discordo
+                  renameTo: null
+                  size: 98
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 39
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 3bd347ba-7d28-4f7b-899d-e91796081287
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 5a1e8247-608b-4a6d-9d16-3f5236f9a0bb
+                  xAxis:
+                    type: string
+                    style:
+                      ticks: {}
+                      labels: {}
+                    title: "    "
+                    dataFrameColumn: "''"
+                  series:
+                    - id: 92a0de77-29a3-48bd-a657-d9c937a6b49b
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          ticks:
+                            count: 2
+                          labels: {}
+                        title: "     "
+                      dataFrameColumns:
+                        - count_star()
+                      colorDataFrameColumn: question
+                      colorOrder:
+                        - Discordo
+                        - Neutro
+                        - Concordo
+                      color:
+                        type: series
+                        dataType: number
+                        dataFrameColumn: count_star()
+                        colorsBySeriesValues:
+                          Neutro: "#CFD3DE"
+                          Concordo: "#00B3A4"
+                          Discordo: "#DB2C6F"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        fontSize: 12
+                        position: inside-center
+                      legendTitle: "     "
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: stacked100
+                  dataFrame: dataframe_16
+              settings:
+                legend:
+                  position: bottom
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings:
+              Neutro: "#E45756"
+              Concordo: "#4C78A8"
+              Discordo: "#F58518"
+            resultVariable: filter_result_10
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: a981ea77-d060-439b-bbbd-caef68becbb2 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ➡️ No geral, as voluntárias possuem uma opinião positiva sobre os Instrumentais.
+        </br>
+        </br>
+
+        ➡️ A maior parte considera os Instrumentais práticos de preencher, com prazo e quantidade de perguntas adequados.
+        </br>
+        </br>
+
+        💡 **Um ponto de atenção são as orientações para o preenchimento dos Instrumentais. Essa foi a afirmação com menor concordância.**
+  - cellType: MARKDOWN
+    cellId: 42fbc327-3b20-4d21-8adc-0a9c06fa6a00 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Impressões positivas"
+  - cellType: SQL
+    cellId: 4a683d1e-6bc1-4e68-addb-ee0d367cdaa7 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT "Impressões positivas:"
+        FROM "Instrumentais de Atendimento - Sheet1.csv"
+        WHERE "Impressões positivas:" != 'NaN'
+      dataFrameCell: true
+      dataConnectionId: null
+      resultVariableName: dataframe_17
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: true
+        defaultColumnWidth: null
+        hideIndex: true
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: "Impressões positivas:"
+            renameTo: null
+            size: 549
+            wrapText: true
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: MARKDOWN
+    cellId: bdec15a2-5762-4260-aa03-555968c0f836 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Impressões negativas"
+  - cellType: SQL
+    cellId: 9cbded94-fec0-4752-b3a5-b48c81128eee # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT "Impressões negativas:"
+        FROM "Instrumentais de Atendimento - Sheet1.csv"
+        WHERE "Impressões negativas:" != 'NaN'
+      dataFrameCell: true
+      dataConnectionId: null
+      resultVariableName: dataframe_18
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 5
+        height: 199
+        hideIcons: true
+        defaultColumnWidth: null
+        hideIndex: true
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: "Impressões negativas:"
+            renameTo: null
+            size: 532
+            wrapText: true
+            displayFormat: null
+          - originalName: "Impressões positivas:"
+            renameTo: null
+            size: 549
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: MARKDOWN
+    cellId: 4dcd1596-3538-42ce-b2d6-54d798c866a1 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        -------
+        ### Para as que não preencheram algum instrumental:
+  - cellType: MARKDOWN
+    cellId: 13888a03-a508-4677-b832-2116a29e4faa # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Motivos para não terem preenchido"
+  - cellType: BLOCK
+    cellId: 7cbae463-d7f1-42f6-b9fa-4ce6b81f42fd # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      blockConfig:
+        sqlCellId: 9bbe5484-519c-466f-9a1c-fc7d6e441f5b
+        chartCellId: 6be7ca3e-d358-412a-bca2-32c3dbd8253b
+        activeTab: chart
+      cells:
+        - cellType: SQL
+          cellId: 9bbe5484-519c-466f-9a1c-fc7d6e441f5b
+          cellLabel: null
+          config:
+            source: |-
+              SELECT 
+                  'Eles possuem muitas perguntas' AS motivo,
+                  SUM(CASE WHEN "Tendo acesso ao Instrumental, nos conte o motivo para não ter preenchido:" LIKE '%Avalio que os formulários/instrumentais possuem muitas perguntas, o que geraria mais trabalho durante os atendimentos%' THEN 1 ELSE 0 END) AS total
+              FROM "Instrumentais de Atendimento - Sheet1.csv"
+              UNION ALL
+              SELECT 
+                  'São muitos Instrumentais' AS motivo,
+                  SUM(CASE WHEN "Tendo acesso ao Instrumental, nos conte o motivo para não ter preenchido:" LIKE '%Avalio que são muitos formulários/instrumentais para preencher durante os atendimentos, o que geraria mais trabalho%' THEN 1 ELSE 0 END) AS total
+              FROM "Instrumentais de Atendimento - Sheet1.csv"
+              UNION ALL
+              SELECT 
+                  'Não foi possível colher as informações' AS motivo,
+                  SUM(CASE WHEN "Tendo acesso ao Instrumental, nos conte o motivo para não ter preenchido:" LIKE '%Avalio que não foi possível colher todas as informações das acolhidas e, por isso, não foi possível realizar o preenchimento no prazo estabelecido%' THEN 1 ELSE 0 END) AS total
+              FROM "Instrumentais de Atendimento - Sheet1.csv"
+              UNION ALL
+              SELECT 
+                  'Tive dificuldade por falta de orientações' AS motivo,
+                  SUM(CASE WHEN "Tendo acesso ao Instrumental, nos conte o motivo para não ter preenchido:" LIKE '%Avalio que tive dificuldade no preenchimento por ausência de orientações da equipe de gestão%' THEN 1 ELSE 0 END) AS total
+              FROM "Instrumentais de Atendimento - Sheet1.csv"
+              UNION ALL
+              SELECT 
+                  'Priorizei o atendimento' AS motivo,
+                  SUM(CASE WHEN "Tendo acesso ao Instrumental, nos conte o motivo para não ter preenchido:" LIKE '%Avalio que realizar o atendimento junto à acolhida e ainda precisar responder os formulários/instrumentais, atravanca o acompanhamento. Assim, acabei priorizando o atendimento%' THEN 1 ELSE 0 END) AS total
+              FROM "Instrumentais de Atendimento - Sheet1.csv"
+              UNION ALL
+              SELECT 
+                  'Eles não são adequados para avaliar o perfil das acolhidas' AS motivo,
+                  SUM(CASE WHEN "Tendo acesso ao Instrumental, nos conte o motivo para não ter preenchido:" LIKE '%Avalio que a quantidade de perguntas e de formulários/instrumentais enviados não é adequada avaliar o perfil das acolhidas e repassar as informações de demanda e acompanhamento à equipe de gestão%' THEN 1 ELSE 0 END) AS total
+              FROM "Instrumentais de Atendimento - Sheet1.csv"
+            dataFrameCell: true
+            dataConnectionId: null
+            resultVariableName: dataframe_19
+            useRichDisplay: true
+            sqlCellOutputType: PANDAS
+            useQueryMode: false
+            castDecimals: true
+            useNativeDates: true
+            outputFilteredResult: true
+            allowDuplicateColumns: false
+            tableDisplayConfig:
+              pageSize: 50
+              height: null
+              hideIcons: false
+              defaultColumnWidth: null
+              hideIndex: false
+              defaultSortColumn: null
+              defaultSortIndexColumn: null
+              defaultSortDirection: ASC
+              conditionalFormatting: null
+              calcs: null
+              filters: null
+              columnProperties:
+                - originalName: Avalio que os formulários/instrumentais possuem muitas perguntas, o que geraria mais trabalho durante os atendimentos
+                  renameTo: null
+                  size: 701
+                  wrapText: null
+                  displayFormat: null
+                - originalName: "Tendo acesso ao Instrumental, nos conte o motivo para não ter preenchido:"
+                  renameTo: null
+                  size: 1037
+                  wrapText: null
+                  displayFormat: null
+                - originalName: motivo
+                  renameTo: null
+                  size: 520
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 39
+                  wrapText: null
+                  displayFormat: null
+              columnOrdering: null
+              customColumnOrdering: null
+              pinnedColumns: null
+              hiddenColumns: null
+              pinIndexColumns: false
+              showAggregations: false
+              columnAggregations: null
+        - cellType: CHARTV2
+          cellId: 6be7ca3e-d358-412a-bca2-32c3dbd8253b
+          cellLabel: null
+          config:
+            height: null
+            chartSpec:
+              type: layered
+              layers:
+                - id: 194e31bf-d87d-4a4d-a0c1-a1b5a33abdcf
+                  xAxis:
+                    sort: -x
+                    type: string
+                    style:
+                      grid:
+                        style: dash
+                      ticks: {}
+                      labels: {}
+                    title: "   "
+                    dataFrameColumn: motivo
+                  series:
+                    - id: 79af6eb0-a224-4aaf-8f05-037b4d23be41
+                      type: bar
+                      axis:
+                        type: number
+                        style:
+                          max: 5
+                          grid:
+                            style: dash
+                          ticks:
+                            count: 5
+                          labels: {}
+                        title: "   "
+                        aggregate: sum
+                      dataFrameColumns:
+                        - total
+                      colorOrder: ascending
+                      color:
+                        type: static
+                        color: "#DB2C6F"
+                      opacity:
+                        type: static
+                        value: 1
+                      tooltip:
+                        type: auto
+                      dataLabels:
+                        color: "#01011b"
+                        position: outside-end
+                      barWidth: 1
+                      orientation: horizontal
+                      layout: grouped
+                  dataFrame: dataframe_19
+              settings:
+                legend:
+                  position: right
+                tooltip: true
+                selectionEnabled: false
+            chartSelection: {}
+            colorMappings: {}
+            resultVariable: filter_result
+            outputResult: false
+            displayType: CHART
+            displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: 4da51f86-f136-4476-9c44-811bf1489efe # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Outros motivos"
+  - cellType: SQL
+    cellId: 674cc0df-76d6-47ea-8b54-f2d626f0c814 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT "Outros motivos"
+        FROM "Instrumentais de Atendimento - Sheet1.csv"
+        WHERE "Outros motivos" != 'NaN'
+      dataFrameCell: true
+      dataConnectionId: null
+      resultVariableName: dataframe_20
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: 413
+        hideIcons: true
+        defaultColumnWidth: null
+        hideIndex: true
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: Outros motivos
+            renameTo: null
+            size: 530
+            wrapText: true
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: MARKDOWN
+    cellId: d3ac5b52-0f01-46c2-baba-f1d591feb083 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ----
+        ### Sugestões
+  - cellType: SQL
+    cellId: 36e8c799-59bd-4f56-980f-b8288dedbab7 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT "Sugestões"
+        FROM "Instrumentais de Atendimento - Sheet1.csv"
+        WHERE "Sugestões" IS NOT NULL
+      dataFrameCell: true
+      dataConnectionId: null
+      resultVariableName: dataframe_21
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: 477
+        hideIcons: true
+        defaultColumnWidth: null
+        hideIndex: true
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: Sugestões
+            renameTo: null
+            size: 1101
+            wrapText: true
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: MARKDOWN
+    cellId: cef23eb7-3cb4-4872-9c9a-93a4cf257a0e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ------
+        ### Aceitam serem contatadas
+  - cellType: MARKDOWN
+    cellId: 98d76cbb-553c-483a-8912-558e0b445bfa # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Preencheram todos os Instrumentais"
+  - cellType: SQL
+    cellId: 40658eeb-c2a1-43d3-80f6-44b40b3f4719 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT 
+            CASE 
+                WHEN email = '(merge value not available in preview)' THEN "E-mail"
+                ELSE email
+            END AS email, 
+            first_name AS nome,
+            CONCAT('(', LEFT(RIGHT(COALESCE(phone, Whatsapp), 11), 2), ') ', RIGHT(COALESCE(phone, Whatsapp), 9))  AS telefone
+        FROM "Instrumentais de Atendimento - Sheet1.csv"
+        LEFT JOIN volunteer_occupation USING(email)
+        WHERE 
+            "Podemos te contatar?" = 'Sim' 
+            AND "Você preencheu o(s) Instrumental(is) enviado(s)?" = 'Sim, preenchi todos'
+            AND CASE WHEN email = '(merge value not available in preview)' THEN "E-mail" ELSE email END IS NOT NULL
+      dataFrameCell: true
+      dataConnectionId: null
+      resultVariableName: dataframe_22
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: true
+        defaultColumnWidth: null
+        hideIndex: true
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: E-mail
+            renameTo: null
+            size: 87
+            wrapText: null
+            displayFormat: null
+          - originalName: Respondent ID
+            renameTo: null
+            size: 133
+            wrapText: null
+            displayFormat: null
+          - originalName: Submission ID
+            renameTo: null
+            size: 130
+            wrapText: null
+            displayFormat: null
+          - originalName: Submitted at
+            renameTo: null
+            size: 156
+            wrapText: null
+            displayFormat: null
+          - originalName: Você já recebeu algum Instrumental para preencher em seu(s) atendimento(s)?
+            renameTo: null
+            size: 400
+            wrapText: null
+            displayFormat: null
+          - originalName: Você é advogada ou psicóloga?
+            renameTo: null
+            size: 218
+            wrapText: null
+            displayFormat: null
+          - originalName: Whatsapp
+            renameTo: null
+            size: 244
+            wrapText: null
+            displayFormat: null
+          - originalName: email
+            renameTo: null
+            size: 235
+            wrapText: null
+            displayFormat: null
+          - originalName: nome
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: pre
+            renameTo: null
+            size: 179
+            wrapText: null
+            displayFormat: null
+          - originalName: right(COALESCE(phone, Whatsapp), 11)
+            renameTo: null
+            size: 265
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: telefone
+            renameTo: null
+            size: 126
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: MARKDOWN
+    cellId: 9dbbbac3-c126-41e6-a9da-7085d3bbd16e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "#### Não preencheram algum Instrumental"
+  - cellType: SQL
+    cellId: 59b5c3fa-6f71-4497-8bbc-ee381d96b3cc # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        SELECT 
+            CASE 
+                WHEN email = '(merge value not available in preview)' THEN "E-mail"
+                ELSE email
+            END AS email, 
+            first_name AS nome,
+            CONCAT('(', LEFT(RIGHT(COALESCE(phone, Whatsapp), 11), 2), ') ', RIGHT(COALESCE(phone, Whatsapp), 9))  AS telefone
+        FROM "Instrumentais de Atendimento - Sheet1.csv"
+        LEFT JOIN volunteer_occupation USING(email)
+        WHERE 
+            "Podemos te contatar?" = 'Sim' 
+            AND "Você preencheu o(s) Instrumental(is) enviado(s)?" IN ('Sim, preenchi alguns Instrumentais enviados, mas não todos', 'Não, não preenchi nenhum')
+            AND CASE WHEN email = '(merge value not available in preview)' THEN "E-mail" ELSE email END IS NOT NULL
+      dataFrameCell: true
+      dataConnectionId: null
+      resultVariableName: dataframe_23
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: true
+        defaultColumnWidth: null
+        hideIndex: true
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: E-mail
+            renameTo: null
+            size: 87
+            wrapText: null
+            displayFormat: null
+          - originalName: Respondent ID
+            renameTo: null
+            size: 133
+            wrapText: null
+            displayFormat: null
+          - originalName: Submission ID
+            renameTo: null
+            size: 130
+            wrapText: null
+            displayFormat: null
+          - originalName: Submitted at
+            renameTo: null
+            size: 156
+            wrapText: null
+            displayFormat: null
+          - originalName: Você já recebeu algum Instrumental para preencher em seu(s) atendimento(s)?
+            renameTo: null
+            size: 400
+            wrapText: null
+            displayFormat: null
+          - originalName: Você é advogada ou psicóloga?
+            renameTo: null
+            size: 218
+            wrapText: null
+            displayFormat: null
+          - originalName: Whatsapp
+            renameTo: null
+            size: 244
+            wrapText: null
+            displayFormat: null
+          - originalName: email
+            renameTo: null
+            size: 235
+            wrapText: null
+            displayFormat: null
+          - originalName: nome
+            renameTo: null
+            size: 82
+            wrapText: null
+            displayFormat: null
+          - originalName: pre
+            renameTo: null
+            size: 179
+            wrapText: null
+            displayFormat: null
+          - originalName: right(COALESCE(phone, Whatsapp), 11)
+            renameTo: null
+            size: 265
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: telefone
+            renameTo: null
+            size: 126
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: SQL
+    cellId: 46320b77-af99-4de2-bdb7-a0de720671ce # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: SELECT * FROM "Instrumentais de Atendimento - Sheet1.csv";
+      dataFrameCell: true
+      dataConnectionId: null
+      resultVariableName: dataframe_2
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: E-mail
+            renameTo: null
+            size: 87
+            wrapText: null
+            displayFormat: null
+          - originalName: Respondent ID
+            renameTo: null
+            size: 133
+            wrapText: null
+            displayFormat: null
+          - originalName: Submission ID
+            renameTo: null
+            size: 130
+            wrapText: null
+            displayFormat: null
+          - originalName: Submitted at
+            renameTo: null
+            size: 156
+            wrapText: null
+            displayFormat: null
+          - originalName: "Tendo acesso ao Instrumental, nos conte o motivo para não ter preenchido:"
+            renameTo: null
+            size: 473
+            wrapText: null
+            displayFormat: null
+          - originalName: Você já recebeu algum Instrumental para preencher em seu(s) atendimento(s)?
+            renameTo: null
+            size: 400
+            wrapText: null
+            displayFormat: null
+          - originalName: Você é advogada ou psicóloga?
+            renameTo: null
+            size: 218
+            wrapText: null
+            displayFormat: null
+          - originalName: email
+            renameTo: null
+            size: 235
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+appLayout:
+  visibleMetadataFields:
+    - NAME
+    - DESCRIPTION
+    - AUTHOR
+    - LAST_EDITED
+    - LAST_RUN
+    - CATEGORIES
+    - STATUS
+    - TABLE_OF_CONTENTS
+  fullWidth: false
+  tabs:
+    - name: Tab 1
+      rows:
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: b58ba387-d99f-4ee9-ad35-f86c1f51858f
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 788c0b49-e8ac-49e4-9809-0f1afd4a75fd
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 30
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: fef3a209-dffd-40f1-8c4c-cfab0127a3fc
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 6eec9809-b1da-410a-9ff3-5207671162f3
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 6ab4ece9-ede8-43b2-ad5e-dd408ec8293b
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: b2f3a118-46fe-430c-89db-828a554d5af4
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 35
+              end: 115
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 7b27a3a8-56bb-451b-a360-10b70315d3da
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: a257c445-49e4-49a6-a4ec-b7915fd3d00c
+                  sharedFilterId: null
+                  height: 300
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 36c3743d-fe87-4e4e-b213-2cc5effeb09b
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 6b6e8a41-6c9e-432a-b516-ac1d7e435248
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: aa23bd8f-372f-4299-9761-3e2d50a30d09
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 55
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 09d3f55a-7d1f-435f-9343-06c6c43a4a9e
+                  sharedFilterId: null
+                  height: 250
+                  showLabel: true
+            - start: 60
+              end: 115
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 1ef5cb24-16eb-466f-9a37-9f2ebd1081c4
+                  sharedFilterId: null
+                  height: 250
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 3b9bbd12-497e-4ce0-a4c0-52b1689ca1fc
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 35c84cd2-9e25-460b-bb5e-a256cc18cf12
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 55
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 011d9556-291e-4c0c-9568-02e28143c29e
+                  sharedFilterId: null
+                  height: 300
+                  showLabel: true
+            - start: 60
+              end: 115
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 28db351c-4256-45ec-916e-0ced4767a83a
+                  sharedFilterId: null
+                  height: 300
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 5893871b-f9c2-4ed9-9492-4a8cd597e234
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: f8c4db73-2d17-4a6a-ba15-cd612d6854b6
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 75
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: c55deb99-3159-457e-85fd-b0a73582215e
+                  sharedFilterId: null
+                  height: 400
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: bc5e6903-787b-4ab1-a3f0-b7db2276d07b
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 55
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 4dc769e1-e1ee-4540-98fe-b87a7e72921a
+                  sharedFilterId: null
+                  height: 50
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: a8321800-4895-4631-8e43-a4e6aee2bb69
+                  sharedFilterId: null
+                  height: 150
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: ef3bdff7-b182-4b89-b375-e4ed8c868772
+                  sharedFilterId: null
+                  height: 100
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: f17d18df-c5d9-4214-85c7-2c2876f6d1de
+                  sharedFilterId: null
+                  height: 150
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 29cf93ae-7977-4f35-a9d1-232b0f88746e
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: a8c7e9b1-b293-438f-b4cb-5cadece2c443
+                  sharedFilterId: null
+                  height: 150
+                  showLabel: true
+            - start: 65
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: e581771b-9b59-42df-b450-6fae2ce14e69
+                  sharedFilterId: null
+                  height: 50
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 0e7b4ec0-5532-4737-93c7-1e289c06b772
+                  sharedFilterId: null
+                  height: 150
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: c7c82f07-a53f-401e-a426-26f4d97d9d8b
+                  sharedFilterId: null
+                  height: 100
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 116a261b-25a4-44e5-8f41-acdd1e2cf134
+                  sharedFilterId: null
+                  height: 150
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: d8aa638e-e7ed-4ac5-a82a-f417889f0118
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 876beb11-b3f4-40bc-ab1e-df0446e35f10
+                  sharedFilterId: null
+                  height: 150
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: a981ea77-d060-439b-bbbd-caef68becbb2
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 60
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 42fbc327-3b20-4d21-8adc-0a9c06fa6a00
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 60
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: bdec15a2-5762-4260-aa03-555968c0f836
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 60
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 4a683d1e-6bc1-4e68-addb-ee0d367cdaa7
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 60
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 9cbded94-fec0-4752-b3a5-b48c81128eee
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 4dcd1596-3538-42ce-b2d6-54d798c866a1
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 60
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 13888a03-a508-4677-b832-2116a29e4faa
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 9bbe5484-519c-466f-9a1c-fc7d6e441f5b
+                  sharedFilterId: null
+                  height: 500
+                  showLabel: true
+            - start: 60
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 4da51f86-f136-4476-9c44-811bf1489efe
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 674cc0df-76d6-47ea-8b54-f2d626f0c814
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: d3ac5b52-0f01-46c2-baba-f1d591feb083
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 36e8c799-59bd-4f56-980f-b8288dedbab7
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: cef23eb7-3cb4-4872-9c9a-93a4cf257a0e
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 55
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 98d76cbb-553c-483a-8912-558e0b445bfa
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 40658eeb-c2a1-43d3-80f6-44b40b3f4719
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+            - start: 60
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 9dbbbac3-c126-41e6-a9da-7085d3bbd16e
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 59b5c3fa-6f71-4497-8bbc-ee381d96b3cc
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+sharedFilters: []
