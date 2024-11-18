@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 4b7dd6b6-8786-45f3-9212-c434cb92770d # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: b48787a2-3f6b-47c7-aa59-89a8712ed35c # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse notebook contém os alertas de inconsistências no nosso banco de dados
   projectId: 180416ec-9554-406b-bd4d-c4b4a95399be # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[TECH] Data alerts"
@@ -144,7 +144,7 @@ cells:
     cellLabel: "Python: Voluntárias que estão disponíveis na tabela volunteer_availability, mas não disponíveis na tabela volunteers"
     config:
       source: |-
-        if(available_volunteers['count'][0] != 0):
+        if(not available_volunteers.empty and available_volunteers['count'][0] != 0):
             errors.append("Existem voluntárias disponíveis para match com condition != 'disponivel'")
   - cellType: MARKDOWN
     cellId: 89984bf0-2ecb-4c95-929a-2051f763e86a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -255,7 +255,7 @@ cells:
     cellLabel: "Python: Voluntárias que estão com status Disponível mas is_available = FALSE"
     config:
       source: |-
-        if(unavailable_volunteers['count'][0] != 0):
+        if(not unavailable_volunteers.empty and unavailable_volunteers['count'][0] != 0):
             errors.append("Existem voluntárias condition = 'disponivel' e is_available = FALSE")
   - cellType: MARKDOWN
     cellId: caf79766-75cd-49f1-a7d6-97f61277a0ff # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -298,7 +298,7 @@ cells:
     cellLabel: "Python: voluntárias com current_matches diferente do verificado na tabela matches"
     config:
       source: |-
-        if(volunteers_match_count['count'][0] != 0):
+        if(not volunteers_match_count.empty and volunteers_match_count['count'][0] != 0):
             errors.append("Existem voluntárias com discrepâncias no número de matches")
   - cellType: MARKDOWN
     cellId: 05dc8248-8cb1-481a-9e23-646483112368 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -359,7 +359,7 @@ cells:
     cellLabel: "Python: voluntárias sem volunteer_availability"
     config:
       source: |-
-        if(no_volunteer_availability['count'][0] != 0):
+        if(not no_volunteer_availability.empty and no_volunteer_availability['count'][0] != 0):
             errors.append("Existem voluntárias que estão na tabela volunteers, mas não estão na tabela volunteer_availability")
   - cellType: MARKDOWN
     cellId: c94f11e1-980f-47d9-bbd5-c345415960df # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -476,7 +476,7 @@ cells:
     cellLabel: "Python: Voluntárias indisponíveis que receberam match no último dia"
     config:
       source: |-
-        if(unavailable_volunteer_match_count['count'][0] != 0):
+        if(not unavailable_volunteer_match_count.empty and unavailable_volunteer_match_count['count'][0] != 0):
             errors.append("Voluntárias indiponíveis receberam match no último dia")
   - cellType: MARKDOWN
     cellId: e31aab7e-5415-4a62-9057-7eed83d5cc62 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -606,7 +606,7 @@ cells:
     cellLabel: "Python: inconsistências na tabela support_request_status_history"
     config:
       source: |-
-        if(support_request_status_history['count'][0] != 0):
+        if(not support_request_status_history.empty and support_request_status_history['count'][0] != 0):
             errors.append("Existem inconsistências na tabela support_request_status_history")
   - cellType: MARKDOWN
     cellId: 73d2a62c-ca87-46c5-8205-33bd67bb91b7 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -652,7 +652,7 @@ cells:
     cellLabel: "Python: inconsistências na tabela match_status_history"
     config:
       source: |-
-        if(match_status_history['count'][0] != 0):
+        if(not match_status_history.empty and match_status_history['count'][0] != 0):
             errors.append("Existem inconsistências na tabela match_status_history")
   - cellType: MARKDOWN
     cellId: cbc2ceb9-0845-4c84-aa47-d9b65a7b331e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -698,7 +698,7 @@ cells:
     cellLabel: "Python: inconsistências na tabela volunteer_status_history"
     config:
       source: |-
-        if(volunteer_status_history['count'][0] != 0):
+        if(not match_status_history.empty and volunteer_status_history['count'][0] != 0):
             errors.append("Existem inconsistências na tabela volunteer_status_history")
   - cellType: MARKDOWN
     cellId: c7a10e04-e5d8-44fd-b640-39ce709a72cf # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -802,7 +802,7 @@ cells:
     cellLabel: "Python: Voluntárias teste se tornaram disponíveis"
     config:
       source: |-
-        if(voluntarias_teste['count'][0] != 0):
+        if(not voluntarias_teste.empty and voluntarias_teste['count'][0] != 0):
             errors.append("Voluntárias teste se tornaram disponíveis para match")
   - cellType: MARKDOWN
     cellId: b1471b0d-82bd-4084-b641-014d94d9f185 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -910,7 +910,7 @@ cells:
     cellLabel: "Python: voluntárias com current_matches >= max_matches e estão disponíveis"
     config:
       source: |-
-        if(voluntarias_current_matches['count'][0] != 0):
+        if(not voluntarias_teste.empty and voluntarias_teste['count'][0] != 0):
             errors.append("Existem voluntárias com current_matches >= max_matches e estão disponíveis")
   - cellType: MARKDOWN
     cellId: 357741dc-8374-485f-ab60-6cd1733692a5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -988,7 +988,7 @@ cells:
     cellLabel: "Python: MSRs que estão no bonde mas não possuem support_request "
     config:
       source: |-
-        if(msrs_without_support_request['count'][0] != 0):
+        if(not msrs_without_support_request.empty and msrs_without_support_request['count'][0] != 0):
             errors.append("Existem MSRs sem support_request")
   - cellType: MARKDOWN
     cellId: 3f5f54da-b51c-4731-8f1c-b06156d5b684 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -1112,7 +1112,7 @@ cells:
     cellLabel: "Python: MSRs desabilitadas com support_request"
     config:
       source: |-
-        if(msrs_desabilitadas['count'][0] != 0):
+        if(not msrs_desabilitadas.empty and msrs_desabilitadas['count'][0] != 0):
             errors.append("Existem MSRs desabilitadas com support_request")
   - cellType: MARKDOWN
     cellId: 485699f0-bc94-457a-ad94-590cf1357162 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -1174,7 +1174,7 @@ cells:
     cellLabel: null
     config:
       source: |-
-        if(expired_match_confirmations['count'][0] != 0):
+        if(not expired_match_confirmations.empty and expired_match_confirmations['count'][0] != 0):
             errors.append("Existem match_confirmations que deveriam ter expirado")
   - cellType: MARKDOWN
     cellId: dc56d7ab-42d6-4a42-8ebe-4a81c71c92e6 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -1235,7 +1235,7 @@ cells:
     cellLabel: null
     config:
       source: |-
-        if(available_volunteer_without_phone['count'][0] != 0):
+        if(not available_volunteer_without_phone.empty and available_volunteer_without_phone['count'][0] != 0):
             errors.append("Existem voluntárias disponíveis sem telefone")
   - cellType: MARKDOWN
     cellId: a6138a90-de7a-475e-ab1a-a2571724df68 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
@@ -1400,7 +1400,7 @@ cells:
     cellLabel: null
     config:
       source: |-
-        if(volunteer_null_moodle_id['count'][0] != 0):
+        if(not volunteer_null_moodle_id.empty and volunteer_null_moodle_id['count'][0] != 0):
             errors.append("Existem voluntárias sem moodle_id")
   - cellType: CODE
     cellId: dfc0adcb-948b-44d4-a357-317f9fc425e5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
