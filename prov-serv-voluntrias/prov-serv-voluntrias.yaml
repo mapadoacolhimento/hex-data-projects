@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: b6ed63c3-3c58-4bfc-9c65-b29645151453 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: be5c4ec8-57c0-4070-98e2-0fae92e64501 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse dashboard apresenta o monitoramento de métricas relativas às Voluntárias do Mapa.
   projectId: 84800fcd-3d2c-409f-9d89-713bd9b82780 # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] Voluntárias"
@@ -11,12 +11,15 @@ meta:
   categories: []
   castDecimalsDefault: true
   logicQueryCacheTimeout: null
-  publishedQueryCacheTimeout: null
+  publishedQueryCacheTimeout:
+    type: fixed
+    unit: days
+    duration: 30
   hexType: PROJECT
   allowExecutionReordering: true
   prerunApp: false
   cachePublishedAppState: true
-  refreshStalePublishedApp: false
+  refreshStalePublishedApp: true
   autoRerunApp: true
 projectAssets:
   dataConnections: []
@@ -140,10 +143,11 @@ cells:
       comparisonFormat: null
       comparisonLabel: null
       displayFormat:
-        format: PLAIN
+        format: NUMBER
         currency: USD
         columnType: NUMBER
-        numDecimalDigits: 2
+        showSeparators: true
+        numDecimalDigits: 0
         abbreviateLargeNumbers: false
       valueColumn: total
       valueRowIndex: 0
@@ -166,10 +170,11 @@ cells:
       comparisonFormat: null
       comparisonLabel: ""
       displayFormat:
-        format: PLAIN
+        format: NUMBER
         currency: USD
         columnType: NUMBER
-        numDecimalDigits: 2
+        showSeparators: true
+        numDecimalDigits: 0
         abbreviateLargeNumbers: false
       valueColumn: total_advogadas
       valueRowIndex: 0
@@ -192,10 +197,11 @@ cells:
       comparisonFormat: null
       comparisonLabel: ""
       displayFormat:
-        format: PLAIN
+        format: NUMBER
         currency: USD
         columnType: NUMBER
-        numDecimalDigits: 2
+        showSeparators: true
+        numDecimalDigits: 0
         abbreviateLargeNumbers: false
       valueColumn: total_psicologas
       valueRowIndex: 0
@@ -355,6 +361,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -510,6 +517,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -639,6 +647,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -767,6 +776,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -896,6 +906,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1038,6 +1049,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1174,6 +1186,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1319,6 +1332,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1488,6 +1502,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -1559,6 +1574,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1683,6 +1699,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1828,6 +1845,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -1946,6 +1964,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -2072,6 +2091,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -2186,6 +2206,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -2323,6 +2344,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -2536,6 +2558,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -2802,6 +2825,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -2986,6 +3010,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3151,6 +3176,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3265,6 +3291,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3362,6 +3389,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -3514,6 +3542,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3742,6 +3771,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -3975,10 +4005,11 @@ cells:
       comparisonFormat: null
       comparisonLabel: ""
       displayFormat:
-        format: PLAIN
+        format: NUMBER
         currency: USD
         columnType: NUMBER
-        numDecimalDigits: 2
+        showSeparators: true
+        numDecimalDigits: 0
         abbreviateLargeNumbers: false
       valueColumn: total
       valueRowIndex: 0
@@ -4001,10 +4032,11 @@ cells:
       comparisonFormat: null
       comparisonLabel: ""
       displayFormat:
-        format: PLAIN
+        format: NUMBER
         currency: USD
         columnType: NUMBER
-        numDecimalDigits: 2
+        showSeparators: true
+        numDecimalDigits: 0
         abbreviateLargeNumbers: false
       valueColumn: total_advogadas
       valueRowIndex: 0
@@ -4027,10 +4059,11 @@ cells:
       comparisonFormat: null
       comparisonLabel: ""
       displayFormat:
-        format: PLAIN
+        format: NUMBER
         currency: USD
         columnType: NUMBER
-        numDecimalDigits: 2
+        showSeparators: true
+        numDecimalDigits: 0
         abbreviateLargeNumbers: false
       valueColumn: total_psicologas
       valueRowIndex: 0
@@ -4081,6 +4114,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -4203,6 +4237,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -4334,6 +4369,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -4462,6 +4498,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -4687,6 +4724,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -4984,6 +5022,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -5295,6 +5334,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -5599,6 +5639,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -5976,6 +6017,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -6353,6 +6395,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -6636,6 +6679,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -6888,6 +6932,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -7135,10 +7180,11 @@ cells:
       comparisonFormat: null
       comparisonLabel: ""
       displayFormat:
-        format: PLAIN
+        format: NUMBER
         currency: USD
         columnType: NUMBER
-        numDecimalDigits: 2
+        showSeparators: true
+        numDecimalDigits: 0
         abbreviateLargeNumbers: false
       valueColumn: em_capacitacao
       valueRowIndex: 0
@@ -7194,6 +7240,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -7413,12 +7460,13 @@ cells:
         ),
         rounded_time_diff AS (
             SELECT
-                FLOOR(AVG(diff)) AS days,
-                FLOOR((AVG(diff) - FLOOR(AVG(diff)))*24) AS hours
+                AVG(diff) AS diff
+                -- FLOOR(AVG(diff)) AS days,
+                -- FLOOR((AVG(diff) - FLOOR(AVG(diff)))*24) AS hours
             FROM time_diff
         )
         SELECT 
-            CONCAT(days, 'd ', hours, 'h') AS avg_diff
+            diff AS avg_diff
         FROM rounded_time_diff
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -7434,6 +7482,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -7503,7 +7552,7 @@ cells:
     cellId: 5b7614ed-2877-407e-aa88-59a1c88d8712 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
     config:
-      title: tempo médio de conclusão da Capacitação
+      title: tempo médio de conclusão da Capacitação (dias)
       valueVariableName: tempo_medio_conclusao_capacitacao
       showComparison: false
       comparisonType: VALUE
@@ -7511,10 +7560,11 @@ cells:
       comparisonFormat: null
       comparisonLabel: ""
       displayFormat:
-        format: PLAIN
+        format: NUMBER
         currency: USD
         columnType: NUMBER
-        numDecimalDigits: 0
+        showSeparators: true
+        numDecimalDigits: 1
         abbreviateLargeNumbers: false
       valueColumn: avg_diff
       valueRowIndex: 0
@@ -7717,6 +7767,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -8231,6 +8282,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -8696,6 +8748,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -8904,6 +8957,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -8991,7 +9045,7 @@ cells:
 
         SELECT\ 
 
-        \    CONCAT(ROUND(AVG(diff)), ' dias') AS avg_diff
+        \    ROUND(AVG(diff)) AS avg_diff
 
         FROM time_diff
 
@@ -9089,7 +9143,7 @@ cells:
 
         SELECT\ 
 
-        \    diff || ' dias'
+        \    diff
 
         FROM avg_diff
 
@@ -9108,6 +9162,7 @@ cells:
         pageSize: 50
         height: null
         hideIcons: false
+        defaultColumnWidth: null
         hideIndex: false
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -9116,6 +9171,11 @@ cells:
         calcs: null
         filters: null
         columnProperties:
+          - originalName: ?column?
+            renameTo: null
+            size: 103
+            wrapText: null
+            displayFormat: null
           - originalName: avg_diff
             renameTo: null
             size: 98
@@ -9126,9 +9186,19 @@ cells:
             size: 91
             wrapText: null
             displayFormat: null
+          - originalName: diff
+            renameTo: null
+            size: 186
+            wrapText: null
+            displayFormat: null
           - originalName: round
             renameTo: null
             size: 86
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
             wrapText: null
             displayFormat: null
         columnOrdering: null
@@ -9219,7 +9289,7 @@ cells:
 
         SELECT
 
-        \    diff || ' dias'
+        \    diff
 
         FROM avg_diff
 
@@ -9246,7 +9316,7 @@ cells:
     cellId: 80f80040-c744-47ac-96ce-32f017e82857 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
     config:
-      title: média geral
+      title: média geral (dias)
       valueVariableName: tempo_medio_atendimento_geral
       showComparison: false
       comparisonType: VALUE
@@ -9254,10 +9324,11 @@ cells:
       comparisonFormat: null
       comparisonLabel: ""
       displayFormat:
-        format: PLAIN
+        format: NUMBER
         currency: USD
         columnType: NUMBER
-        numDecimalDigits: 2
+        showSeparators: true
+        numDecimalDigits: 0
         abbreviateLargeNumbers: false
       valueColumn: avg_diff
       valueRowIndex: 0
@@ -9280,12 +9351,13 @@ cells:
       comparisonFormat: null
       comparisonLabel: ""
       displayFormat:
-        format: PLAIN
+        format: NUMBER
         currency: USD
         columnType: NUMBER
-        numDecimalDigits: 2
+        showSeparators: true
+        numDecimalDigits: -1
         abbreviateLargeNumbers: false
-      valueColumn: ?column?
+      valueColumn: diff
       valueRowIndex: 0
       valueAggregate: null
       comparisonColumn: null
@@ -9306,12 +9378,13 @@ cells:
       comparisonFormat: null
       comparisonLabel: ""
       displayFormat:
-        format: PLAIN
+        format: NUMBER
         currency: USD
         columnType: NUMBER
-        numDecimalDigits: 2
+        showSeparators: true
+        numDecimalDigits: -1
         abbreviateLargeNumbers: false
-      valueColumn: ?column?
+      valueColumn: diff
       valueRowIndex: 0
       valueAggregate: null
       comparisonColumn: null
@@ -9444,6 +9517,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -9672,6 +9746,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -9886,6 +9961,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -10020,6 +10096,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -10186,6 +10263,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -10331,6 +10409,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -10493,6 +10572,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -10654,6 +10734,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -10823,6 +10904,7 @@ cells:
         pageSize: 15
         height: 421
         hideIcons: true
+        defaultColumnWidth: null
         hideIndex: true
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -10964,6 +11046,7 @@ cells:
         pageSize: 10
         height: 279
         hideIcons: true
+        defaultColumnWidth: null
         hideIndex: true
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -11199,6 +11282,7 @@ cells:
         pageSize: 15
         height: 420
         hideIcons: true
+        defaultColumnWidth: null
         hideIndex: true
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -11356,6 +11440,7 @@ cells:
         pageSize: 10
         height: null
         hideIcons: true
+        defaultColumnWidth: null
         hideIndex: true
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -11413,6 +11498,7 @@ cells:
         pageSize: 10
         height: null
         hideIcons: true
+        defaultColumnWidth: null
         hideIndex: true
         defaultSortColumn: null
         defaultSortIndexColumn: null
@@ -11580,6 +11666,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -11757,6 +11844,7 @@ cells:
               pageSize: 50
               height: null
               hideIcons: false
+              defaultColumnWidth: null
               hideIndex: false
               defaultSortColumn: null
               defaultSortIndexColumn: null
@@ -11860,6 +11948,7 @@ cells:
         pageSize: 10
         height: 421
         hideIcons: true
+        defaultColumnWidth: null
         hideIndex: true
         defaultSortColumn: null
         defaultSortIndexColumn: null
