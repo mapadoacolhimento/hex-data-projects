@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 1826e3c7-7ff8-4174-a7d3-277dc3f505c8 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: d05ea434-753a-44ba-9101-d45d34139265 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse monitoramento contém alguns dados sobre as MSRs e os pedidos de acolhimento.
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -11,12 +11,15 @@ meta:
   categories: []
   castDecimalsDefault: true
   logicQueryCacheTimeout: null
-  publishedQueryCacheTimeout: null
+  publishedQueryCacheTimeout:
+    type: fixed
+    unit: days
+    duration: 30
   hexType: PROJECT
   allowExecutionReordering: true
   prerunApp: false
   cachePublishedAppState: true
-  refreshStalePublishedApp: false
+  refreshStalePublishedApp: true
   autoRerunApp: true
 projectAssets:
   dataConnections: []
@@ -53,18 +56,11 @@ cells:
           cellLabel: "MSRs: total"
           config:
             source: |-
-              WITH distinct_msr AS (
-                  SELECT 
-                      msr_id,
-                      MIN(created_at) AS created_at
-                  FROM match.support_requests
-                  GROUP BY msr_id
-              ),
-              msr_per_year AS (
+              WITH msr_per_year AS (
                   SELECT
                       DATE_TRUNC('year', created_at) AS ano,
                       COUNT(msr_id) AS "MSRs por ano"
-                  FROM distinct_msr    
+                  FROM msr.msrs    
                   GROUP BY 1
               )
               SELECT
@@ -94,6 +90,16 @@ cells:
               calcs: null
               filters: null
               columnProperties:
+                - originalName: MSRs por ano
+                  renameTo: null
+                  size: 126
+                  wrapText: null
+                  displayFormat: null
+                - originalName: ano
+                  renameTo: null
+                  size: 196
+                  wrapText: null
+                  displayFormat: null
                 - originalName: cumulative_msr_count
                   renameTo: null
                   size: 177
@@ -102,6 +108,16 @@ cells:
                 - originalName: msr_per_year
                   renameTo: null
                   size: 128
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 39
+                  wrapText: null
+                  displayFormat: null
+                - originalName: total de MSRs
+                  renameTo: null
+                  size: 126
                   wrapText: null
                   displayFormat: null
                 - originalName: year
@@ -143,7 +159,6 @@ cells:
                       axis:
                         type: number
                         style:
-                          max: 20000
                           grid:
                             style: dash
                           ticks:
@@ -194,18 +209,12 @@ cells:
           cellLabel: "MSRs: por ano"
           config:
             source: |-
-              WITH distinct_msr AS (
-                  SELECT 
-                      msr_id,
-                      MIN(created_at) AS created_at
-                  FROM match.support_requests
-                  GROUP BY msr_id
-              ),
-              msr_per_year AS (
+              WITH msr_per_year AS (
                   SELECT
                       DATE_TRUNC('year', created_at) AS ano,
                       COUNT(msr_id) AS "MSRs por ano"
-                  FROM distinct_msr    GROUP BY 1
+                  FROM msr.msrs    
+                  GROUP BY 1
               )
               SELECT
                   *
@@ -282,7 +291,6 @@ cells:
                       axis:
                         type: number
                         style:
-                          max: 6000
                           grid:
                             style: dash
                           ticks:
@@ -332,18 +340,11 @@ cells:
           cellLabel: "MSRs: por mês no último ano"
           config:
             source: |-
-              WITH distinct_msr AS (
-                  SELECT 
-                      msr_id,
-                      MIN(created_at) AS created_at
-                  FROM match.support_requests
-                  GROUP BY msr_id
-              ),
-              msr_per_month AS (
+              WITH msr_per_month AS (
                   SELECT
                       DATE_TRUNC('month', created_at) AS "mês",
                       COUNT(DISTINCT msr_id) AS "MSRs por mês"
-                  FROM distinct_msr
+                  FROM msr.msrs 
                   WHERE created_at >= CURRENT_DATE - INTERVAL '1 YEAR'
                   GROUP BY 1
               )
@@ -404,7 +405,6 @@ cells:
                       axis:
                         type: number
                         style:
-                          max: 400
                           grid:
                             style: dash
                           ticks:
@@ -568,7 +568,6 @@ cells:
                       axis:
                         type: number
                         style:
-                          max: 25000
                           grid:
                             style: dash
                           ticks:
@@ -703,7 +702,6 @@ cells:
                       axis:
                         type: number
                         style:
-                          max: 7000
                           grid:
                             style: dash
                           ticks:
@@ -821,7 +819,6 @@ cells:
                       axis:
                         type: number
                         style:
-                          max: 500
                           grid:
                             style: dash
                           ticks:
@@ -2485,12 +2482,6 @@ cells:
     cellLabel: sep
     config:
       source: ----------------
-  - cellType: BLOCK
-    cellId: b0b2f6ed-8977-4ccb-9a12-48c0b7edd635 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: null
-    config:
-      blockConfig: null
-      cells: []
   - cellType: SQL
     cellId: 5e51efa3-95ed-406a-9afd-ef3ae43ab1a0 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -2849,7 +2840,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1735700400000
                       min: 1514772000000
                       grid:
                         style: dash
@@ -2865,7 +2855,7 @@ cells:
                       axis:
                         type: number
                         style:
-                          max: 30000
+                          max: 40000
                           min: 0
                           grid:
                             style: dash
@@ -2906,7 +2896,7 @@ cells:
                       axis:
                         type: number
                         style:
-                          max: 30000
+                          max: 40000
                           min: 0
                           grid:
                             style: dash
@@ -2952,7 +2942,7 @@ cells:
                       axis:
                         type: number
                         style:
-                          max: 0.55
+                          max: 0.7
                           ticks:
                             count: 0
                           labels: {}
@@ -3209,7 +3199,7 @@ cells:
                       axis:
                         type: number
                         style:
-                          max: 0.8
+                          max: 0.9
                           min: -1
                           ticks:
                             count: 0
@@ -6640,7 +6630,7 @@ cells:
               )
               SELECT
                   *,
-                  "total de atendimentos"/"total de pedidos de acolhimento"::NUMERIC(10,4) AS porcentagem
+                  "total de atendimentos"/"total de matches"::NUMERIC(10,4) AS porcentagem
               FROM cumulative_sums
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -6670,6 +6660,16 @@ cells:
                   size: 106
                   wrapText: null
                   displayFormat: null
+                - originalName: ano
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: atendimentos por ano
+                  renameTo: null
+                  size: 200
+                  wrapText: null
+                  displayFormat: null
                 - originalName: cumulative_match_count
                   renameTo: null
                   size: 191
@@ -6685,9 +6685,19 @@ cells:
                   size: 247
                   wrapText: null
                   displayFormat: null
+                - originalName: matches por ano
+                  renameTo: null
+                  size: 150
+                  wrapText: null
+                  displayFormat: null
                 - originalName: matches_per_year
                   renameTo: null
                   size: 155
+                  wrapText: null
+                  displayFormat: null
+                - originalName: meta
+                  renameTo: null
+                  size: 120
                   wrapText: null
                   displayFormat: null
                 - originalName: msr_per_year
@@ -6695,14 +6705,44 @@ cells:
                   size: 128
                   wrapText: null
                   displayFormat: null
+                - originalName: pedidos de acolhimento por ano
+                  renameTo: null
+                  size: 300
+                  wrapText: null
+                  displayFormat: null
                 - originalName: percentage
                   renameTo: null
                   size: 116
                   wrapText: null
                   displayFormat: null
+                - originalName: porcentagem
+                  renameTo: null
+                  size: 120
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 39
+                  wrapText: null
+                  displayFormat: null
                 - originalName: support_requests_per_year
                   renameTo: null
                   size: 204
+                  wrapText: null
+                  displayFormat: null
+                - originalName: total de atendimentos
+                  renameTo: null
+                  size: 210
+                  wrapText: null
+                  displayFormat: null
+                - originalName: total de matches
+                  renameTo: null
+                  size: 160
+                  wrapText: null
+                  displayFormat: null
+                - originalName: total de pedidos de acolhimento
+                  renameTo: null
+                  size: 310
                   wrapText: null
                   displayFormat: null
                 - originalName: year
@@ -6729,7 +6769,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1735700400000
                       min: 1514772000000
                       grid:
                         style: dash
@@ -6824,12 +6863,13 @@ cells:
                       point: false
                       normalize: false
                     - id: 4b25e076-8eec-4e6c-9c90-2545ce0f0a59
-                      name: "% de pedidos que realizaram atendimento"
+                      name: "% de matches que iniciaram atendimento"
                       type: scatter
                       axis:
                         type: number
                         style:
-                          max: 0.2
+                          max: 0.5
+                          min: -0.5
                           ticks:
                             count: 0
                           labels: {}
@@ -7002,7 +7042,7 @@ cells:
               )
               SELECT
                   *,
-                  "atendimentos por ano"/"pedidos de acolhimento por ano"::NUMERIC(10,4) AS porcentagem
+                  "atendimentos por ano"/"matches por ano"::NUMERIC(10,4) AS porcentagem
               FROM atendimentos_per_year
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -7091,7 +7131,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1735700400000
                       min: 1514772000000
                       grid:
                         style: dash
@@ -7186,12 +7225,12 @@ cells:
                       orientation: vertical
                       layout: stacked
                     - id: 4b25e076-8eec-4e6c-9c90-2545ce0f0a59
-                      name: "% de pedidos que realizaram atendimento"
+                      name: "% de matches que iniciaram atendimento"
                       type: scatter
                       axis:
                         type: number
                         style:
-                          max: 0.2
+                          max: 0.5
                           min: -0.5
                           ticks:
                             count: 0
@@ -7319,7 +7358,7 @@ cells:
               )
               SELECT
                   *,
-                  "atendimentos por mês"/"pedidos de acolhimento por mês"::NUMERIC(10,4) AS percentage
+                  "atendimentos por mês"/"matches por mês"::NUMERIC(10,4) AS percentage
               FROM atendimentos_per_month
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
@@ -7441,13 +7480,13 @@ cells:
                       stroke: solid
                       width: 2
                     - id: 6ed881c8-b941-4b7a-98aa-e72bdaeeb90e
-                      name: "% de pedidos que realizaram atendimento"
+                      name: "% de matches que iniciaram atendimento"
                       type: scatter
                       axis:
                         type: number
                         style:
-                          max: 0.2
-                          min: -1
+                          max: 0.6
+                          min: -0.6
                           ticks:
                             count: 0
                           labels: {}
@@ -11891,7 +11930,12 @@ cells:
         conditionalFormatting: null
         calcs: null
         filters: null
-        columnProperties: []
+        columnProperties:
+          - originalName: row-index-0
+            renameTo: null
+            size: 24
+            wrapText: null
+            displayFormat: null
         columnOrdering: null
         customColumnOrdering: null
         pinnedColumns: null
@@ -12108,65 +12152,6 @@ appLayout:
                   cellId: 09e3a1d8-52a8-4971-8631-9edfa55b4b4c
                   sharedFilterId: null
                   height: 450
-                  showLabel: true
-        - columns:
-            - start: 0
-              end: 45
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: a5a4b3c2-4b8c-41d8-93fb-bf041ef0ee53
-                  sharedFilterId: null
-                  height: null
-                  showLabel: false
-            - start: 50
-              end: 120
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: ad753005-6ee6-416f-95ed-df3bf1b79d1b
-                  sharedFilterId: null
-                  height: null
-                  showLabel: true
-        - columns:
-            - start: 0
-              end: 25
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: f3c0a55f-ab2e-4a9a-b491-aead72a5a41c
-                  sharedFilterId: null
-                  height: 350
-                  showLabel: true
-            - start: 25
-              end: 45
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: 8ea4f13d-84ac-4a2b-bfcb-0b2cc1a18d1c
-                  sharedFilterId: null
-                  height: 150
-                  showLabel: true
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: 18b6973a-b864-4bdd-89eb-065048da99d3
-                  sharedFilterId: null
-                  height: 150
-                  showLabel: true
-            - start: 50
-              end: 120
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: 2357ad9d-93f6-47fb-9f33-ac3b52e794e1
-                  sharedFilterId: null
-                  height: 350
                   showLabel: true
     - name: Territórios
       rows:
@@ -12636,32 +12621,6 @@ appLayout:
                   sharedFilterId: null
                   height: null
                   showLabel: true
-    - name: Jornada da MSR
-      rows:
-        - columns:
-            - start: 0
-              end: 120
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: 78531e1e-8de0-45ea-95a3-5aa1028a4ccb
-                  sharedFilterId: null
-                  height: null
-                  showLabel: false
-        - columns:
-            - start: 0
-              end: 120
-              elements:
-                - showSource: false
-                  hideOutput: false
-                  type: CELL
-                  cellId: 0d010a51-10b3-4b2e-a02e-5bec6c34ebaa
-                  sharedFilterId: null
-                  height: null
-                  showLabel: false
     - name: Psicológicos e Jurídicos
-      rows: []
-    - name: Documentação
       rows: []
 sharedFilters: []
