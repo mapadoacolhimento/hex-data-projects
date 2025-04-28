@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: be5c4ec8-57c0-4070-98e2-0fae92e64501 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 01967c91-a086-7113-9bd0-a05bd5ce66e7 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse dashboard apresenta o monitoramento de métricas relativas às Voluntárias do Mapa.
   projectId: 84800fcd-3d2c-409f-9d89-713bd9b82780 # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] Voluntárias"
@@ -89,7 +89,7 @@ cells:
         </br>
 
         🟢 **Voltuntárias Ativas:** são as voluntárias que podem atuar no Mapa. São divididas em duas sub-categorias:
-        - **Voluntárias Presentes:** Voluntárias com status `Disponível` ou `Indisponível - Sem Vagas`
+        - **Voluntárias Presentes:** Voluntárias com status `Disponível` ou `Indisponível - Sem Vagas` ou `Indisponível - Aguardando confirmação`
         - **Voluntárias Ausentes:** Voluntárias que estão temporariamente indisponíveis, mas voltarão a ficar disponíveis no futuro.
         </br>
         </br>
@@ -233,7 +233,7 @@ cells:
             source: |-
               SELECT 
                   CASE 
-                      WHEN condition IN ('disponivel', 'indisponivel_sem_vagas', 'indisponível_agenda', 'indisponível_férias', 'indisponível_maternidade', 'indisponível_outros_motivos', 'indisponível_saude', 'indisponível_-sem_resposta', 'indisponível_trabalho_e_estudo') THEN 'ativas'
+                      WHEN condition IN ('disponivel', 'indisponivel_sem_vagas', 'indisponível_agenda', 'indisponível_férias','indisponível_aguardando_confirmacao', 'indisponível_maternidade', 'indisponível_outros_motivos', 'indisponível_saude', 'indisponível_-sem_resposta', 'indisponível_trabalho_e_estudo') THEN 'ativas'
                       WHEN condition IN ('cadastrada', 'aprovada', 'capacitacao') THEN 'em habilitação'
                       ELSE 'inativas' 
                   END AS categoria,
@@ -339,7 +339,7 @@ cells:
             source: |-
               SELECT 
                   CASE 
-                      WHEN condition IN ('disponivel', 'indisponivel_sem_vagas', 'indisponível_agenda', 'indisponível_férias', 'indisponível_maternidade', 'indisponível_outros_motivos', 'indisponível_saude', 'indisponível_-sem_resposta', 'indisponível_trabalho_e_estudo') THEN 'ativas'
+                      WHEN condition IN ('disponivel', 'indisponivel_sem_vagas', 'indisponível_agenda', 'indisponível_férias', 'indisponível_maternidade', 'indisponível_outros_motivos','indisponível_aguardando_confirmacao', 'indisponível_saude', 'indisponível_-sem_resposta', 'indisponível_trabalho_e_estudo') THEN 'ativas'
                       WHEN condition IN ('cadastrada', 'aprovada', 'capacitacao') THEN 'em habilitação'
                       ELSE 'inativas' 
                   END AS categoria,
@@ -495,7 +495,7 @@ cells:
             source: |-
               SELECT 
                   CASE 
-                      WHEN condition IN ('disponivel', 'indisponivel_sem_vagas') THEN 'presentes'
+                      WHEN condition IN ('disponivel', 'indisponivel_sem_vagas','indisponível_aguardando_confirmacao') THEN 'presentes'
                       ELSE 'ausentes'
                   END AS categoria,
                   CASE WHEN occupation = 'lawyer' THEN 'advogada' ELSE 'psicóloga' END AS "tipo de voluntária",
@@ -625,7 +625,7 @@ cells:
             source: |-
               SELECT 
                   CASE 
-                      WHEN condition IN ('disponivel', 'indisponivel_sem_vagas') THEN 'presentes'
+                      WHEN condition IN ('disponivel', 'indisponivel_sem_vagas','indisponível_aguardando_confirmacao') THEN 'presentes'
                       ELSE 'ausentes'
                   END AS categoria,
                   CASE WHEN occupation = 'lawyer' THEN 'advogada' ELSE 'psicóloga' END AS "tipo de voluntária",
@@ -754,7 +754,7 @@ cells:
             source: |-
               SELECT 
                   CASE 
-                      WHEN condition IN ('disponivel', 'indisponivel_sem_vagas') THEN 'presentes'
+                      WHEN condition IN ('disponivel', 'indisponivel_sem_vagas','indisponível_aguardando_confirmacao') THEN 'presentes'
                       ELSE 'ausentes'
                   END AS categoria,
                   CASE WHEN occupation = 'lawyer' THEN 'advogada' ELSE 'psicóloga' END AS "tipo de voluntária",
@@ -1799,7 +1799,6 @@ cells:
                 selectionEnabled: false
             chartSelection: {}
             colorMappings:
-              advogada: "#614bc3"
               psicóloga: "#EECA3B"
             resultVariable: filter_result_15
             outputResult: false
@@ -2284,7 +2283,6 @@ cells:
                 selectionEnabled: false
             chartSelection: {}
             colorMappings:
-              advogada: "#614bc3"
               psicóloga: "#EECA3B"
             resultVariable: filter_result_17
             outputResult: false
