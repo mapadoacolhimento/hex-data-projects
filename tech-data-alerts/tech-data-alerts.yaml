@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: cd644df0-cebb-4d8f-ab4b-6435fe49eb27 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 0197a272-d86b-7004-9384-d4a7ee8e87dd # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse notebook contém os alertas de inconsistências no nosso banco de dados
   projectId: 180416ec-9554-406b-bd4d-c4b4a95399be # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[TECH] Data alerts"
@@ -1412,6 +1412,123 @@ cells:
             for item in errors:
                 exception += str(errors.index(item) + 1) + ". " + item + "\n"
             raise Exception(exception)
+  - cellType: MARKDOWN
+    cellId: 0197a265-96d1-7558-a98f-007a78e7d529 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "### Existem novos registros de matches sem o id da voluntária"
+  - cellType: SQL
+    cellId: 0197a265-81e8-7558-a98e-a941b3331e05 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Matches without volunteer id
+    config:
+      source: select count(*) from match.matches where volunteer_id is null and created_at >= '2024-01-01'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: matches_without_volunteer_id
+      useRichDisplay: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: count
+            renameTo: null
+            size: 84
+            wrapText: null
+            displayFormat: null
+          - originalName: created_at
+            renameTo: null
+            size: 196
+            wrapText: null
+            displayFormat: null
+          - originalName: match_id
+            renameTo: null
+            size: 104
+            wrapText: null
+            displayFormat: null
+          - originalName: match_stage
+            renameTo: null
+            size: 121
+            wrapText: null
+            displayFormat: null
+          - originalName: match_type
+            renameTo: null
+            size: 116
+            wrapText: null
+            displayFormat: null
+          - originalName: msr_id
+            renameTo: null
+            size: 133
+            wrapText: null
+            displayFormat: null
+          - originalName: msr_zendesk_ticket_id
+            renameTo: null
+            size: 177
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 46
+            wrapText: null
+            displayFormat: null
+          - originalName: status
+            renameTo: null
+            size: 172
+            wrapText: null
+            displayFormat: null
+          - originalName: support_request_id
+            renameTo: null
+            size: 159
+            wrapText: null
+            displayFormat: null
+          - originalName: support_type
+            renameTo: null
+            size: 124
+            wrapText: null
+            displayFormat: null
+          - originalName: updated_at
+            renameTo: null
+            size: 196
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_id
+            renameTo: null
+            size: 119
+            wrapText: null
+            displayFormat: null
+          - originalName: volunteer_zendesk_ticket_id
+            renameTo: null
+            size: 207
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: CODE
+    cellId: 0197a268-8845-7558-a990-b3a91754271a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        if(not matches_without_volunteer_id.empty and matches_without_volunteer_id['count'][0] != 0):
+            errors.append("Existem novos registros de matches sem o id da voluntária")
 appLayout:
   visibleMetadataFields:
     - NAME
