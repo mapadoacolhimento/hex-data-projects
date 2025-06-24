@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 0197a272-d86b-7004-9384-d4a7ee8e87dd # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 0197a274-9ef0-7003-ad18-fbce81720735 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse notebook contém os alertas de inconsistências no nosso banco de dados
   projectId: 180416ec-9554-406b-bd4d-c4b4a95399be # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[TECH] Data alerts"
@@ -1402,16 +1402,6 @@ cells:
       source: |-
         if(not volunteer_null_moodle_id.empty and volunteer_null_moodle_id['count'][0] != 0):
             errors.append("Existem voluntárias sem moodle_id")
-  - cellType: CODE
-    cellId: dfc0adcb-948b-44d4-a357-317f9fc425e5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: raise errors
-    config:
-      source: |-
-        if(len(errors) > 0):
-            exception = "Alertas de dados: \n"
-            for item in errors:
-                exception += str(errors.index(item) + 1) + ". " + item + "\n"
-            raise Exception(exception)
   - cellType: MARKDOWN
     cellId: 0197a265-96d1-7558-a98f-007a78e7d529 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -1529,6 +1519,16 @@ cells:
       source: |-
         if(not matches_without_volunteer_id.empty and matches_without_volunteer_id['count'][0] != 0):
             errors.append("Existem novos registros de matches sem o id da voluntária")
+  - cellType: CODE
+    cellId: dfc0adcb-948b-44d4-a357-317f9fc425e5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: raise errors
+    config:
+      source: |-
+        if(len(errors) > 0):
+            exception = "Alertas de dados: \n"
+            for item in errors:
+                exception += str(errors.index(item) + 1) + ". " + item + "\n"
+            raise Exception(exception)
 appLayout:
   visibleMetadataFields:
     - NAME
