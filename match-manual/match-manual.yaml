@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 019838e8-6947-7006-a60d-55a176ed12c8 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 01983913-ea7e-7008-bc0a-a558339620d7 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse notebook é utilizado para realizar Matches Manuais.
   projectId: fc81fcd3-0961-4ff8-a485-a95c42f2c645 # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] Match manual"
@@ -61,7 +61,7 @@ cells:
               
             Esse ID também pode ser encontrado no título do ticket conforme mostra a imagem a seguir: 
                 
-            <img src="/api/v1/file/019838e8-695b-7006-a60d-849feadbd25c" width="250" />
+            <img src="/api/v1/file/01983913-eab8-7008-bc0b-141742e0c858" width="250" />
 
         2. **Insira esse ID no campo a seguir e clique em "Bucar voluntárias"**  
             
@@ -330,26 +330,30 @@ cells:
     cellId: 3d9e4835-dbcd-4a01-b586-9803e548d3d7 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: "Python: Calcula distâncias das Voluntárias à MSR"
     config:
-      source: |
+      source: |-
         from geopy.distance import geodesic
 
         # Calculate the distance between two points
         def calculate_distance(lat1, lng1, lat2, lng2):
             return geodesic((lat1, lng1), (lat2, lng2)).kilometers
 
+        get_table = False
+
         # Calculate the distance for each volunteer and add it as a new column
         if fetch_volunteers_msr and msr_zendesk_ticket_id_fetch_volunteers:
             # Get the reference point from the first row of msr_data
             ref_point = msr_data.iloc[0][["lat", "lng"]]
-
             available_volunteers_with_distance = available_volunteers.copy()
-            
-            available_volunteers_with_distance["distance_to_msr"] = available_volunteers.apply(
-                lambda row: calculate_distance(
+            if not available_volunteers_with_distance.empty:
+                get_table = True
+                available_volunteers_with_distance["distance_to_msr"] = available_volunteers.apply(
+                    lambda row: calculate_distance(
                     row["lat"], row["lng"], ref_point["lat"], ref_point["lng"]
-                ),
-                axis=1,
-            )
+                    ),
+                    axis=1,
+                )
+            else: 
+                print('Nenhuma voluntárias disponível para este tipo de atendimento')
   - cellType: BLOCK
     cellId: e18fd256-84db-4136-bd94-908d0e5dbf6a # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -364,7 +368,7 @@ cells:
           cellLabel: "SQL: Mostra a tabela com as voluntárias mais próximas à MSR"
           config:
             source: |-
-              {% if fetch_volunteers_msr %}
+              {% if fetch_volunteers_msr and get_table %}
               SELECT
                   CONCAT(ROUND(distance_to_msr, 1)::VARCHAR, ' km') AS "distância à MSR",
                   CONCAT(first_name, ' ', last_name) AS "nome",
@@ -388,10 +392,6 @@ cells:
                   state AS UF
               FROM available_volunteers_with_distance
               ORDER BY distance_to_msr
-
-              {% else %}
-              SELECT ''
-                  
 
               {% endif %}
             dataFrameCell: true
@@ -417,6 +417,11 @@ cells:
               calcs: null
               filters: null
               columnProperties:
+                - originalName: "''"
+                  renameTo: null
+                  size: 50
+                  wrapText: null
+                  displayFormat: null
                 - originalName: UF
                   renameTo: null
                   size: 70
@@ -659,9 +664,10 @@ cells:
     cellLabel: Apply Lambda Function
     config:
       source: |-
-        closest_volunteers["link"] = closest_volunteers.apply(
-            lambda row: f'<a href="http://example.com/{row["e-mail"]}">Link</a>', axis=1
-        )
+        if not closest_volunteers.empty:
+            closest_volunteers["link"] = closest_volunteers.apply(
+                lambda row: f'<a href="http://example.com/{row["e-mail"]}">Link</a>', axis=1
+            )
   - cellType: TABLE_DISPLAY
     cellId: 558bea90-59e4-404d-977b-1d87f7ee8928 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: null
@@ -1247,14 +1253,14 @@ cells:
         def calculate_distance(lat1, lng1, lat2, lng2):
             return geodesic((lat1, lng1), (lat2, lng2)).kilometers
 
+        msrs_with_distance = msrs_waiting_for_match.copy()
+
         # Calculate the distance for each volunteer and add it as a new column
-        if fetch_msrs and not msrs_with_distance.empty:
+        if fetch_msrs and not msrs_waiting_for_match.empty:
             
             # Get the reference point from the first row of msr_data
             ref_point = volunteer_data.iloc[0][["lat", "lng"]]
-
-            msrs_with_distance = msrs_waiting_for_match.copy()
-            
+          
             msrs_with_distance["distance_to_volunteer"] = msrs_with_distance.apply(
                 lambda row: calculate_distance(
                     row["lat"], row["lng"], ref_point["lat"], ref_point["lng"]
@@ -1287,7 +1293,7 @@ cells:
         ORDER BY distance_to_volunteer 
 
         {% else %}
-         SELECT '';
+         SELECT '' WHERE 0 = 1;
 
         {% endif %}
       dataFrameCell: true
