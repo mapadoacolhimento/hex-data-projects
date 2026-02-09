@@ -1,0 +1,630 @@
+schemaVersion: 3
+meta:
+  sourceVersionId: 019c43f5-24a0-711a-948c-367f430a8bc6 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  description: Esse monitoramento mostra o flow de dados na Jornada da MSR a partir do lançamento do Novo Match.
+  projectId: 55cb74ef-38de-4eb3-b153-d11284bd0422 # DO NOT CHANGE - Unique ID of the project from which this file was generated
+  title: "[NOVO MATCH] Monitoramento do lançamento"
+  timezone: null
+  appTheme: SYS_PREF
+  codeLanguage: PYTHON
+  status: null
+  categories: []
+  castDecimalsDefault: true
+  hexType: PROJECT
+  allowExecutionReordering: true
+  prerunApp: false
+  autoRerunApp: true
+  cachePublishedAppState: true
+  logicQueryCacheTimeout: null
+  publishedQueryCacheTimeout: null
+  refreshStalePublishedApp: true
+projectAssets:
+  dataConnections: []
+  envVars: []
+  secrets: []
+sharedAssets:
+  secrets: []
+  vcsPackages: []
+  dataConnections:
+    - dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030 # prod-mapa-org (postgres)
+  externalFileIntegrations: []
+cells:
+  - cellType: SQL
+    cellId: 9008cc0f-fc1c-4bc0-b44b-8641e2d1fd8c # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Eventos do Novo Match
+    config:
+      source: |
+        WITH support_request_events_with_rn AS (
+            SELECT 
+                *,
+                ROW_NUMBER() OVER (PARTITION BY support_request_id ORDER BY created_at) AS rn
+            FROM match.support_request_status_history
+        ),
+        correct_support_request_id AS (
+            SELECT 
+                DISTINCT support_request_id
+            FROM support_request_events_with_rn
+            WHERE 
+                status = 'open' 
+                AND rn = 1
+                AND created_at > '2024-01-25'
+                AND support_request_id NOT IN (57972, 57973, 57976, 57971, 57977, 57978, 57980, 57979, 57981, 57982, 57983, 57984, 57985, 57986, 57987, 57988, 57989, 57992, 57991, 57995, 57994, 57996, 57997, 57999, 57998)
+        ),
+        correct_support_request_status AS (
+            SELECT
+                support_request_id,
+                CASE
+                    WHEN status = 'open' AND rn > 1 THEN 'waiting_for_match'
+                    ELSE status::VARCHAR
+                END AS status,
+                created_at
+            FROM support_request_events_with_rn
+        ),
+        matches_with_rn AS (
+            SELECT 
+                match_id,
+                support_request_id,
+                match_stage,
+                ROW_NUMBER() OVER (PARTITION BY support_request_id ORDER BY created_at DESC) AS rn
+            FROM match.matches
+            INNER JOIN correct_support_request_id USING (support_request_id)
+        ),
+        correct_matches AS (
+            SELECT 
+                match_id,
+                support_request_id,
+                match_stage
+            FROM matches_with_rn
+            WHERE rn = 1
+        ),
+        support_request_events AS (
+            SELECT
+                support_request_id,
+                status,
+                created_at
+            FROM correct_support_request_status
+           INNER JOIN correct_support_request_id USING (support_request_id)
+        ),
+        support_request_events_with_match_stage AS (
+            SELECT 
+                support_request_id,
+                CASE 
+                    WHEN s.status = 'matched' THEN CONCAT(match_stage, '_match')
+                    ELSE s.status::VARCHAR
+                END AS status,
+                s.created_at,
+                match_stage
+            FROM support_request_events s
+            LEFT JOIN match.matches USING (support_request_id)
+        ),
+        match_events AS (
+            SELECT 
+                support_request_id,
+                CASE
+                    WHEN status IN ('interrupted_before_support', 'interrupted_after_support') THEN 'interrupted'
+                    ELSE status::VARCHAR
+                END AS status,
+                created_at
+            FROM match.match_status_history
+            INNER JOIN correct_matches USING(match_id)
+            WHERE status != 'waiting_contact'
+        ),
+        all_events AS (
+            SELECT
+                support_request_id,
+                status AS event,
+                created_at
+            FROM support_request_events_with_match_stage
+            UNION ALL
+            SELECT
+                support_request_id,
+                status AS event,
+                created_at
+            FROM match_events
+        ),
+        sources_and_targets AS (
+            SELECT 
+                *,
+                event AS source,
+                LEAD(event) OVER (PARTITION BY support_request_id ORDER BY created_at) AS target
+            FROM all_events
+        )
+        SELECT
+            source,
+            target,
+            ARRAY_AGG(support_request_id),
+            COUNT(*) AS value
+        FROM sources_and_targets
+        WHERE 
+            target IS NOT NULL
+            -- AND CONCAT(source, '+', target) NOT IN ('match_interrupted_before_support+support_request_open', 'match_interrupted_before_support+support_request_public_service', 'match_interrupted_after_support+support_request_open')
+        GROUP BY source, target
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: new_match_events
+      useRichDisplay: true
+      enablePreview: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: array_agg
+            renameTo: null
+            size: 316
+            wrapText: null
+            displayFormat: null
+          - originalName: created_at
+            renameTo: null
+            size: 242
+            wrapText: null
+            displayFormat: null
+          - originalName: event
+            renameTo: null
+            size: 207
+            wrapText: null
+            displayFormat: null
+          - originalName: match_stage
+            renameTo: null
+            size: 124
+            wrapText: null
+            displayFormat: null
+          - originalName: rn
+            renameTo: null
+            size: 66
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+          - originalName: row_number
+            renameTo: null
+            size: 123
+            wrapText: null
+            displayFormat: null
+          - originalName: source
+            renameTo: null
+            size: 240
+            wrapText: null
+            displayFormat: null
+          - originalName: status
+            renameTo: null
+            size: 250
+            wrapText: null
+            displayFormat: null
+          - originalName: support_request_id
+            renameTo: null
+            size: 162
+            wrapText: null
+            displayFormat: null
+          - originalName: support_request_status_history_id
+            renameTo: null
+            size: 244
+            wrapText: null
+            displayFormat: null
+          - originalName: target
+            renameTo: null
+            size: 260
+            wrapText: null
+            displayFormat: null
+          - originalName: value
+            renameTo: null
+            size: 84
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: CODE
+    cellId: eecbe6e5-daf6-4c38-8ca1-e9c5ce617c38 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Jornada da MSR
+    config:
+      source: |-
+        import plotly.graph_objects as go
+        import pandas as pd
+
+
+        unique_source_target = list(pd.unique(new_match_events[['source', 'target']].values.ravel('K')))
+        sources = [unique_source_target.index(item) for item in new_match_events['source']]
+        targets = [unique_source_target.index(item) for item in new_match_events['target']]
+        values = [item for item in new_match_events['value']]
+
+        def get_label_count(category):
+
+            if (category == 'open'):
+                count = new_match_events.loc[new_match_events['source'] == category, 'value'].sum()
+            else:
+                count = new_match_events.loc[new_match_events['target'] == category, 'value'].sum()
+            
+            return str(count)
+
+        label_dict = {
+          'open':'<b>realizou um pedido de acolhimento </b>' + get_label_count('open'),
+          'waiting_for_match':'<b>aguardando um novo match </b>' + get_label_count('waiting_for_match'),
+          'online_match':'<b>match_online </b>' + get_label_count('online_match'),
+          'expanded_match':'<b>match expandido </b>' + get_label_count('expanded_match'),
+          'ideal_match':'<b>match ideal </b>' + get_label_count('ideal_match'),
+          'waiting_contact':'<b>aguardando contato </b>' + get_label_count('waiting_contact'),
+          'public_service': '<b>encaminhada para serviço público </b>' + get_label_count('public_service'),
+          'in_contact': '<b>match em contato </b>' + get_label_count('in_contact'),
+          'expired': '<b>match expirado </b>' + get_label_count('expired'),
+          'interrupted': '<b>match interrompido </b> ' + get_label_count('interrupted'),
+          'completed': '<b>match concluído </b>' + get_label_count('completed'),
+          'closed': '<b>fechado</b> ' + get_label_count('closed'),
+          'duplicated': '<b>duplicado</b> ' + get_label_count('duplicated'),
+          'expired_social_worker': '<b>assistente social expirado</b> ' + get_label_count('expired_social_worker'),
+          'manual_match': '<b>match manual</b> ' + get_label_count('manual_match'),
+          'public_service_with_social_worker': '<b>serviço público com assistente social</b> ' + get_label_count('public_service_with_social_worker'),
+          'scheduled_social_worker': '<b>assistente social agendado</b> ' + get_label_count('scheduled_social_worker'),
+          'social_worker': '<b>assistente social</b> ' + get_label_count('social_worker'),
+          'waiting_for_confirmation': '<b>aguardando confirmação</b> ' + get_label_count('waiting_for_confirmation'),
+          'waiting_for_match_with_priority': '<b>aguardando match com prioridade</b> ' + get_label_count('waiting_for_match_with_priority'),
+          'waived': '<b>dispensado</b> ' + get_label_count('waived')
+          }
+
+        position_dict = {
+            'open': [0.05, 0.5],
+            'waiting_for_match': [0.25, 0.3],
+            'waiting_for_match_with_priority': [0.25, 0.15],
+            'duplicated': [0.25, 0.65],
+            'ideal_match': [0.45, 0.1],
+            'online_match': [0.45, 0.25],
+            'expanded_match': [0.45, 0.4],
+            'manual_match': [0.45, 0.55],
+            'social_worker': [0.45, 0.7],
+            'scheduled_social_worker': [0.45, 0.83],
+            'waiting_contact': [0.65, 0.05],
+            'waiting_for_confirmation': [0.65, 0.18],
+            'in_contact': [0.65, 0.32],
+            'public_service': [0.65, 0.48],
+            'public_service_with_social_worker': [0.65, 0.62],
+            'expired_social_worker': [0.65, 0.75],
+            'waived': [0.65, 0.89],
+            'completed': [0.85, 0.12],
+            'interrupted': [0.85, 0.38],
+            'expired': [0.85, 0.58],
+            'closed': [0.85, 0.78]
+        }
+
+        color_dict = {
+          'open':'rgba(255, 166, 0, 0.7)',
+          'waiting_for_match': '#665191',
+          'online_match':'rgba(255, 124, 67, 0.8)',
+          'expanded_match': 'rgba(255, 124, 67, 0.8)',
+          'ideal_match': 'rgba(255, 124, 67, 0.8)',
+          'waiting_contact':'rgb(69, 25, 82)',
+          'public_service': '#2f4b7c',
+          'in_contact': '#d45087',
+          'expired': 'rgb(69, 25, 82)',
+          'interrupted': '#ff7c43',
+          'completed': 'rgb(69, 25, 82)',
+          'closed': 'rgba(128, 128, 128, 0.7)',
+          'duplicated': 'rgba(169, 169, 169, 0.7)',
+          'expired_social_worker': 'rgba(139, 0, 0, 0.7)',
+          'manual_match': 'rgba(255, 124, 67, 0.8)',
+          'public_service_with_social_worker': '#1f77b4',
+          'scheduled_social_worker': 'rgba(0, 128, 0, 0.7)',
+          'social_worker': 'rgba(34, 139, 34, 0.7)',
+          'waiting_for_confirmation': 'rgba(255, 215, 0, 0.7)',
+          'waiting_for_match_with_priority': '#8a2be2', 
+          'waived': 'rgba(100, 149, 237, 0.7)'
+
+        }
+
+        fig = go.Figure(data=[go.Sankey(
+            # arrangement='fixed',
+            node = dict(
+                x=[position_dict[x][0] for x in unique_source_target],
+                y=[position_dict[x][1] for x in unique_source_target],
+                pad = 15,
+                thickness = 20,
+                line = dict(width = 0.5, color='#fff'),
+                label = [label_dict[x] for x in unique_source_target],
+                # color = len(sources)*['rgb(69, 25, 82)'],
+                color = [color_dict[x] for x in unique_source_target],
+                line_width= 0
+            ),
+            link = dict(
+              arrowlen=10,
+              source = sources, 
+              target = targets,
+              value =  values,
+              color = len(sources)*['rgba(200, 200, 200, 0.4)']
+              # color = [
+              #   'rgba(255, 166, 0, 0.2)', 
+              #   'rgba(188, 80, 144, 0.3)', 
+              #   'rgba(255, 99, 97, 0.3)', 
+              #   'rgba(88, 80, 141, 0.3)',
+              #   'rgba(255, 124, 67, 0.3)',
+              #   'rgba(0, 63, 92, 0.3)',
+              #   'rgba(160, 81, 149, 0.3)',
+              #   'rgba(160, 81, 149, 0.3)',
+              #   'rgba(88, 80, 141, 0.3)',
+                # ]
+
+          ))])
+
+        fig.update_layout(
+            margin=dict(l=50, r=20, t=100, b=120),
+            font_size=12, 
+            # font_color='rgb(69, 25, 82)',
+            font_family='IBM Plex Sans',
+            width=1400, 
+            height=800,
+            )
+        fig.show()
+  - cellType: SQL
+    cellId: 00629917-8df6-4f1b-b3c1-1fd6f87d81e2 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Match types
+    config:
+      source: |
+        WITH support_request_events AS (
+            SELECT 
+                support_request_id,
+                CASE
+                    WHEN a.status = 'matched' THEN CONCAT(match_stage, '_match')
+                    ELSE CONCAT('support_request_', a.status) 
+                END AS event,
+                a.created_at 
+            FROM match.support_request_status_history a
+            LEFT JOIN match.matches b USING(support_request_id)
+        ),
+        sources_and_targets AS (
+            SELECT 
+                *,
+                event AS source,
+                LEAD(event) OVER (PARTITION BY support_request_id ORDER BY created_at) AS target
+            FROM support_request_events
+        )
+        SELECT
+            source,
+            target,
+            COUNT(*) AS value
+        FROM sources_and_targets
+        WHERE target IS NOT NULL
+        GROUP BY source, target
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: match_types
+      useRichDisplay: false
+      enablePreview: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: CODE
+    cellId: d7c6b3a7-93d4-4c2b-b564-3d299c81f291 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Distribuição de encaminhamentos
+    config:
+      source: |-
+        import plotly.graph_objects as go
+        import pandas as pd
+
+        unique_source_target = list(pd.unique(match_types[['source', 'target']].values.ravel('K')))
+        sources = [unique_source_target.index(item) for item in match_types['source']]
+        targets = [unique_source_target.index(item) for item in match_types['target']]
+        values = [item for item in match_types['value']]
+
+        position_dict = {
+            'support_request_open': [0.05, 0.5],
+            'support_request_duplicated': [0.25, 0.05],
+            'support_request_waiting_for_match': [0.25, 0.25],
+            'support_request_waiting_for_match_with_priority': [0.25, 0.45],
+            'old_match': [0.25, 0.65],
+            'support_request_waiting_for_confirmation': [0.25, 0.85],
+            'ideal_match': [0.5, 0.05],
+            'online_match': [0.5, 0.18],
+            'expanded_match': [0.5, 0.31],
+            'manual_match': [0.5, 0.44],
+            '_match': [0.5, 0.57],
+            'support_request_social_worker': [0.5, 0.7],
+            'support_request_scheduled_social_worker': [0.5, 0.83],
+            'support_request_public_service': [0.75, 0.15],
+            'support_request_public_service_with_social_worker': [0.75, 0.35],
+            'support_request_expired_social_worker': [0.75, 0.55],
+            'support_request_waived': [0.75, 0.75],
+            'support_request_closed': [0.95, 0.5]
+        }
+
+        fig = go.Figure(data=[go.Sankey(
+            node = dict(
+              x=[position_dict[node][0] for node in unique_source_target],
+              y=[position_dict[node][1] for node in unique_source_target],
+              pad = 15,
+              thickness = 20,
+              line = dict(width = 0.5, color='#fff'),
+              label = unique_source_target,
+              color = len(unique_source_target)*['rgb(69, 25, 82)']
+            ),
+            link = dict(
+              source = sources, 
+              target = targets,
+              value =  values,
+              color = len(sources)*['rgba(200, 200, 200, 0.3)']
+
+          ))])
+
+        fig.update_layout(
+            title="<b>Distribuição de encaminhamentos</b>", 
+            margin=dict(l=50, r=50, t=100, b=50),
+            font_size=14, 
+            font_color='rgb(69, 25, 82)',
+            font_family='IBM Plex Sans',
+            width=1400, 
+            height=900,
+            )
+        fig.show()
+  - cellType: SQL
+    cellId: 8ceadbfc-c5b1-4e56-92c9-1fb056ea1db4 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Volunteer events
+    config:
+      source: |
+        WITH all_volunteer_events AS (
+            SELECT
+                volunteer_id,
+                status AS event,
+                created_at
+            FROM public.volunteer_status_history
+            WHERE status IN ('cadastrada', 'capacitacao', 'aprovada')
+        ),
+        sources_and_targets AS (
+            SELECT 
+                *,
+                event AS source,
+                LEAD(event) OVER (PARTITION BY volunteer_id ORDER BY created_at) AS target
+            FROM all_volunteer_events
+        )
+        SELECT
+            source,
+            target,
+            COUNT(*) AS value
+        FROM sources_and_targets
+        WHERE target IS NOT NULL
+        GROUP BY source, target
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: volunteer_events
+      useRichDisplay: false
+      enablePreview: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: CODE
+    cellId: 490ebb92-f64d-4778-aa0f-cf793449bfa4 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        import plotly.graph_objects as go
+        import pandas as pd
+
+
+        unique_source_target = list(pd.unique(volunteer_events[['source', 'target']].values.ravel('K')))
+        sources = [unique_source_target.index(item) for item in volunteer_events['source']]
+        targets = [unique_source_target.index(item) for item in volunteer_events['target']]
+        values = [item for item in volunteer_events['value']]
+
+
+
+        fig = go.Figure(data=[go.Sankey(
+            node = dict(
+                pad = 100,
+                thickness = 10,
+                line = dict(width = 0.5, color='#fff'),
+                # label = [label_dict[x] for x in unique_source_target],
+                color = len(sources)*['rgb(69, 25, 82)']
+            ),
+            link = dict(
+              arrowlen=20,
+              source = sources, 
+              target = targets,
+              value =  values,
+            #   color = [
+            #     'rgba(255, 166, 0, 0.2)', 
+            #     'rgba(188, 80, 144, 0.3)', 
+            #     'rgba(255, 99, 97, 0.3)', 
+            #     'rgba(88, 80, 141, 0.3)',
+            #     'rgba(255, 124, 67, 0.3)',
+            #     'rgba(0, 63, 92, 0.3)',
+            #     'rgba(160, 81, 149, 0.3)',
+            #     'rgba(160, 81, 149, 0.3)',
+            #     'rgba(88, 80, 141, 0.3)',
+            #     ]
+
+          ))])
+
+        fig.update_layout(
+            title="<b>Jornada da MSR</b>", 
+            margin_pad=30,
+            font_size=14, 
+            font_color='rgb(69, 25, 82)',
+            width=1000, 
+            height=800,
+            )
+        fig.show()
+  - cellType: INPUT
+    cellId: 8c2346eb-54a2-4432-85f8-32d7f9cc71e9 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      inputType: BUTTON
+      name: input_1
+      outputType: BOOLEAN
+      options: null
+      defaultValue: null
+appLayout:
+  visibleMetadataFields:
+    - NAME
+    - DESCRIPTION
+    - AUTHOR
+    - LAST_EDITED
+    - LAST_RUN
+    - CATEGORIES
+    - STATUS
+    - TABLE_OF_CONTENTS
+  fullWidth: false
+  tabs:
+    - name: Tab 1
+      rows:
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: eecbe6e5-daf6-4c38-8ca1-e9c5ce617c38
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                  explorable: null
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: d7c6b3a7-93d4-4c2b-b564-3d299c81f291
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                  explorable: null
+        - columns:
+            - start: 0
+              end: 30
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 8c2346eb-54a2-4432-85f8-32d7f9cc71e9
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                  explorable: null
+sharedFilters: []
