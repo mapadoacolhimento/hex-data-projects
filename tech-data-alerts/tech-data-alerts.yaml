@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 0198185b-294c-7334-afc6-fad7a46c46a6 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 019c9a14-bbcf-7882-859a-16a04e820b22 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse notebook contém os alertas de inconsistências no nosso banco de dados
   projectId: 180416ec-9554-406b-bd4d-c4b4a95399be # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[TECH] Data alerts"
@@ -10,14 +10,14 @@ meta:
   status: null
   categories: []
   castDecimalsDefault: true
-  logicQueryCacheTimeout: null
-  publishedQueryCacheTimeout: null
   hexType: PROJECT
   allowExecutionReordering: true
   prerunApp: false
-  cachePublishedAppState: true
-  refreshStalePublishedApp: false
   autoRerunApp: true
+  cachePublishedAppState: true
+  logicQueryCacheTimeout: null
+  publishedQueryCacheTimeout: null
+  refreshStalePublishedApp: null
 projectAssets:
   dataConnections: []
   envVars: []
@@ -54,6 +54,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: available_volunteers
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -165,6 +166,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: unavailable_volunteers
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -287,6 +289,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: volunteers_match_count
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -319,6 +322,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: no_volunteer_availability
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -386,6 +390,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: unavailable_volunteer_match_count
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -511,6 +516,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: support_request_status_history
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -641,6 +647,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: match_status_history
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -687,6 +694,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: volunteer_status_history
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -722,6 +730,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: voluntarias_teste
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -825,6 +834,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: voluntarias_current_matches
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -933,6 +943,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: msrs_without_support_request
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -1012,6 +1023,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: msrs_desabilitadas
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -1134,6 +1146,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: expired_match_confirmations
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -1200,6 +1213,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: volunteers_with_wrong_status
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -1261,6 +1275,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: available_volunteer_without_phone
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -1356,6 +1371,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: volunteer_null_moodle_id
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -1483,6 +1499,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: matches_without_volunteer_id
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -1586,6 +1603,64 @@ cells:
       source: |-
         if(not matches_without_volunteer_id.empty and matches_without_volunteer_id['count'][0] != 0):
             errors.append("Existem novos registros de matches sem o id da voluntária")
+  - cellType: MARKDOWN
+    cellId: 019c9a10-4ad9-7882-89fc-0e713c865205 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "### Existem novos registros de matches sem informação de ticket id da voluntaria"
+  - cellType: SQL
+    cellId: 019c9a10-e61e-7882-89fc-f2385c954091 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Matches without volunteer zendesk ticket id
+    config:
+      source: select count(*) from match.matches where  volunteer_zendesk_ticket_id is null and created_at >= '2026-02-26'
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: matches_without_volunteer_zendesk_ticket_id
+      useRichDisplay: true
+      enablePreview: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: count
+            renameTo: null
+            size: 83
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: CODE
+    cellId: 019c9a12-4adf-7882-89fd-cbe3c3791c4f # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        if(not matches_without_volunteer_zendesk_ticket_id.empty and matches_without_volunteer_zendesk_ticket_id['count'][0] != 0):
+            errors.append("Existem novos registros de matches sem informação de ticket id da voluntaria")
   - cellType: CODE
     cellId: dfc0adcb-948b-44d4-a357-317f9fc425e5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: raise errors
@@ -1621,4 +1696,5 @@ appLayout:
                   sharedFilterId: null
                   height: null
                   showLabel: true
+                  explorable: null
 sharedFilters: []
