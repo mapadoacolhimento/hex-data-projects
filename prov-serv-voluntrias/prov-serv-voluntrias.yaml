@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 019a7e7c-0279-7aa9-af09-b1b4eb546114 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 019cf4c5-ec8b-7220-a614-913faa0e1dde # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse dashboard apresenta o monitoramento de métricas relativas às Voluntárias do Mapa.
   projectId: 84800fcd-3d2c-409f-9d89-713bd9b82780 # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] Voluntárias"
@@ -14,13 +14,10 @@ meta:
   allowExecutionReordering: true
   prerunApp: false
   autoRerunApp: true
-  cachePublishedAppState: true
+  cachePublishedAppState: false
   logicQueryCacheTimeout: null
-  publishedQueryCacheTimeout:
-    type: fixed
-    unit: days
-    duration: 10
-  refreshStalePublishedApp: true
+  publishedQueryCacheTimeout: null
+  refreshStalePublishedApp: false
 projectAssets:
   dataConnections: []
   envVars: []
@@ -63,6 +60,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: volunteers
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -119,6 +117,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: total
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -244,6 +243,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_46
             useRichDisplay: false
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -351,6 +351,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_65
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -507,6 +508,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_48
             useRichDisplay: false
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -637,6 +639,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_66
             useRichDisplay: false
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -766,6 +769,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_71
             useRichDisplay: false
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -896,6 +900,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_49
             useRichDisplay: false
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -1039,6 +1044,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_67
             useRichDisplay: false
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -1176,6 +1182,7 @@ cells:
             dataConnectionId: null
             resultVariableName: dataframe_50
             useRichDisplay: false
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -1322,6 +1329,7 @@ cells:
             dataConnectionId: null
             resultVariableName: dataframe_68
             useRichDisplay: false
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -1452,6 +1460,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: states
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -1492,6 +1501,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: dataframe_69
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -1564,6 +1574,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_3
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -1602,7 +1613,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1735700400000
                       min: 1514772000000
                       grid:
                         style: dash
@@ -1689,6 +1699,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_35
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -1748,7 +1759,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1735700400000
                       min: 1514772000000
                       grid:
                         style: dash
@@ -1834,6 +1844,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -1872,7 +1883,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1738378800000
                       min: 1514772000000
                       grid:
                         style: dash
@@ -1953,6 +1963,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_36
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -2080,6 +2091,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_2
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -2098,7 +2110,22 @@ cells:
               conditionalFormatting: null
               calcs: null
               filters: null
-              columnProperties: []
+              columnProperties:
+                - originalName: Voluntárias Cadastradas por mês
+                  renameTo: null
+                  size: 229
+                  wrapText: null
+                  displayFormat: null
+                - originalName: mês
+                  renameTo: null
+                  size: 196
+                  wrapText: null
+                  displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: 46
+                  wrapText: null
+                  displayFormat: null
               columnOrdering: null
               customColumnOrdering: null
               pinnedColumns: null
@@ -2151,8 +2178,8 @@ cells:
                         type: auto
                       dataLabels:
                         fontSize: 12
-                        position: above
-                      point: true
+                        position: auto
+                      point: false
                       stroke: solid
                   dataFrame: dataframe_2
               settings:
@@ -2195,6 +2222,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_37
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -2332,6 +2360,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_79
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -2546,6 +2575,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_80
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -2727,6 +2757,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: volunteer_age
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -2813,6 +2844,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_82
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -2998,6 +3030,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_85
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -3164,6 +3197,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_83
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -3279,6 +3313,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_84
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -3377,6 +3412,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: dataframe_81
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -3540,6 +3576,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_13
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -3613,7 +3650,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1735700400000
                       min: 1514772000000
                       grid:
                         style: dash
@@ -3769,6 +3805,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_70
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -3852,7 +3889,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1735700400000
                       min: 1514772000000
                       grid:
                         style: dash
@@ -3994,6 +4030,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: total_active
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -4112,6 +4149,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_51
             useRichDisplay: false
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -4235,6 +4273,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_72
             useRichDisplay: false
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -4367,6 +4406,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_52
             useRichDisplay: false
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -4496,6 +4536,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_73
             useRichDisplay: false
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -4722,6 +4763,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_9
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -4855,7 +4897,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1717196400000
                       min: 1704067200000
                       grid:
                         style: dash
@@ -4903,9 +4944,7 @@ cells:
                 tooltip: true
                 selectionEnabled: false
             chartSelection: {}
-            colorMappings:
-              "2283": "#CFD3DE"
-              "2403": "#CFD3DE"
+            colorMappings: {}
             resultVariable: filter_result_4
             outputResult: false
             displayType: CHART
@@ -5020,6 +5059,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_42
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -5153,7 +5193,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1719802800000
                       min: 1704078000000
                       grid:
                         style: dash
@@ -5234,9 +5273,7 @@ cells:
                 tooltip: true
                 selectionEnabled: false
             chartSelection: {}
-            colorMappings:
-              "2283": "#CFD3DE"
-              "2403": "#CFD3DE"
+            colorMappings: {}
             resultVariable: filter_result_22
             outputResult: false
             displayType: CHART
@@ -5332,6 +5369,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_18
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -5495,7 +5533,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1733022000000
                       min: 1701399600000
                       grid:
                         style: dash
@@ -5544,9 +5581,7 @@ cells:
                 tooltip: true
                 selectionEnabled: false
             chartSelection: {}
-            colorMappings:
-              "2283": "#CFD3DE"
-              "2403": "#CFD3DE"
+            colorMappings: {}
             resultVariable: filter_result_11
             outputResult: false
             displayType: CHART
@@ -5637,6 +5672,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_43
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -5780,7 +5816,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1733022000000
                       min: 1701399600000
                       grid:
                         style: dash
@@ -5833,8 +5868,6 @@ cells:
                 selectionEnabled: false
             chartSelection: {}
             colorMappings:
-              "2283": "#CFD3DE"
-              "2403": "#CFD3DE"
               legal: "#EECA3B"
               psychological: "#EECA3B"
             resultVariable: filter_result_23
@@ -6015,6 +6048,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_24
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -6214,9 +6248,7 @@ cells:
                 tooltip: true
                 selectionEnabled: false
             chartSelection: {}
-            colorMappings:
-              "2283": "#CFD3DE"
-              "2403": "#CFD3DE"
+            colorMappings: {}
             resultVariable: filter_result_13
             outputResult: false
             displayType: CHART
@@ -6393,6 +6425,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_44
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -6556,7 +6589,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1719802800000
                       min: 1704078000000
                       grid:
                         style: dash
@@ -6611,11 +6643,6 @@ cells:
                 selectionEnabled: false
             chartSelection: {}
             colorMappings:
-              "2283": "#CFD3DE"
-              "2403": "#CFD3DE"
-              "null": "#9be3e9"
-              legal: "#614bc3"
-              advogada: "#614bc3"
               psicóloga: "#EECA3B"
               psychological: "#EECA3B"
             resultVariable: filter_result_24
@@ -6677,6 +6704,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: volunteer_events
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -6930,6 +6958,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_19
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -6988,7 +7017,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1733022000000
                       min: 1704067200000
                       grid:
                         style: dash
@@ -7095,6 +7123,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: total_capacitacao
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -7238,6 +7267,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_20
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -7301,7 +7331,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1733022000000
                       min: 1701399600000
                       grid:
                         style: dash
@@ -7398,6 +7427,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: current_capacitacao
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -7480,6 +7510,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: tempo_medio_conclusao_capacitacao
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -7601,6 +7632,7 @@ cells:
       dataConnectionId: e088838c-2205-4ff2-870b-07d163c93079
       resultVariableName: nota_media_iana
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -7646,6 +7678,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: descadastradas_total
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -7765,6 +7798,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_10
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -7859,6 +7893,11 @@ cells:
                   size: 165
                   wrapText: null
                   displayFormat: null
+                - originalName: row-index-0
+                  renameTo: null
+                  size: null
+                  wrapText: null
+                  displayFormat: null
                 - originalName: status
                   renameTo: null
                   size: 183
@@ -7893,7 +7932,7 @@ cells:
               columnAggregations: null
         - cellType: CHARTV2
           cellId: d3b3aa06-3b9a-4618-8ce8-b54f756459da
-          cellLabel: descadastradas em 2024
+          cellLabel: descadastradas
           config:
             height: null
             chartSpec:
@@ -7903,7 +7942,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1733022000000
                       min: 1701399600000
                       grid:
                         style: dash
@@ -7919,7 +7957,6 @@ cells:
                       axis:
                         type: number
                         style:
-                          max: 20
                           grid:
                             style: dash
                           ticks:
@@ -7937,7 +7974,9 @@ cells:
                         type: static
                         value: 1
                       tooltip:
-                        type: auto
+                        type: custom
+                        fields: []
+                        includeAuto: true
                       dataLabels:
                         angle: 0
                         fontSize: 12
@@ -7952,9 +7991,7 @@ cells:
                 tooltip: true
                 selectionEnabled: false
             chartSelection: {}
-            colorMappings:
-              "2283": "#CFD3DE"
-              "2403": "#CFD3DE"
+            colorMappings: {}
             resultVariable: filter_result_5
             outputResult: false
             displayType: CHART
@@ -7976,6 +8013,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: dados_incompletos_total
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -7995,6 +8033,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: dados_incompletos_telefone
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -8014,6 +8053,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: dados_incompletos_email
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -8033,6 +8073,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: dados_incompletos_endereco
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -8161,6 +8202,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: antieticas_total
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -8280,6 +8322,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_11
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -8418,7 +8461,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1733022000000
                       min: 1701399600000
                       grid:
                         style: dash
@@ -8490,6 +8532,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: reprovadas_total
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -8509,6 +8552,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: reprovadas_diretrizes
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -8528,6 +8572,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: reprovadas_estudo
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -8547,6 +8592,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: reprovadas_registro
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -8744,6 +8790,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_26
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -8872,7 +8919,7 @@ cells:
               columnAggregations: null
         - cellType: CHARTV2
           cellId: d159e8dd-1573-405c-9958-cfc62e16672c
-          cellLabel: reprovadas em 2024
+          cellLabel: reprovadas
           config:
             height: null
             chartSpec:
@@ -8882,7 +8929,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1733022000000
                       min: 1701399600000
                       grid:
                         style: dash
@@ -8951,6 +8997,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: dataframe_4
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -9059,6 +9106,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: tempo_medio_atendimento_geral
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -9156,6 +9204,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: tempo_medio_atendimento_psicologico
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -9302,6 +9351,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: tempo_medio_atendimento_juridico
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -9406,6 +9456,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: dataframe_32
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -9511,6 +9562,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_29
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -9604,7 +9656,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1719702000000
                       min: 1704067200000
                       grid:
                         style: dash
@@ -9740,6 +9791,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_75
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -9833,7 +9885,6 @@ cells:
                   xAxis:
                     type: datetime
                     style:
-                      max: 1719702000000
                       min: 1704067200000
                       grid:
                         style: dash
@@ -9955,6 +10006,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_45
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -10090,6 +10142,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_76
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -10257,6 +10310,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_53
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -10403,6 +10457,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_77
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -10566,6 +10621,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_54
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -10728,6 +10784,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_78
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -10845,6 +10902,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: total_em_habilitacao
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -10898,6 +10956,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: dataframe_55
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -11040,6 +11099,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: dataframe_60
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -11190,6 +11250,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: total_cadastradas_aprovadas
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -11276,6 +11337,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: dataframe_61
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -11434,6 +11496,7 @@ cells:
       dataConnectionId: e088838c-2205-4ff2-870b-07d163c93079
       resultVariableName: dataframe_58
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -11492,6 +11555,7 @@ cells:
       dataConnectionId: e088838c-2205-4ff2-870b-07d163c93079
       resultVariableName: dataframe_59
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -11597,6 +11661,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: total_inativas
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -11660,6 +11725,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_62
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -11768,13 +11834,13 @@ cells:
             AND h.created_at >= '2024-01-25'
         )
         SELECT 
-            CONCAT(FLOOR(AVG(diff)), ' anos e ', ROUND((AVG(diff) - FLOOR(AVG(diff)))*12), ' meses') AS avg_diff
-            -- FLOOR(AVG(diff)) AS avg_diff
+            ROUND(AVG(diff)::numeric, 1) AS avg_diff
         FROM volunteer_lifetime
       dataFrameCell: false
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: volunteer_lifetime
       useRichDisplay: false
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -11784,26 +11850,27 @@ cells:
       tableDisplayConfig: null
   - cellType: METRIC
     cellId: 23743825-8e7f-4d11-9387-a86f070651de # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
-    cellLabel: null
+    cellLabel: Tempo médio de vida
     config:
-      title: tempo médio entre data de cadastro e data de descadastro
+      title: tempo médio entre cadastro e descadastro (anos)
       valueVariableName: volunteer_lifetime
       showComparison: false
-      comparisonType: null
+      comparisonType: VALUE
       comparisonVariableName: null
-      comparisonFormat: null
-      comparisonLabel: null
+      comparisonFormat: POSITIVE_NEGATIVE
+      comparisonLabel: ""
       displayFormat:
-        format: PLAIN
+        format: NUMBER
         currency: USD
         columnType: NUMBER
-        numDecimalDigits: 2
+        showSeparators: false
+        numDecimalDigits: 1
         abbreviateLargeNumbers: false
       valueColumn: avg_diff
       valueRowIndex: 0
       valueAggregate: null
       comparisonColumn: null
-      comparisonRowIndex: null
+      comparisonRowIndex: 0
       comparisonAggregate: null
       valueResultVariable: null
       comparisonResultVariable: null
@@ -11838,6 +11905,7 @@ cells:
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: dataframe_63
             useRichDisplay: true
+            enablePreview: true
             sqlCellOutputType: PANDAS
             useQueryMode: false
             castDecimals: true
@@ -11942,6 +12010,7 @@ cells:
       dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
       resultVariableName: dataframe_64
       useRichDisplay: true
+      enablePreview: true
       sqlCellOutputType: PANDAS
       useQueryMode: false
       castDecimals: true
@@ -12127,7 +12196,7 @@ appLayout:
                   height: 350
                   showLabel: false
                   explorable: null
-            - start: 40
+            - start: 45
               end: 80
               elements:
                 - showSource: false
@@ -12479,8 +12548,8 @@ appLayout:
                   showLabel: true
                   explorable: null
         - columns:
-            - start: 0
-              end: 50
+            - start: 25
+              end: 60
               elements:
                 - showSource: false
                   hideOutput: false
@@ -12490,8 +12559,8 @@ appLayout:
                   height: 50
                   showLabel: true
                   explorable: null
-            - start: 55
-              end: 95
+            - start: 90
+              end: 120
               elements:
                 - showSource: false
                   hideOutput: false
@@ -12503,7 +12572,7 @@ appLayout:
                   explorable: null
         - columns:
             - start: 0
-              end: 50
+              end: 85
               elements:
                 - showSource: false
                   hideOutput: false
@@ -12513,8 +12582,8 @@ appLayout:
                   height: 400
                   showLabel: true
                   explorable: null
-            - start: 55
-              end: 70
+            - start: 90
+              end: 105
               elements:
                 - showSource: false
                   hideOutput: false
@@ -12524,8 +12593,8 @@ appLayout:
                   height: 350
                   showLabel: true
                   explorable: null
-            - start: 70
-              end: 85
+            - start: 105
+              end: 120
               elements:
                 - showSource: false
                   hideOutput: false
