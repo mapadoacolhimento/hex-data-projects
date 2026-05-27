@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 019d96ab-7516-7eed-8fb6-80b1d4dabef2 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 019e69f6-90fc-719b-b6f0-bc99f2551ea8 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse monitoramento contém alguns dados sobre as MSRs e os pedidos de acolhimento.
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -8741,6 +8741,280 @@ cells:
           orientation: vertical
           seriesGroups:
             - - 019d9507-1f25-7000-aae0-6a33bcbf3177
+        columnTotals: true
+        visualizationType: chart
+      displayTableConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties: []
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+      resultVariables: []
+      resultIncludeDetailColumns: false
+      height: null
+  - cellType: MARKDOWN
+    cellId: 019e69a9-ed2f-7548-8f14-7f37df94e643 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "## % de MSRs que entra em contato em um determinado tempo após o match criado - último ano"
+  - cellType: SQL
+    cellId: 019e69ad-1d26-77df-b076-9748182c9dee # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Contact time buckets
+    config:
+      source: |
+        WITH first_contact AS (
+            SELECT
+                match_id,
+                MIN(created_at) AS first_in_contact_at
+            FROM mapa.match.match_status_history
+            WHERE status = 'in_contact'
+            GROUP BY match_id
+        ),
+
+        diffs AS (
+            SELECT
+                m.match_id,
+                EXTRACT(EPOCH FROM (fc.first_in_contact_at - m.created_at))
+                / 86400.0 AS days_to_contact
+            FROM mapa.match.matches AS m
+            INNER JOIN first_contact AS fc ON m.match_id = fc.match_id
+            WHERE
+                m.created_at >= CURRENT_DATE - INTERVAL '1 year'
+                AND fc.first_in_contact_at >= m.created_at
+                AND fc.first_in_contact_at <= m.created_at + INTERVAL '15 days'
+        ),
+
+        bucketed AS (
+            SELECT
+                CASE
+                    WHEN days_to_contact < 5 THEN '0 a 5 dias'
+                    WHEN days_to_contact < 10 THEN '5 a 10 dias'
+                    ELSE '10 a 15 dias'
+                END AS bucket,
+                COUNT(*) AS n
+            FROM diffs
+            GROUP BY 1
+        )
+
+        SELECT
+            bucket,
+            n,
+            n::NUMERIC / SUM(n) OVER () AS pct
+        FROM bucketed
+        ORDER BY
+            CASE bucket WHEN '0 a 5 dias' THEN 1 WHEN '5 a 10 dias' THEN 2 ELSE 3 END;
+      dataFrameCell: false
+      dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
+      resultVariableName: contact_time_buckets
+      useRichDisplay: true
+      enablePreview: true
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig:
+        pageSize: 50
+        height: null
+        hideIcons: false
+        defaultColumnWidth: null
+        hideIndex: false
+        defaultSortColumn: null
+        defaultSortIndexColumn: null
+        defaultSortDirection: ASC
+        conditionalFormatting: null
+        calcs: null
+        filters: null
+        columnProperties:
+          - originalName: bucket
+            renameTo: null
+            size: 98
+            wrapText: null
+            displayFormat: null
+          - originalName: n
+            renameTo: null
+            size: 61
+            wrapText: null
+            displayFormat: null
+          - originalName: pct
+            renameTo: null
+            size: 172
+            wrapText: null
+            displayFormat: null
+          - originalName: row-index-0
+            renameTo: null
+            size: 39
+            wrapText: null
+            displayFormat: null
+        columnOrdering: null
+        customColumnOrdering: null
+        pinnedColumns: null
+        hiddenColumns: null
+        pinIndexColumns: false
+        showAggregations: false
+        columnAggregations: null
+  - cellType: EXPLORE
+    cellId: 019e69b2-8bfd-731a-9179-9237edeebb20 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: "% de MSRs que entra em contato - último ano"
+    config:
+      semanticProjectId: null
+      dataframe: contact_time_buckets
+      colorMappings:
+        n: "#F58518"
+        pct: "#4C78A8"
+      spec:
+        fields:
+          - id: 019e6978-776f-755f-b762-48e41c61f75b
+            axis:
+              max: 0.75
+              grid:
+                style: solid
+              zero: true
+              ticks: {}
+              hideTitle: false
+            title: "% dos matches"
+            value: pct
+            channel: cross-axis
+            dataType: FLOAT
+            seriesId: 019e6617-9b4b-7000-8bb5-80d33083f9d0
+            fieldType: COLUMN
+            queryPath: []
+            aggregation: Sum
+            displayFormat:
+              format: PERCENT
+              currency: USD
+              columnType: NUMBER
+              showSeparators: true
+              numDecimalDigits: 0
+              abbreviateLargeNumbers: false
+          - id: 019e6617-9b4d-7000-8bb5-8a4dc992fadd
+            axis:
+              grid:
+                style: solid
+              ticks: {}
+              hideTitle: false
+              labelAngle: 0
+            sort:
+              mode: custom-order
+              customOrder:
+                - 0 a 5 dias
+                - 5 a 10 dias
+                - 10 a 15 dias
+            title: Tempo até o primeiro contato
+            value: bucket
+            channel: base-axis
+            dataType: VARCHAR
+            seriesId: 019e6617-9b4b-7000-8bb5-80d33083f9d0
+            fieldType: DIMENSION
+            queryPath: []
+          - id: 019e6617-9b4e-7000-8bb5-9e38dcf99ff1
+            value: n
+            channel: tooltip
+            dataType: FLOAT
+            seriesId: 019e6617-9b4b-7000-8bb5-80d33083f9d0
+            fieldType: DIMENSION
+            queryPath: []
+            aggregation: Sum
+          - id: 019e69a0-8a15-748b-8c8a-ada4b0c87d75
+            axis:
+              grid:
+                style: none
+              zero: true
+              ticks:
+                count: 0
+              hideTitle: true
+            value: n
+            channel: cross-axis
+            dataType: FLOAT
+            seriesId: 019e69a0-8a14-7097-8d87-1b9c538e23cf
+            fieldType: DIMENSION
+            queryPath: []
+            aggregation: Sum
+            displayFormat:
+              format: NUMBER
+              currency: USD
+              columnType: NUMBER
+              showSeparators: true
+              numDecimalDigits: 0
+              abbreviateLargeNumbers: false
+        details:
+          fields:
+            - value: bucket
+              dataType: VARCHAR
+              fieldType: DIMENSION
+              queryPath: []
+            - value: pct
+              dataType: FLOAT
+              fieldType: DIMENSION
+              queryPath: []
+            - value: n
+              dataType: FLOAT
+              fieldType: DIMENSION
+              queryPath: []
+          enabled: false
+          showAllBaseTableDetailFields: true
+        viewType: visualization
+        rowTotals: true
+        chartConfig:
+          series:
+            - id: 019e6617-9b4b-7000-8bb5-80d33083f9d0
+              name: "% dos matches"
+              text:
+                source: cross-axis
+                dataLabels:
+                  angle: 0
+                  color: "#FFFFFF"
+                  fontSize: 14
+                  position: inside-center
+              type: bar
+              color:
+                source: color
+                staticValue: "#1e6017"
+              opacity:
+                source: opacity
+                staticMode: true
+                staticValue: 0.7
+              barGrouped: false
+            - id: 019e69a0-8a14-7097-8d87-1b9c538e23cf
+              name: N (matches)
+              text:
+                source: cross-axis
+                dataLabels:
+                  angle: 0
+                  position: above
+              type: scatter
+              color:
+                source: color
+                staticValue: "#1e6017"
+              opacity:
+                source: opacity
+                staticMode: true
+                staticValue: 0
+              pointSize:
+                staticValue: 0
+              pointFilled: false
+          settings:
+            legend:
+              position: none
+          orientation: vertical
+          seriesGroups:
+            - - 019e6617-9b4b-7000-8bb5-80d33083f9d0
+            - - 019e69a0-8a14-7097-8d87-1b9c538e23cf
         columnTotals: true
         visualizationType: chart
       displayTableConfig:
@@ -19504,6 +19778,30 @@ appLayout:
                   sharedFilterId: null
                   height: 350
                   showLabel: true
+                  explorable: null
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 019e69a9-ed2f-7548-8f14-7f37df94e643
+                  sharedFilterId: null
+                  height: null
+                  showLabel: true
+                  explorable: null
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 019e69b2-8bfd-731a-9179-9237edeebb20
+                  sharedFilterId: null
+                  height: 400
+                  showLabel: false
                   explorable: null
     - name: Territórios
       rows:
