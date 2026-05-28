@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 019e69f6-90fc-719b-b6f0-bc99f2551ea8 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 019e6fac-146b-7693-943f-aac6f330a0b7 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse monitoramento contém alguns dados sobre as MSRs e os pedidos de acolhimento.
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -8793,7 +8793,8 @@ cells:
             FROM mapa.match.matches AS m
             INNER JOIN first_contact AS fc ON m.match_id = fc.match_id
             WHERE
-                m.created_at >= CURRENT_DATE - INTERVAL '1 year'
+                m.created_at >= DATE_TRUNC('year', CURRENT_DATE) - INTERVAL '1 year'
+                AND m.created_at < DATE_TRUNC('year', CURRENT_DATE)
                 AND fc.first_in_contact_at >= m.created_at
                 AND fc.first_in_contact_at <= m.created_at + INTERVAL '15 days'
         ),
@@ -8900,7 +8901,7 @@ cells:
               currency: USD
               columnType: NUMBER
               showSeparators: true
-              numDecimalDigits: 0
+              numDecimalDigits: 1
               abbreviateLargeNumbers: false
           - id: 019e6617-9b4d-7000-8bb5-8a4dc992fadd
             axis:
