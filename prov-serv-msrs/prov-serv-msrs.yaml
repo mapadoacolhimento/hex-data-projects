@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 019e6fac-146b-7693-943f-aac6f330a0b7 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 019e8a36-f102-7053-b6bc-85e71068d390 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Esse monitoramento contém alguns dados sobre as MSRs e os pedidos de acolhimento.
   projectId: 4b26f8c2-b133-47e5-b739-8ea75e22e09a # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: "[PROV SERV] MSRs"
@@ -3891,6 +3891,7 @@ cells:
                   *,
                   "total de matches"/"total de pedidos de acolhimento"::NUMERIC(10,4) AS porcentagem
               FROM cumulative_sums
+              ORDER BY ano
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: matches_total
@@ -4202,6 +4203,7 @@ cells:
                   *,
                   "matches por ano"/"pedidos de acolhimento por ano"::NUMERIC(10,4) AS porcentagem
               FROM matches_per_year
+              ORDER BY ano
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: matches_por_ano
@@ -4449,6 +4451,7 @@ cells:
                   *,
                   "matches por mês"/"pedidos de acolhimento por mês"::NUMERIC(10,4) AS percentage
               FROM matches_per_month
+              ORDER BY "mês"
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: matches_por_mes
@@ -4678,6 +4681,7 @@ cells:
                   "total de matches"
                   / "total de pedidos de acolhimento"::NUMERIC(10, 4) AS porcentagem
               FROM cumulative_sums
+              ORDER BY ano
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: matches_total_5
@@ -4998,6 +5002,7 @@ cells:
                   "matches por ano"
                   / "pedidos de acolhimento por ano"::NUMERIC(10, 4) AS porcentagem
               FROM matches_per_year
+              ORDER BY ano
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: matches_por_ano_2
@@ -5246,6 +5251,7 @@ cells:
                   *,
                   "matches por mês"/"pedidos de acolhimento por mês"::NUMERIC(10,4) AS percentage
               FROM matches_per_month
+              ORDER BY "mês"
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: matches_por_mes_3
@@ -5500,6 +5506,7 @@ cells:
                   "total de matches"
                   / "total de pedidos de acolhimento"::NUMERIC(10, 4) AS porcentagem
               FROM cumulative_sums
+              ORDER BY ano
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: matches_total_6
@@ -5820,6 +5827,7 @@ cells:
                   "matches por ano"
                   / "pedidos de acolhimento por ano"::NUMERIC(10, 4) AS porcentagem
               FROM matches_per_year
+              ORDER BY ano
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: matches_por_ano_3
@@ -6068,6 +6076,7 @@ cells:
                   *,
                   "matches por mês"/"pedidos de acolhimento por mês"::NUMERIC(10,4) AS percentage
               FROM matches_per_month
+              ORDER BY "mês"
             dataFrameCell: false
             dataConnectionId: 683fd824-f935-4980-b99d-a7a513df5030
             resultVariableName: matches_por_mes_4
@@ -12134,8 +12143,8 @@ cells:
               WITH atendimentos_per_year AS (
                   SELECT
                       DATE_TRUNC('year', s.created_at) AS ano,
-                      COUNT(*) AS "pedidos de acolhimento por ano",
-                      SUM(CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END) AS "matches por ano",
+                      COUNT(DISTINCT s.support_request_id) AS "pedidos de acolhimento por ano",
+                      COUNT(DISTINCT CASE WHEN s.status = 'matched' THEN s.support_request_id END) AS "matches por ano",
                       SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS "atendimentos por ano"
                   FROM match.support_requests s
                   LEFT JOIN match.matches m USING (support_request_id)
@@ -12557,8 +12566,8 @@ cells:
               WITH atendimentos_per_year AS (
                   SELECT
                       DATE_TRUNC('year', s.created_at) AS ano,
-                      COUNT(*) AS "pedidos de acolhimento por ano",
-                      SUM(CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END) AS "matches por ano",
+                      COUNT(DISTINCT s.support_request_id) AS "pedidos de acolhimento por ano",
+                      COUNT(DISTINCT CASE WHEN s.status = 'matched' THEN s.support_request_id END) AS "matches por ano",
                       SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS "atendimentos por ano"
                   FROM match.support_requests s
                   LEFT JOIN match.matches m USING (support_request_id)
@@ -12872,8 +12881,8 @@ cells:
               WITH atendimentos_per_month AS (
                   SELECT
                       DATE_TRUNC('month', s.created_at) AS "mês",
-                      COUNT(*) AS "pedidos de acolhimento por mês",
-                      SUM(CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END) AS "matches por mês",
+                      COUNT(DISTINCT s.support_request_id) AS "pedidos de acolhimento por mês",
+                      COUNT(DISTINCT CASE WHEN s.status = 'matched' THEN s.support_request_id END) AS "matches por mês",
                       SUM(CASE WHEN m.status IN ('in_contact', 'interrupted_after_support', 'completed') THEN 1 ELSE 0 END) AS "atendimentos por mês"
                   FROM match.support_requests s
                   LEFT JOIN match.matches m USING (support_request_id)
@@ -13125,10 +13134,8 @@ cells:
               WITH atendimentos_per_year AS (
                   SELECT
                       DATE_TRUNC('year', s.created_at) AS ano,
-                      COUNT(*) AS "pedidos de acolhimento por ano",
-                      SUM(
-                          CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END
-                      ) AS "matches por ano",
+                      COUNT(DISTINCT s.support_request_id) AS "pedidos de acolhimento por ano",
+                      COUNT(DISTINCT CASE WHEN s.status = 'matched' THEN s.support_request_id END) AS "matches por ano",
                       SUM(
                           CASE
                               WHEN
@@ -13566,10 +13573,8 @@ cells:
               WITH atendimentos_per_year AS (
                   SELECT
                       DATE_TRUNC('year', s.created_at) AS ano,
-                      COUNT(*) AS "pedidos de acolhimento por ano",
-                      SUM(
-                          CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END
-                      ) AS "matches por ano",
+                      COUNT(DISTINCT s.support_request_id) AS "pedidos de acolhimento por ano",
+                      COUNT(DISTINCT CASE WHEN s.status = 'matched' THEN s.support_request_id END) AS "matches por ano",
                       SUM(
                           CASE
                               WHEN
@@ -13895,10 +13900,8 @@ cells:
               WITH atendimentos_per_month AS (
                   SELECT
                       DATE_TRUNC('month', s.created_at) AS "mês",
-                      COUNT(*) AS "pedidos de acolhimento por mês",
-                      SUM(
-                          CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END
-                      ) AS "matches por mês",
+                      COUNT(DISTINCT s.support_request_id) AS "pedidos de acolhimento por mês",
+                      COUNT(DISTINCT CASE WHEN s.status = 'matched' THEN s.support_request_id END) AS "matches por mês",
                       SUM(
                           CASE
                               WHEN
@@ -14161,10 +14164,8 @@ cells:
               WITH atendimentos_per_year AS (
                   SELECT
                       DATE_TRUNC('year', s.created_at) AS ano,
-                      COUNT(*) AS "pedidos de acolhimento por ano",
-                      SUM(
-                          CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END
-                      ) AS "matches por ano",
+                      COUNT(DISTINCT s.support_request_id) AS "pedidos de acolhimento por ano",
+                      COUNT(DISTINCT CASE WHEN s.status = 'matched' THEN s.support_request_id END) AS "matches por ano",
                       SUM(
                           CASE
                               WHEN
@@ -14602,10 +14603,8 @@ cells:
               WITH atendimentos_per_year AS (
                   SELECT
                       DATE_TRUNC('year', s.created_at) AS ano,
-                      COUNT(*) AS "pedidos de acolhimento por ano",
-                      SUM(
-                          CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END
-                      ) AS "matches por ano",
+                      COUNT(DISTINCT s.support_request_id) AS "pedidos de acolhimento por ano",
+                      COUNT(DISTINCT CASE WHEN s.status = 'matched' THEN s.support_request_id END) AS "matches por ano",
                       SUM(
                           CASE
                               WHEN
@@ -14931,10 +14930,8 @@ cells:
               WITH atendimentos_per_month AS (
                   SELECT
                       DATE_TRUNC('month', s.created_at) AS "mês",
-                      COUNT(*) AS "pedidos de acolhimento por mês",
-                      SUM(
-                          CASE WHEN s.status = 'matched' THEN 1 ELSE 0 END
-                      ) AS "matches por mês",
+                      COUNT(DISTINCT s.support_request_id) AS "pedidos de acolhimento por mês",
+                      COUNT(DISTINCT CASE WHEN s.status = 'matched' THEN s.support_request_id END) AS "matches por mês",
                       SUM(
                           CASE
                               WHEN
